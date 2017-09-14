@@ -11,7 +11,7 @@ using Microsoft.Owin.Security;
 using Vidly.Models;
 
 namespace Vidly.Controllers
-{
+{       
     [Authorize]
     public class AccountController : Controller
     {
