@@ -27,18 +27,13 @@ namespace Vidly.Controllers
         {
            // var movies = GetMovies();
            // var movies = _context.Movies.Include(c => c.Genre).ToList();
+           if(User.IsInRole(RoleName.CanManageMovies))
+            return View("List");
+            return View("ReadOnlyList");
 
-            return View();
         }
 
-        private IEnumerable<Movie> GetMovies()
-        {
-            return new List<Movie>
-            {
-                new Movie { Id = 1, Name = "Shrek" },
-                new Movie { Id = 2, Name = "Wall-e" }
-            };
-        }
+        
 
         // GET: Movies/Random
         public ActionResult Random()
@@ -68,6 +63,7 @@ namespace Vidly.Controllers
             return View(movies);
         }
 
+        [Authorize(Roles = RoleName.CanManageMovies)] //override default auth filter
         public ActionResult New()
         {
             var genreTypes = _context.Genres.ToList();
