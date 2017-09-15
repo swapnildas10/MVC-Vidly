@@ -19,7 +19,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44348</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -344,6 +344,22 @@
     <Compile Include="Migrations\201709150707040_AddDrivingLicenseToApplicationUser.cs" />
     <Compile Include="Migrations\201709150707040_AddDrivingLicenseToApplicationUser.Designer.cs">
       <DependentUpon>201709150707040_AddDrivingLicenseToApplicationUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709150824094_AddPhoneNumberToApplicationLogin.cs" />
+    <Compile Include="Migrations\201709150824094_AddPhoneNumberToApplicationLogin.Designer.cs">
+      <DependentUpon>201709150824094_AddPhoneNumberToApplicationLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709150832570_AddPhoneNumberToApplicationLogin1.cs" />
+    <Compile Include="Migrations\201709150832570_AddPhoneNumberToApplicationLogin1.Designer.cs">
+      <DependentUpon>201709150832570_AddPhoneNumberToApplicationLogin1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709150837420_AddPhoneNumberToApplicationLogin2.cs" />
+    <Compile Include="Migrations\201709150837420_AddPhoneNumberToApplicationLogin2.Designer.cs">
+      <DependentUpon>201709150837420_AddPhoneNumberToApplicationLogin2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709150840596_AddPhoneNumberToApplicationLogin3.cs" />
+    <Compile Include="Migrations\201709150840596_AddPhoneNumberToApplicationLogin3.Designer.cs">
+      <DependentUpon>201709150840596_AddPhoneNumberToApplicationLogin3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -719,6 +735,18 @@
     <EmbeddedResource Include="Migrations\201709150707040_AddDrivingLicenseToApplicationUser.resx">
       <DependentUpon>201709150707040_AddDrivingLicenseToApplicationUser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709150824094_AddPhoneNumberToApplicationLogin.resx">
+      <DependentUpon>201709150824094_AddPhoneNumberToApplicationLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709150832570_AddPhoneNumberToApplicationLogin1.resx">
+      <DependentUpon>201709150832570_AddPhoneNumberToApplicationLogin1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709150837420_AddPhoneNumberToApplicationLogin2.resx">
+      <DependentUpon>201709150837420_AddPhoneNumberToApplicationLogin2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709150840596_AddPhoneNumberToApplicationLogin3.resx">
+      <DependentUpon>201709150840596_AddPhoneNumberToApplicationLogin3.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -738,7 +766,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57940</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:57940/</IISUrl>
+          <IISUrl>https://localhost:44348/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
