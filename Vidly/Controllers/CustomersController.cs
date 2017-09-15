@@ -25,12 +25,11 @@ namespace Vidly.Controllers
         public ViewResult Index()
         {
           //  var customers = GetCustomers();
-          var customers = _context.Customers.Include(c => c.MembershipType).ToList(); //defered execution here, won't query immediately
+         // var customers = _context.Customers.Include(c => c.MembershipType).ToList(); //defered execution here, won't query immediately
             //query is actually executed when iterating over var 
             //customers in View.
             //To execute immediately call ToList();
-            Console.WriteLine(customers.ToString());
-            return View(customers);
+            return View();
         }
 
         public ActionResult Details(int id)
@@ -112,11 +111,6 @@ namespace Vidly.Controllers
             return View("CustomerForm", viewModel);
         }
 
-        private bool IsNegative(int input)
-        {
-            if (input < 0)
-                return true;
-            return false;
-        }
+       
     }
 }

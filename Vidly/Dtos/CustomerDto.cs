@@ -19,6 +19,7 @@ namespace Vidly.Dtos
 
         public byte MembershipTypeId { get; set; }
 
+        public MembershipTypeDto MembershipType { get; set; }
         //[Min18YearsIfAMember] //shows error in customerDto
         public DateTime? BirthDate { get; set; } //to set something nullable
 
