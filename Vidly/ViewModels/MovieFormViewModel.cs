@@ -13,7 +13,7 @@ namespace Vidly.ViewModels
         public IEnumerable<Genre> Genres { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //prevent identity insert exception
-        public byte? Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         public string Name { get; set; }
