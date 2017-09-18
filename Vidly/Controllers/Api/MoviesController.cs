@@ -8,6 +8,9 @@ using AutoMapper;
 using Vidly.Dtos;
 using Vidly.Models;
 using System.Data.Entity;
+using System.Web;
+using Vidly.Controllers.Api.Filter;
+
 namespace Vidly.Controllers.Api
 {
     public class MoviesController : ApiController
@@ -18,6 +21,7 @@ namespace Vidly.Controllers.Api
         {
             _context = new ApplicationDbContext();
         }
+       
         // GET: api/Movies
         public IHttpActionResult GetMovies()
         {
@@ -37,10 +41,18 @@ namespace Vidly.Controllers.Api
         }
         [HttpPost]
         // POST: api/Movies
+       [BasicAuthentication]
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public IHttpActionResult CreateMovie(MovieDto movieDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
+            if (!HttpContext.Current.User.IsInRole(RoleName.CanManageMovies))
+            {
+                var identity1 = User.Identity;
+                return Unauthorized();
+            }
+            var identity = User.Identity;
             var movie = Mapper.Map<MovieDto, Movie>(movieDto);
             _context.Movies.Add(movie);
             _context.SaveChanges();
@@ -48,6 +60,8 @@ namespace Vidly.Controllers.Api
             return Created(new Uri(Request.RequestUri + "/" + movie.Id), movieDto);
         }
         [HttpPut]
+         
+        [Authorize(Roles = RoleName.CanManageMovies)]
         // PUT: api/Movies/5
         public void UpdateMovie(int id, MovieDto moveDto)
         {
@@ -64,6 +78,7 @@ namespace Vidly.Controllers.Api
 
         }
         [HttpDelete]
+        [Authorize(Roles = RoleName.CanManageMovies)]
         // DELETE: api/Movies/5
         public void DeleteMovie(int id)
         {
