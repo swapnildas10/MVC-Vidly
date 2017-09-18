@@ -10,6 +10,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using System.Web.Security;
 using Vidly.Models;
 
 namespace Vidly.Controllers.Api.Filter
@@ -30,20 +31,12 @@ namespace Vidly.Controllers.Api.Filter
                string[] userNamePassword = decodedAuthenticationToken.Split(':');
                 string userName = userNamePassword[0];
                 string password = userNamePassword[1];
-               
+
                 if (new LoginSecurity().Login(userName, password))
-                {
-                    ApplicationDbContext _context = new ApplicationDbContext();
-
-                  
-                                                     
-                    Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userName),null );
-                }
+                    Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userName), null);
                 else
-                {
+                    
                     actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
-
-                }
             }
         }
     }

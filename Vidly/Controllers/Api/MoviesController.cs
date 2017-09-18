@@ -42,17 +42,12 @@ namespace Vidly.Controllers.Api
         [HttpPost]
         // POST: api/Movies
        [BasicAuthentication]
-        [Authorize(Roles = RoleName.CanManageMovies)]
+        //[Authorize(Roles = RoleName.CanManageMovies)]
+        [CanManageRole(RoleName.CanManageMovies)]
         public IHttpActionResult CreateMovie(MovieDto movieDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            if (!HttpContext.Current.User.IsInRole(RoleName.CanManageMovies))
-            {
-                var identity1 = User.Identity;
-                return Unauthorized();
-            }
-            var identity = User.Identity;
             var movie = Mapper.Map<MovieDto, Movie>(movieDto);
             _context.Movies.Add(movie);
             _context.SaveChanges();

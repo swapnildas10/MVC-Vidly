@@ -17,7 +17,7 @@ namespace Vidly.Controllers.Api.Filter
         {
             if (actionContext.Request.RequestUri.Scheme != Uri.UriSchemeHttps)
             {
-                Console.Write("Hehe");
+               
                 actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Found);
                 actionContext.Response.Content = new StringContent("<p>Use HTTPS instead of HTTP</p>",Encoding.UTF8,"text/html");
                 UriBuilder uriBuilder = new UriBuilder(actionContext.Request.RequestUri);
@@ -27,7 +27,7 @@ namespace Vidly.Controllers.Api.Filter
             }
             else
             {
-                Console.Write("Hehe 2");
+                 
                 base.OnAuthorization(actionContext);
 
             }
