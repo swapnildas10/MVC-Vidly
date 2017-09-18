@@ -18,7 +18,7 @@ namespace Vidly
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             settings.Formatting = Formatting.Indented;
            config.Filters.Add(new ForceHttpsAttribute());
-           config.Filters.Add(new CanManageRole());
+         //  config.Filters.Add(new CanManageRole());
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

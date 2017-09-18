@@ -34,6 +34,9 @@ namespace Vidly.Models
         [Required]
         public short Stock { get; set; }
         //prop
+
+        public short NumberAvailable { get; set; }
+
     }
 
 
