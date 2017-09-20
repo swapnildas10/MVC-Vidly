@@ -21,7 +21,7 @@
                     @foreach (AuthenticationDescription p in loginProviders) {
                         <div class="btn-group btn-group-lg" role="group" aria-label="@p.Caption group">
                             @{
-                                var className = p.Caption.Equals("Facebook") ? "btn-outline-primary" : "btn-outline-danger";
+                                var className = p.Caption.Equals("Facebook") ? "btn-primary" : "btn-danger";
                             }
                             <button type="submit" class="btn  @className" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"><i class="ion-social-@p.Caption.ToLower()-outline"></i></button>
 
