@@ -14,20 +14,20 @@
             <input name="customer"id="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control"/>
         </div>
     </div>
-       
     
     
-    <div  class="form-group">
-        <ul id="movies" class="list-group">
+    
+    <div class="form-group">
+        <div id="movies" class="row">
            
-        </ul>
-
-
-
+        </div>
+        <div class="row">
+        
+        </div>
     </div>
     <div class="form-group">
-        <div class="row">
-            <button class="btn btn-primary">Submit</button>
+        <div>
+            <button id="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
 </form>
@@ -37,10 +37,14 @@
     <script>
 
         $(document).ready(function() {
+            var documentcontext = $(this);
             var name;
+            var listcontext =[];
             var vm = {
                 movieIds: []
             };
+            var customerid;
+            var returnRentatDto = [];
             var customers = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -65,55 +69,103 @@
                     name = customer.name;
                 });
 
-
+            
+            
+            function updateRentalfunc(e) {
+                e.preventDefault();
+                    for (var i = 0; i < listcontext.length; i++) {
+                        var list = listcontext.pop();
+                        console.log(list);
+                    };
+                    
+                };
+            
             $.validator.addMethod("validCustomer",
                 function() {
                     return vm.customerId && vm.customerId !== 0;
                 },
                 "Please select valid customer");
-            var validator = $("#newRental").validate({
-                submitHandler: function() {
-
+           $("#submit").click(
+               function submitCustomer(e) {
+                   e.preventDefault();
+                    console.log("nreRental");
 
                     $.ajax({
-                        url: "/api/Returns?customerName="+name,
+                        url: "/api/Returns?customerName=" + name,
                         method: "GET"
 
-                       
-                    }).done(function (dataInput) {
-                        var vardateReturned = 
-                        " <div class='input-group date dateReturned'><input type='text' class='form-control' />" +
-                         "<span class='input-group-addon'>" +
-                          " <span class='glyphicon glyphicon-calendar'></span>" +
-                          "  </span>" +
-                            " </div>";
-                        
-                        var vardateRented =     " <div class='input-group date dateRented'><input type='text' class='form-control' />" +
+
+                    }).done(function(dataInput) {
+                        var vardateReturned =
+                            " <div class='input-group date dateReturned'><input type='text' class='form-control' />" +
                                 "<span class='input-group-addon'>" +
                                 " <span class='glyphicon glyphicon-calendar'></span>" +
                                 "  </span>" +
                                 " </div>";
-                       
-                     // <div class="col-md-4">.col-md-4</div>
-                        for (var index=0;index<dataInput.length ; index++) {
+
+                        var vardateRented =
+                            " <div class='input-group date dateRented'><input type='text' class='form-control' />" +
+                                "<span class='input-group-addon'>" +
+                                " <span class='glyphicon glyphicon-calendar'></span>" +
+                                "  </span>" +
+                                " </div>";
+                        var currentlist;    
+                        // <div class="col-md-4">.col-md-4</div>
+                        for (var index = 0; index < dataInput.length; index++) {
+                            var coloumn = $("<div></div>");
+                            coloumn.addClass("col col-sm-4 col-md-4 col-xs-4");
+                            var lists = $("<ul></ul>");
+                            lists.addClass("list-group");
+                            coloumn.append(lists);
+
+                            lists.append('<li class="list-group-item">' + dataInput[index].customer.name + '</li>');
+                            lists.append('<li class="list-group-item">' + dataInput[index].movie.name + '</li>');
+                            lists.append('<li class="list-group-item" data-internalid=' +
+                                dataInput[index].id +
+                                ' data-internalindex=' +
+                                index +
+                                '>' +
+                                isoDateReviver(dataInput[index].dateRented) +
+                                '</li>');
+                            lists.append('<li class="list-group-item">' + vardateReturned + '</li>');
+                            listcontext.push(lists);
+                            currentlist = lists;
+                            $("#movies").append(coloumn);
                             var dateReturn = $(".dateReturned");
-                            
-                           // dateReturn.val = Date.parse(dataInput[index].dateReturned.toString("dd/MM/YYYY"));
+                            if (dataInput[index].dateReturned == null)
+                                dateReturn.val = new Date();
+                            else
+                                dateReturn.val = new Date(parseInt(dataInput[index].dateReturned.substr(6)));
                             var dateRent = $(".dateRented");
-                           // dateRent.val = Date.parse(dataInput[index].dateRented.toString("dd/MM/YYYY"));
-                            $("#movies").append('<li class="list-group-item">' + dataInput[index].customer.name + '</li>');
-                            $("#movies").append('<li class="list-group-item">' + dataInput[index].movie.name + '</li>');
-                            $("#movies").append('<li class="list-group-item">' + dataInput[index].dateRented+ '</li>');
-                            $("#movies").append('<li class="list-group-item">' + dataInput[index].dateReturned + '</li>');
-                            
-                            
+
+                            dateRent.val = new Date(parseInt(dataInput[index].dateRented.substr(6)));
+
                         }
                         $(".dateReturned").datetimepicker();
+                        $("#movies").find(".dateReturned").data("DateTimePicker").minDate(Date.now().toUTCString, true);
+
+                        // $(".dateReturned").data("DateTimePicker").minDate(Date.now().toUTCString,true);
+                        // $(".dateReturned").data("DateTimePicker").defaultDate(Date.now().toUTCString,true);
                         $(".dateRented").datetimepicker();
-                       
-                        
-                        
-                        
+                        var context = $(this);
+                        $(".dateReturned").on("dp.change",
+                            function(e) {
+                                var index = $(currentlist.children()[2]).data("internalindex");
+                                var id = $(currentlist.children()[2]).data("internalid");
+                                returnRentatDto = {
+                                    
+                                    customerid: dataInput[index].customer.id,
+                                    movieid: dataInput[index].movie.id,
+                                    dateRented: dataInput[index].dateRented,
+                                    datereturned: new Date(e.timeStamp)
+                                };
+                                $("#submit").unbind("click", submitCustomer);
+                                $("#submit").bind("click", updateRentalfunc);
+                                console.log(returnRentatDto);
+                                $("#submit").html("Update");
+                                $("#newRental").attr("id", "updateRental");
+                            });
+
                         //(document).getElementById("#movies").removeChild("li");
                     }).fail(function() {
                         toastr.success("Something wrong happened");
@@ -121,10 +173,22 @@
                     });
                     return false;
                 }
-            });
-            $(function () {
-                
-            });
+            );
+
+            function isoDateReviver(value) {
+                if (typeof value === 'string') {
+                    var a = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)(?:([\+-])(\d{2})\:(\d{2}))?Z?$/
+                        .exec(value);
+                    if (a) {
+                        var utcMilliseconds = Date.UTC(+a[1], +a[2] - 1, +a[3], +a[4], +a[5], +a[6]);
+                        return new Date(utcMilliseconds);
+                    }
+                }
+                return value;
+            }
+
+            
+
 
         });
 

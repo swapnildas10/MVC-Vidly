@@ -52,9 +52,11 @@ namespace Vidly.Controllers.Api
         {
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
+        // PUT api/Rentals/
+        [HttpPut]
+        public IHttpActionResult  Put(int id, ReturnRentalDto returnRentalDto)
+        {   
+            return Ok();
         }
 
         // DELETE api/<controller>/5
