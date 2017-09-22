@@ -19,11 +19,11 @@
             <div class="btn-toolbar" role="toolbar" arial-label="Toolbar with button groups" id="socialLoginList">
                 
                     @foreach (AuthenticationDescription p in loginProviders) {
-                        <div class="btn-group btn-group-lg" role="group" aria-label="@p.Caption group">
+                        <div class="btn-group btn-group-lg mr-2" role="group" aria-label="@p.Caption group">
                             @{
-                                var className = p.Caption.Equals("Facebook") ? "btn-primary" : "btn-danger";
+                                var className = p.Caption.Equals("Facebook") ? "btn btn-primary" : "btn btn-danger";
                             }
-                            <button type="submit" class="btn  @className" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"><i class="ion-social-@p.Caption.ToLower()-outline"></i></button>
+                            <button type="submit"style="cursor: pointer" class="@className" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"><i class="ion-social-@p.Caption.ToLower()-outline"></i></button>
 
                       </div>
 

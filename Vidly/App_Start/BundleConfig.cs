@@ -10,14 +10,17 @@ namespace Vidly
         {
             bundles.Add(new ScriptBundle("~/bundles/lib").Include(
                         "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/umd/popper.js",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/bootbox.js",
                 "~/Scripts/respond.js",
                 "~/Scripts/DataTables/jquery.dataTables.js",
-                "~/Scripts/DataTables/dataTables.bootstrap.js",
+                       
+                "~/Scripts/DataTables/dataTables.bootstrap4.js",
+                        "~/Scripts/DataTables/dataTables.responsive.js",
+                        "~/Scripts/DataTables/responsive.bootstrap4.js",
                 "~/Scripts/typeahead.bundle.js",
                 "~/Scripts/toastr.js",
-                "~/Scripts/popper.js",
                 "~/Scripts/moment.js",
                 "~/Scripts/bootstrap-datetimepicker.js"));
 
@@ -33,7 +36,7 @@ namespace Vidly
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/site.css",
                       "~/Content/bootstrap.css",
-                      "~/Content/DataTables/css/dataTables.bootstrap.css",
+                      "~/Content/DataTables/css/dataTables.bootstrap4.css",
                       "~/Content/toastr.css",
                       "~/Content/typeahead.css",
                       "~/Content/ionicons.min.css"));

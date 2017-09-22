@@ -73,23 +73,22 @@
             function updateRentalfunc(dataInput) {
 
                 var returnsDto = [];
+                bootbox.confirm("Are you sure?", function(result) {
+                    if (result) {
+                        for (var i = 0; i < listcontext.length; i++) {
+                            // console.log(listcontext.length);14
+                            var list = listcontext[i];
+                            if ($(list.children()[3]).find("input").val())
+                                dataInput[i].dateReturned =
+                                    moment($(list.children()[3]).find("input").val(), "MM-DD-YYYY hh:mm A")
+                                    .format('YYYY-MM-DDTHH:mm:ss.SSS');;
 
 
-                //  dataInput[i].length 14
-
-                for (var i = 0; i < listcontext.length; i++) {
-                    // console.log(listcontext.length);14
-                    var list = listcontext[i];
-                    if ($(list.children()[3]).find("input").val())
-                        dataInput[i].dateReturned =
-                            moment($(list.children()[3]).find("input").val(), "MM-DD-YYYY hh:mm A")
-                            .format('YYYY-MM-DDTHH:mm:ss.SSS');;
-
-
-                    delete dataInput[i].id;
-                    var id = $(list.children()[3]).data("internalid");
-                    bootbox.confirm("Are you sure?",function(result) {
-                        if (result) {
+                            delete dataInput[i].id;
+                    
+                            var id = $(list.children()[3]).data("internalid");
+                 
+                       
                             $.ajax({
                                 url: "/api/returns/" + id,
                                 method: "PUT",
@@ -104,13 +103,18 @@
                             }).fail(function(error) {
                                 toastr.success("Something wrong happened");
                             });
-                        }
-                    });
+                        
                     
-                    // console.log(dataInput[i]);
+                            // console.log(dataInput[i]);
 
 
-                };
+                        };
+                    }
+                });
+
+                //  dataInput[i].length 14
+
+                
                 // console.log(dataInput);
             };
 
@@ -135,7 +139,7 @@
                                 "\"yyyy-MM-dd hh:mm:ss\"" +
                                 " type='text' class='form-control' />" +
                                 "<span class='input-group-addon'>" +
-                                " <span class='glyphicon glyphicon-calendar'></span>" +
+                            " <i class='ion-calendar'></i></span>" +
                                 "  </span>" +
                                 " </div>";
 
@@ -149,6 +153,7 @@
                         // <div class="col-md-4">.col-md-4</div>
                         for (var index = 0; index < dataInput.length; index++) {
                             var coloumn = $("<div></div>");
+                           
                             coloumn.addClass("col col-sm-4 col-md-4 col-xs-4");
                             var lists = $("<ul></ul>");
                             lists.addClass("list-group");
@@ -269,4 +274,4 @@
     </script>
 
 }
-window.location.replace('/rentals/new');
+    

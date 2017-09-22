@@ -33,7 +33,7 @@
                     {
                         data: "name",
                         render: function(data, type, movies) {
-                            return "<a href='/movies/edit/" + movies.id + "'>" + movies.name + "</a>";
+                            return "<a class='nav-link' href='/movies/edit/" + movies.id + "'>" + movies.name + "</a>";
                         }
                     },
                     {
@@ -41,7 +41,7 @@
                     }, {
                         data: "id",
                         render: function(data) {
-                            return "<button class ='btn-link js-delete' data-movie-id=" + data + ">Delete</button>";
+                            return "<button style='cursor:pointer;' class ='btn btn-link js-delete' data-movie-id=" + data + ">Delete</button>";
                         }
                     }
                 ]
