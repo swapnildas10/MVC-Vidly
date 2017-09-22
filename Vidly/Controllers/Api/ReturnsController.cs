@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using AutoMapper;
 using Vidly.Dtos;
@@ -54,14 +55,31 @@ namespace Vidly.Controllers.Api
 
         // PUT api/Rentals/
         [HttpPut]
-        public IHttpActionResult  Put(int id, ReturnRentalDto returnRentalDto)
-        {   
+        public IHttpActionResult  UpdateRentals(int id, ReturnRentalDto returnRentalDto)
+        {
+            returnRentalDto.Id = id;
+           var rentalsinDb= _context.Rentals.Single(r => r.Id == id);
+            if (rentalsinDb.DateReturned !=null && returnRentalDto.DateReturned !=null  )
+                if (rentalsinDb.DateReturned != returnRentalDto.DateReturned)
+                    return BadRequest();
+            if(returnRentalDto.DateReturned!=null)
+            rentalsinDb.DateReturned = returnRentalDto.DateReturned;
+            var customer = _context.Customers.Single(c=>c.Id==returnRentalDto.CustomerId);
+            var movie = _context.Movies.Single(m => m.Id == returnRentalDto.MovieId);
+            movie.NumberAvailable++;    
+            rentalsinDb.Customer = customer;
+            rentalsinDb.Movie = movie;
+        //  Mapper.Map(returnRentalDto,rentalsinDb);
+          //  rentalsinDb.Movie = Mapper.Map<MovieDto, Movie>(returnRentalDto.Movie);
+          //  rentalsinDb.Customer = Mapper.Map<CustomerDto, Customer>(returnRentalDto.Customer);
+            _context.SaveChanges();
             return Ok();
         }
 
         // DELETE api/<controller>/5
         public void Delete(int id)
         {
+
         }
     }
 }

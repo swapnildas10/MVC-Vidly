@@ -92,7 +92,7 @@ namespace Vidly.Controllers
                 customerInDb.IsSubscribedToNewsLetter = formViewModel.Customer.IsSubscribedToNewsLetter;
                 //Mapper.Map(customer, customerInDb);
             }
-            _context.SaveChanges();
+                _context.SaveChanges();
             return RedirectToAction("Index", "Customers");
         }
 

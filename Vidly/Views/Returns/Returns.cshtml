@@ -39,7 +39,7 @@
         $(document).ready(function() {
             var documentcontext = $(this);
             var name;
-            var listcontext =[];
+            var listcontext = [];
             var vm = {
                 movieIds: []
             };
@@ -69,26 +69,55 @@
                     name = customer.name;
                 });
 
-            
-            
-            function updateRentalfunc(e) {
-                e.preventDefault();
-                    for (var i = 0; i < listcontext.length; i++) {
-                        var list = listcontext.pop();
-                        console.log(list);
-                    };
-                    
+
+            function updateRentalfunc(dataInput) {
+
+                var returnsDto = [];
+
+
+                //  dataInput[i].length 14
+
+                for (var i = 0; i < listcontext.length; i++) {
+                    // console.log(listcontext.length);14
+                    var list = listcontext[i];
+                    if ($(list.children()[3]).find("input").val())
+                        dataInput[i].dateReturned =
+                            moment($(list.children()[3]).find("input").val(), "MM-DD-YYYY hh:mm A")
+                            .format('YYYY-MM-DDTHH:mm:ss.SSS');;
+
+
+                    delete dataInput[i].id;
+                    var id = $(list.children()[3]).data("internalid");
+                    $.ajax({
+                        url: "/api/returns/" + id,
+                        method: "PUT",
+                        data: dataInput[i]
+                    }).done(function(success) {
+                        
+                        toastr.success("Rentals successfully recorded");
+                       
+                           
+                       
+
+                    }).fail(function(error) {
+                        toastr.success("Something wrong happened");
+                    });
+                    // console.log(dataInput[i]);
+
+
                 };
-            
+                // console.log(dataInput);
+            };
+
             $.validator.addMethod("validCustomer",
                 function() {
                     return vm.customerId && vm.customerId !== 0;
                 },
                 "Please select valid customer");
-           $("#submit").click(
-               function submitCustomer(e) {
-                   e.preventDefault();
-                    console.log("nreRental");
+            $("#submit").click(
+                function submitCustomer(e) {
+                    e.preventDefault();
+
 
                     $.ajax({
                         url: "/api/Returns?customerName=" + name,
@@ -97,7 +126,9 @@
 
                     }).done(function(dataInput) {
                         var vardateReturned =
-                            " <div class='input-group date dateReturned'><input type='text' class='form-control' />" +
+                            " <div class='input-group date dateReturned'><input data-format=" +
+                                "\"yyyy-MM-dd hh:mm:ss\"" +
+                                " type='text' class='form-control' />" +
                                 "<span class='input-group-addon'>" +
                                 " <span class='glyphicon glyphicon-calendar'></span>" +
                                 "  </span>" +
@@ -109,7 +140,7 @@
                                 " <span class='glyphicon glyphicon-calendar'></span>" +
                                 "  </span>" +
                                 " </div>";
-                        var currentlist;    
+                        var currentlist;
                         // <div class="col-md-4">.col-md-4</div>
                         for (var index = 0; index < dataInput.length; index++) {
                             var coloumn = $("<div></div>");
@@ -117,51 +148,90 @@
                             var lists = $("<ul></ul>");
                             lists.addClass("list-group");
                             coloumn.append(lists);
-
-                            lists.append('<li class="list-group-item">' + dataInput[index].customer.name + '</li>');
-                            lists.append('<li class="list-group-item">' + dataInput[index].movie.name + '</li>');
+                            //  console.log(dataInput);
                             lists.append('<li class="list-group-item" data-internalid=' +
-                                dataInput[index].id +
+                                dataInput[index].customer.id +
+                                '>' +
+                                dataInput[index].customer.name +
+                                '</li>');
+                            lists.append('<li class="list-group-item" data-internalid=' +
+                                dataInput[index].movie.id +
+                                '>' +
+                                dataInput[index].movie.name +
+                                '</li>');
+                            lists.append('<li class="list-group-item" data-internalid=' +
+                                dataInput[index].dateRented +
                                 ' data-internalindex=' +
                                 index +
                                 '>' +
                                 isoDateReviver(dataInput[index].dateRented) +
                                 '</li>');
-                            lists.append('<li class="list-group-item">' + vardateReturned + '</li>');
+                            if (dataInput[index].dateReturned == null)
+                                lists.append('<li class="list-group-item"  data-internalid=' +
+                                    dataInput[index].id +
+                                    '>' +
+                                    vardateReturned +
+                                    '</li>');
+                            else
+                                lists.append('<li class="list-group-item" data-internalid=' +
+                                    dataInput[index].id +
+                                    '>' +
+                                    isoDateReviver(dataInput[index].dateReturned) +
+                                    '</li>');
+
+                            $(".dateReturned").attr("id", index);
                             listcontext.push(lists);
                             currentlist = lists;
                             $("#movies").append(coloumn);
-                            var dateReturn = $(".dateReturned");
-                            if (dataInput[index].dateReturned == null)
-                                dateReturn.val = new Date();
-                            else
-                                dateReturn.val = new Date(parseInt(dataInput[index].dateReturned.substr(6)));
+                            var dateReturn = $('#' + index);
+                            //if (dataInput[index].dateReturned == null) {
+
+                            //    $("#"+index).data("DateTimePicker").minDate(Date.now().toUTCString, true);
+                            //}
+
+
+                         //   console.log($('#' + index));
+                            //if (dataInput[index].dateReturned == null)
+                            //    dateReturn.val = new Date();
+                            //else
+                            //    dateReturn.data("DateTimePicker").date((moment(new Date(dataInput[index].dateReturned)).utc()
+                            //        .format("MM-DD-YYYY hh:mm A")));
+
+
                             var dateRent = $(".dateRented");
 
+                          //  console.log((dataInput[index].dateReturned));
+                          //  console.log((moment(dataInput[index].dateReturned).utc()
+                            //    .format("MM/DD/YYYY hh:mm A")));
                             dateRent.val = new Date(parseInt(dataInput[index].dateRented.substr(6)));
 
                         }
+                        $(".dateRented").datetimepicker();
                         $(".dateReturned").datetimepicker();
-                        $("#movies").find(".dateReturned").data("DateTimePicker").minDate(Date.now().toUTCString, true);
+
 
                         // $(".dateReturned").data("DateTimePicker").minDate(Date.now().toUTCString,true);
                         // $(".dateReturned").data("DateTimePicker").defaultDate(Date.now().toUTCString,true);
-                        $(".dateRented").datetimepicker();
+
                         var context = $(this);
                         $(".dateReturned").on("dp.change",
                             function(e) {
                                 var index = $(currentlist.children()[2]).data("internalindex");
                                 var id = $(currentlist.children()[2]).data("internalid");
                                 returnRentatDto = {
-                                    
                                     customerid: dataInput[index].customer.id,
                                     movieid: dataInput[index].movie.id,
                                     dateRented: dataInput[index].dateRented,
                                     datereturned: new Date(e.timeStamp)
                                 };
-                                $("#submit").unbind("click", submitCustomer);
-                                $("#submit").bind("click", updateRentalfunc);
-                                console.log(returnRentatDto);
+                                $("#submit").unbind("click");
+                                $("#submit").bind("click",
+                                    function updateCustomer(e) {
+                                        e.preventDefault();
+                                        // console.log("called");
+                                        updateRentalfunc(dataInput);
+                                    });
+                                //console.log(returnRentatDto);
                                 $("#submit").html("Update");
                                 $("#newRental").attr("id", "updateRental");
                             });
@@ -187,8 +257,6 @@
                 return value;
             }
 
-            
-
 
         });
 
@@ -196,3 +264,4 @@
     </script>
 
 }
+window.location.replace('/rentals/new');
