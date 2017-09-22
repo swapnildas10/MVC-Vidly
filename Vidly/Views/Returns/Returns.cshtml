@@ -88,20 +88,25 @@
 
                     delete dataInput[i].id;
                     var id = $(list.children()[3]).data("internalid");
-                    $.ajax({
-                        url: "/api/returns/" + id,
-                        method: "PUT",
-                        data: dataInput[i]
-                    }).done(function(success) {
+                    bootbox.confirm("Are you sure?",function(result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/api/returns/" + id,
+                                method: "PUT",
+                                data: dataInput[i]
+                            }).done(function(success) {
                         
-                        toastr.success("Rentals successfully recorded");
+                                toastr.success("Rentals successfully recorded");
                        
                            
                        
 
-                    }).fail(function(error) {
-                        toastr.success("Something wrong happened");
+                            }).fail(function(error) {
+                                toastr.success("Something wrong happened");
+                            });
+                        }
                     });
+                    
                     // console.log(dataInput[i]);
 
 
