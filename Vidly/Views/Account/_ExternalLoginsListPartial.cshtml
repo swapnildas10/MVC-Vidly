@@ -1,7 +1,7 @@
 ﻿@model Vidly.ViewModels.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
 
-<h4>Use another service to log in.</h4>
+<h5 style="text-align: center;">Or</h5>
 <hr />
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
@@ -16,15 +16,16 @@
     else {
         using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
             @Html.AntiForgeryToken()
-            <div class="btn-toolbar" role="toolbar" arial-label="Toolbar with button groups" id="socialLoginList">
+            <div class="row"  id="socialLoginList">
                 
                     @foreach (AuthenticationDescription p in loginProviders) {
-                        <div class="btn-group btn-group-lg mr-2" role="group" aria-label="@p.Caption group">
+                        <div class="col-md-6 btn-group" role="group" aria-label="@p.Caption group">
                             @{
-                                var className = p.Caption.Equals("Facebook") ? "btn btn-primary" : "btn btn-danger";
+                                var className = p.Caption.Equals("Facebook") ? "btn-primary" : "btn-danger";
                             }
-                            <button type="submit"style="cursor: pointer" class="@className" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"><i class="ion-social-@p.Caption.ToLower()-outline"></i></button>
-
+                       
+                            <button type="submit"style="cursor: pointer;display: inline" class="@className form-control" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"><span style="float: left; padding:0 1em 0 0; border-right: 1px solid white;" class="  ion-social-@p.Caption.ToLower()"></span>@p.Caption</button>
+                            
                       </div>
 
 

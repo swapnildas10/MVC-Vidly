@@ -892,6 +892,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="fonts\" />
     <Folder Include="font\" />
+    <Folder Include="img\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

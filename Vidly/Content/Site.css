@@ -1,5 +1,15 @@
 ﻿
-
+body {
+    background-image: url(../../img/login-background.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+}
+nav {
+    background-color: rgba(52,58,64,0.91);
+}
+.card {
+   
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -13,6 +23,7 @@
     white-space: normal;
 }
 .field-validation-error,
+.input-validation-error,
 label.error{
     color: red;
 }
@@ -22,11 +33,7 @@ input.error{
     border: 2px solid red;
 }
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
+
 
 #customers_wrapper {
     
