@@ -4,33 +4,43 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Returns</h2>
 
-
-<form id="newRental" action="">
-    <div class="form-group">
-        <label>Customer</label>
-        <div class="tt-container">
-            <input name="customer"id="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control"/>
-        </div>
-    </div>
+<div style="padding-top: 10%;" class="row justify-content-center">
+    <div class="col-xs-6 col-xs-offset-2 jsextend">
+        <div class="card align-self-center" style="width: 23rem;">    
+                <div class="card-body">
+                    <h4 class="card-title">Returns</h4>
+                    <form id="newRental" action="">
+                        <div class="form-group">
+                            <label>Customer</label>
+                            <div class="tt-container">
+                                <input name="customer"id="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control"/>
+                            </div>
+                        </div>
     
     
     
-    <div class="form-group">
-        <div id="movies" class="row">
+                        <div class="form-group">
+                            <div id="movies" class="row">
            
-        </div>
-        <div class="row">
+                            </div>
+                            <div class="row">
         
-        </div>
-    </div>
-    <div class="form-group">
-        <div>
-            <button id="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </div>
-</form>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <button id="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            
+            
+
+        </div></div></div>
+
+
 
 @section scripts
 {@Scripts.Render("~/bundles/jqueryval")
@@ -133,7 +143,9 @@
                         method: "GET"
 
 
-                    }).done(function(dataInput) {
+                    }).done(function (dataInput) {
+                        $(".jsextend").removeClass();
+
                         var vardateReturned =
                             " <div class='input-group date dateReturned'><input data-format=" +
                                 "\"yyyy-MM-dd hh:mm:ss\"" +

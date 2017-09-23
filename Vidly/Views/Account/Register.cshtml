@@ -19,36 +19,38 @@
                 @Html.AntiForgeryToken()
                 
                 <hr/>
-                @Html.ValidationSummary("", new {@class = "text-danger"})
+               // @Html.ValidationSummary("", new {@class = "text-danger"})
                 <div class="form-group">
                    
 
                     @Html.TextBoxFor(m => m.Email, new {@class = "form-control",@placeholder="E-Mail"})
+                    @Html.ValidationMessageFor(m=>m.Email,null,new{@class = "text-danger"})
 
                 </div>
                 <div class="form-group">
                     
 
                     @Html.PasswordFor(m => m.Password, new {@class = "form-control",@placeholder="Password"})
+                    @Html.ValidationMessageFor(m=>m.Password,null,new{@class = "text-danger"})
 
                 </div>
                 <div class="form-group">
                    
 
                     @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control",@placeholder="Confirm Password"})
-
+                    @Html.ValidationMessageFor(m=>m.ConfirmPassword, null,new{@class = "text-danger"})
                 </div>
                 <div class="form-group">
                   
 
                     @Html.TextBoxFor(m => m.DrivingLicense, new {@class = "form-control",@placeholder="Driving License"})
-
+                    @Html.ValidationMessageFor(m => m.DrivingLicense, null, new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     
 
                     @Html.TextBoxFor(m => m.PhoneNumber, new {@class = "form-control",@placeholder="Phone Number"})
-
+                    @Html.ValidationMessageFor(m => m.PhoneNumber, null, new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     <div>

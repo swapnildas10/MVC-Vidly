@@ -7,9 +7,7 @@ body {
 nav {
     background-color: rgba(52,58,64,0.91);
 }
-.card {
-   
-}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -34,7 +32,6 @@ input.error{
 }
 /* Set width on the form input elements since they're 100% wide by default */
 
-
-#customers_wrapper {
-    
+.dataTable {
+    background-color: rgba(171,178,174,0.5);
 }

@@ -34,12 +34,12 @@ namespace Vidly
 
            
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/site.css",
+                
                       "~/Content/bootstrap.css",
                       "~/Content/DataTables/css/dataTables.bootstrap4.css",
                       "~/Content/toastr.css",
                       "~/Content/typeahead.css",
-                      "~/Content/ionicons.min.css"));
+                      "~/Content/ionicons.min.css", "~/Content/Site.css"));
         }
     }
 }
