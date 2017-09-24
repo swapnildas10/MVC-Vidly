@@ -3,15 +3,34 @@ body {
     background-image: url(../../img/login-background.jpg);
     background-size: cover;
     background-attachment: fixed;
+    min-height: 100%;
+     
+    height: auto;
+}
+input {
+    background-color: white;
+}
+html {
+    min-height: 100%;
+    height: auto;
 }
 nav {
     background-color: rgba(52,58,64,0.91);
 }
-
+.video-container {
+    min-width: 640px;
+    min-height: 390px;
+}.card-title {
+    text-align: center;
+}
+.list-group-item {
+    background-color: transparent;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    height: 100%;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -34,4 +53,26 @@ input.error{
 
 .dataTable {
     background-color: rgba(171,178,174,0.5);
+}
+.card {
+    background-color: rgba(52, 58, 64, 0.25);
+    width: 23rem;
+}
+.tt-menu {
+    width: 100%;
+}
+footer {
+    position:relative;
+    bottom: 0px;
+    width: 100%;
+    
+    background-color: #232220;
+    padding: 20px;
+}
+footer p {
+    margin: 0;
+}
+.container {
+    height:auto !important;
+    min-height: 38.9rem;
 }

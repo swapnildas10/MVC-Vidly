@@ -28,6 +28,8 @@ namespace Vidly.Dtos
         [Required]
         public DateTime DateAdded { get; set; }
 
+        public string YoutubeId { get; set; }
+
        // [Range(1, 20)]
         [Required]
         public short Stock { get; set; }

@@ -7,14 +7,14 @@
 
 <div style="padding-top: 10%;" class="row justify-content-center">
     <div class="col-xs-6 col-xs-offset-2 jsextend">
-        <div class="card align-self-center" style="width: 23rem;">    
+        <div class="card align-self-center jscard">    
                 <div class="card-body">
-                    <h4 class="card-title">Returns</h4>
-                    <form id="newRental" action="">
-                        <div class="form-group">
-                            <label>Customer</label>
-                            <div class="tt-container">
-                                <input name="customer"id="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control"/>
+                    <h4 style="text-align: center" class="card-title">Returns</h4>
+                    <form class="form-text" id="newRental" action="">
+                        <div class="form-group tt-container">
+                            
+                            <div style="text-align: center">
+                                <input placeholder="Customer Name" name="customer"id="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
                             </div>
                         </div>
     
@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group">
                             <div>
-                                <button id="submit" class="btn btn-primary">Submit</button>
+                                <input id="submit" class="btn btn-primary form-control" value="Submit"/>
                             </div>
                         </div>
                     </form>
@@ -82,49 +82,59 @@
 
             function updateRentalfunc(dataInput) {
 
-                var returnsDto = [];
-                bootbox.confirm("Are you sure?", function(result) {
-                    if (result) {
-                        for (var i = 0; i < listcontext.length; i++) {
-                            // console.log(listcontext.length);14
-                            var list = listcontext[i];
-                            if ($(list.children()[3]).find("input").val())
-                                dataInput[i].dateReturned =
-                                    moment($(list.children()[3]).find("input").val(), "MM-DD-YYYY hh:mm A")
-                                    .format('YYYY-MM-DDTHH:mm:ss.SSS');;
+                 var successCount =0;
+                var errorCount =0;
+                bootbox.confirm("Are you sure?",
+                    function(result) {
+                        if (result) {
+                            for (var i = 0; i < listcontext.length; i++) {
+                                // console.log(listcontext.length);14
+                                var list = listcontext[i];
+                                if ($(list.children()[3]).find("input").val())
+                                    dataInput[i].dateReturned =
+                                        moment($(list.children()[3]).find("input").val(), "MM-DD-YYYY hh:mm A")
+                                        .format('YYYY-MM-DDTHH:mm:ss.SSS');;
 
 
-                            delete dataInput[i].id;
-                    
-                            var id = $(list.children()[3]).data("internalid");
-                 
-                       
-                            $.ajax({
-                                url: "/api/returns/" + id,
-                                method: "PUT",
-                                data: dataInput[i]
-                            }).done(function(success) {
-                        
-                                toastr.success("Rentals successfully recorded");
-                       
-                           
-                       
+                                delete dataInput[i].id;
 
-                            }).fail(function(error) {
-                                toastr.success("Something wrong happened");
-                            });
-                        
-                    
-                            // console.log(dataInput[i]);
+                                var id = $(list.children()[3]).data("internalid");
+
+                               
+                                $.ajax({
+                                    url: "/api/returns/" + id,
+                                    method: "PUT",
+                                    data: dataInput[i]
+                                }).done(function(success) {
+
+                                    successCount++;
+
+                                }).fail(function (error) {
+                                    errorCount++;
+                                    toastr.error("Something wrong happened");
+
+                                });
+
+                               
+
+                              
+
+                                
+                                // console.log(dataInput[i]);
 
 
-                        };
-                    }
-                });
+                            };
+                            
+                            if(errorCount===0)
+                                    toastr.success("All records updated");
+                            else
+                                toastr.error(errorCount+" records have error");
+                        }
+                    });
 
                 //  dataInput[i].length 14
 
-                
+
                 // console.log(dataInput);
             };
 
@@ -136,22 +146,28 @@
             $("#submit").click(
                 function submitCustomer(e) {
                     e.preventDefault();
-
+                     
 
                     $.ajax({
                         url: "/api/Returns?customerName=" + name,
                         method: "GET"
 
 
-                    }).done(function (dataInput) {
-                        $(".jsextend").removeClass();
-
+                    }).done(function(dataInput) {
+                        $(".list-group").detach();
+                        $("#movies div").each(function() {
+                            var $this = $(this);
+                            if ($this.html().replace(/\s|&nbsp;/g, '').length === 0)
+                                $this.remove();
+                        });
+                        $(".jsextend").removeClass("col-xs-6 col-xs-offset-2").addClass("col");
+                        $(".jscard").css("width", "100%");
                         var vardateReturned =
                             " <div class='input-group date dateReturned'><input data-format=" +
                                 "\"yyyy-MM-dd hh:mm:ss\"" +
                                 " type='text' class='form-control' />" +
                                 "<span class='input-group-addon'>" +
-                            " <i class='ion-calendar'></i></span>" +
+                                " <i class='ion-calendar'></i></span>" +
                                 "  </span>" +
                                 " </div>";
 
@@ -165,7 +181,7 @@
                         // <div class="col-md-4">.col-md-4</div>
                         for (var index = 0; index < dataInput.length; index++) {
                             var coloumn = $("<div></div>");
-                           
+
                             coloumn.addClass("col col-sm-4 col-md-4 col-xs-4");
                             var lists = $("<ul></ul>");
                             lists.addClass("list-group");
@@ -212,7 +228,7 @@
                             //}
 
 
-                         //   console.log($('#' + index));
+                            //   console.log($('#' + index));
                             //if (dataInput[index].dateReturned == null)
                             //    dateReturn.val = new Date();
                             //else
@@ -222,8 +238,8 @@
 
                             var dateRent = $(".dateRented");
 
-                          //  console.log((dataInput[index].dateReturned));
-                          //  console.log((moment(dataInput[index].dateReturned).utc()
+                            //  console.log((dataInput[index].dateReturned));
+                            //  console.log((moment(dataInput[index].dateReturned).utc()
                             //    .format("MM/DD/YYYY hh:mm A")));
                             dateRent.val = new Date(parseInt(dataInput[index].dateRented.substr(6)));
 

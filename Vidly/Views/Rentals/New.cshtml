@@ -1,37 +1,54 @@
-﻿@model dynamic
+﻿@using Vidly.Models
+@model dynamic
 
 @{
     ViewBag.Title = "New Rental Form";
 }
 
-<h2>New Rental Form</h2>
+@section Rentals
+{
+    <link rel="stylesheet" type="text/css" href="~/Content/new-rental.css"/>
+}
 
 
+<div style="padding-top: 10%;" class="row justify-content-center">
+<div class="col-xs-6 col-xs-offset-2">
+<div class="card align-self-center ">    
+    <div class="card-body">
+        <h4 class="card-title">New Rental Form</h4>
+        <div class="card-text">
+            <form id="newRental" action="">
+                <div class="form-group">
+                     
+                    <div  style="text-align: center;" class="tt-container">
+                        <input placeholder="Customer Name" name="customer"id="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control"/>
+                        
+                    </div>
+                </div>
 
-<form id="newRental" action="">
-    <div class="form-group">
-        <label>Customer</label>
-        <div class="tt-container">
-            <input name="customer"id="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control"/>
+
+                <div class="form-group">
+                     
+                    <div style="text-align: center;" class="tt-container">
+                        <input  placeholder="Movie Name" name="movie" id="movie" data-rule-atleastOne="true" type="text" value="" class="form-control"/>
+
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <ul id="movies" class="list-group"></ul>
+
+                </div>
+
+                <input type="submit" value="Submit" class="btn btn-primary form-control"/>
+            </form>
+
         </div>
-        </div>
-       
-    
-    <div class="form-group">
-        <label>Movie</label>
-        <div class="tt-container">
-            <input name="movie" id="movie" data-rule-atleastOne="true"    type="text" value="" class="form-control" />
 
 
-        </div>
-    </div>
-    <div class="row col-md-4 col-sm-4 col-lg-4">
-        <ul id="movies" class="list-group"></ul>
+    </div></div></div></div>
 
-    </div>
-   
-    <button class="btn btn-primary">Submit</button>
-</form>
+
 @section scripts
 {@Scripts.Render("~/bundles/jqueryval")
     <script>

@@ -19,6 +19,10 @@
    
     </tbody>
 </table>
+
+
+
+
 @section scripts
 {
     <script>
@@ -30,7 +34,10 @@
                 },
                 columns: [
                     {
-                        data: "name"
+                        data: "name",
+                        render: function (data, type, movies) {
+                            return "<a class='nav-link' href='/movies/details/" + movies.id + "'>" + movies.name + "</a>";
+                        }
                         
                     },
                     {

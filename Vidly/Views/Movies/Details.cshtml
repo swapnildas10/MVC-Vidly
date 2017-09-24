@@ -1,14 +1,93 @@
-﻿@model Vidly.Models.Movie
+﻿@using Microsoft.Ajax.Utilities
+@model Vidly.Models.Movie
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Styles{
+    <link rel="stylesheet" href="~/Content/movie-details.css" type="text/css"/>
+}
 
-<h2>@Model.Name</h2>
-<ul>
-    <li>Genre: @Model.Genre.GenreName</li>
-    <li>Release Date: @Model.ReleaseDate</li>
-    <li>Date Added: @Model.DateAdded</li>
-    <li>Number in Stock: @Model.Stock</li>
-</ul>
+    
+    <div style="height: 100vh;" class="row">
+        <div class="d-block container-fluid video-container  col-md-12 col-lg-8 ">
+            <div id="player"></div>
+        </div>
+        <div class="d-block container-fluid details-container  col-xs-12 col-md-12 col-lg-4">
+        <div  style="padding-top: 10%;  "  class="row justify-content-center">
+        <div >
+            <div class="card align-self-center" style="width: 100%;">
+                <div class="card-body"></div>
+                <h4 style="text-align: center;" class="card-title ">@Model.Name</h4>
+                <div class="card-text">
+                    
+                    <ul  class="list-group">
+                        <li style="background-color: transparent" class="list-group-item">Genre: @Model.Genre.GenreName</listyle="background-color:>
+                        <li class="list-group-item">Release Date: @Model.ReleaseDate</li>
+                        <li class="list-group-item">Date Added: @Model.DateAdded</li>
+                        <li class="list-group-item">Number in Stock: @Model.Stock</li>
+                    </ul>
+                </div>
+
+                </div></div></div>
+            
+        </div>
+    </div>
+
+
+
+
+
+<!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+
+
+<script>
+    // 2. This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+
+    function onYouTubeIframeAPIReady() {
+        @{ string id = !Model.YoutubeId.IsNullOrWhiteSpace() ? @Model.YoutubeId : "k2qgadSvNyU";}
+        player = new YT.Player('player',
+            {
+                height: '390',
+                width: '640',
+                videoId: '@id',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+    }
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+        event.target.playVideo();
+    }
+
+    // 5. The API calls this function when the player's state changes.
+    //    The function indicates that when playing a video (state=1),
+    //    the player should play for six seconds and then stop.
+    var done = false;
+
+    function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+            setTimeout(stopVideo, 6000);
+            done = true;
+        }
+    }
+
+    function stopVideo() {
+        player.stopVideo();
+    }
+
+
+</script>
 

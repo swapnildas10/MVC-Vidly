@@ -28,7 +28,9 @@ namespace Vidly.Models
             [Required]
             public DateTime DateAdded { get; set; }
 
-        
+            [Display(Name = "YouTube ID")]
+            public string YoutubeId { get; set; }
+
         [Display(Name = "Number in Stock")]
         [Range(1,20)]
         [Required]

@@ -4,39 +4,66 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.Title</h2>
-@using(Html.BeginForm("Save","Movies")){
-    @Html.ValidationSummary(true,"Please fix following errors")
-<div class="form-group">
-    @Html.LabelFor(m=>m.Name)
-    @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
-    @Html.ValidationMessageFor(m=>m.Name)
 
-</div>
-<div class="form-group">
-    @Html.LabelFor(m => m.ReleaseDate)
-    @Html.TextBoxFor(m => m.ReleaseDate,"{0:d MMM yyyy}", new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.ReleaseDate)
-</div>
-<div class="form-group">
-    @Html.LabelFor(m=>m.GenreId)
-    @Html.DropDownListFor(m => m.GenreId,new SelectList(Model.Genres,"Id","GenreName"),"Select Genre",new
-    {
-        @class="form-control"
-    
-    })
-    @Html.ValidationMessageFor(m=>m.GenreId)
-</div>
-<div class="form-group">
-    @Html.LabelFor(m => m.Stock)
-    @Html.TextBoxFor(m => m.Stock, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m =>m.Stock)
-</div>
-@Html.HiddenFor(m=> m.Id)
-    @Html.AntiForgeryToken()
-<button class="btn btn-primary" type="submit">Save</button>
+<div style="padding-top: 10%;" class="row justify-content-center">
+    <div  class="col-xs-6 col-xs-offset-2">
+        <div class="card align-self-center" >
+           
+            <div class="card-body">
+                <h4 style="text-align: center;" class="card-title">@Model.Title</h4>
+                <div class="card-text">
+                @using (Html.BeginForm("Save", "Movies"))
+                {
+                    @Html.ValidationSummary(true, "Please fix following errors")
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name)
+                        @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.Name)
 
-}
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ReleaseDate)
+                        @Html.TextBoxFor(m => m.ReleaseDate, "{0:d MMM yyyy}", new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.ReleaseDate)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.GenreId)
+                        @Html.DropDownListFor(m => m.GenreId, new SelectList(Model.Genres, "Id", "GenreName"), "Select Genre", new
+                        {
+                            @class = "form-control"
+
+                        })
+                        @Html.ValidationMessageFor(m => m.GenreId)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Stock)
+                        @Html.TextBoxFor(m => m.Stock, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.Stock)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m =>m.YoutubeId)
+                        @Html.TextBoxFor(m => m.YoutubeId, new { @class = "form-control" })
+                        
+                    </div>
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.AntiForgeryToken()
+                    <input class="btn btn-primary form-control" type="submit" value="Save"/>
+                }
+                </div>
+            </div>
+           
+            
+
+        </div></div></div>
+
+
+
+
+
+
+
+
+
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")

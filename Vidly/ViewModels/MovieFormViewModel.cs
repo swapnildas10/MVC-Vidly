@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using Vidly.Migrations;
 using Vidly.Models;
 
 namespace Vidly.ViewModels
@@ -35,6 +36,8 @@ namespace Vidly.ViewModels
         public short? Stock { get; set; }
         //prop public IEnumerable<Genre> Genres { get; set; }
 
+        public string YoutubeId { get; set; }
+
         public string Title
         {
             get
@@ -61,6 +64,7 @@ namespace Vidly.ViewModels
             ReleaseDate = movie.ReleaseDate;
             Stock = movie.Stock;
             GenreId = movie.GenreId;
+           YoutubeId= movie.YoutubeId;
 
         }
 

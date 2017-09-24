@@ -412,6 +412,10 @@
     <Compile Include="Migrations\201709180602446_UpdateNumberAvailabletoMovie.Designer.cs">
       <DependentUpon>201709180602446_UpdateNumberAvailabletoMovie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709232149086_addedYouTubeIdData.cs" />
+    <Compile Include="Migrations\201709232149086_addedYouTubeIdData.Designer.cs">
+      <DependentUpon>201709232149086_addedYouTubeIdData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -610,6 +614,8 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\mdb.css" />
+    <Content Include="Content\movie-details.css" />
+    <Content Include="Content\new-rental.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\typeahead.css" />
@@ -1024,6 +1030,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709180602446_UpdateNumberAvailabletoMovie.resx">
       <DependentUpon>201709180602446_UpdateNumberAvailabletoMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709232149086_addedYouTubeIdData.resx">
+      <DependentUpon>201709232149086_addedYouTubeIdData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

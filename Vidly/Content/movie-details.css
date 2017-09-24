@@ -1,0 +1,43 @@
+﻿.body-content {
+    margin: 0;
+    padding: 0;
+    margin: 0;
+}
+.container {
+    margin: 0;
+    max-width: 100%;
+}
+.video-container {
+    background-color: #231D19;
+    text-align: center;
+    position: relative;
+    padding: 0;
+}
+.details-container {
+    background-color: #0B9B70;
+    position: relative;
+}
+.card {
+    top:20%;
+    background-color: transparent;
+    border: 0;
+    position: center;
+}
+.list-group-item {
+    border: 0;
+}
+.list-group {
+   
+}
+iframe {
+    position: absolute;
+    top: 20%;
+    left: 15%;
+    width: auto;
+    height: auto;
+    min-height: 40%;
+    min-width:70%;
+}
+.row {
+    margin: 0;
+}

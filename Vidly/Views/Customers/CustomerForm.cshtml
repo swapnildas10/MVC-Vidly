@@ -4,14 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+@section Rentals
+{
+    <link rel="stylesheet" type="text/css" href="~/Content/new-rental.css" />
+}
 <div style="padding-top: 10%;" class="row justify-content-center">
     <div class="col-xs-6 col-xs-offset-2">
         <div class="card align-self-center" style="width: 23rem;">
 
             <div class="card-body">
                 <h4 style="text-align: center" class="card-title">@Model.Customer.Name</h4>
-                <p class="card-text">
+                <div class="card-text">
 
                     @using (Html.BeginForm("Save", "Customers"))
                     { @Html.ValidationSummary(true, "Please fix following errors")
@@ -59,12 +62,11 @@
                         </div>
                         @Html.HiddenFor(m => m.Customer.Id)
                         @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-primary">
-                            Save
-                        </button>
+                        <input type="submit" class="btn btn-primary form-control" value="save"/>
+                           
                     }
 
-                </p>
+                </div>
 
             </div>
         </div>
@@ -78,7 +80,6 @@
 
 </div>
 
-<h2>New Customer</h2>
 
 @section scripts
 {
