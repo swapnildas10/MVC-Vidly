@@ -8,10 +8,11 @@
     max-width: 100%;
 }
 .video-container {
+    padding: 10% 0;
     background-color: #231D19;
     text-align: center;
     position: relative;
-    padding: 0;
+    
 }
 .details-container {
     background-color: #0B9B70;
@@ -30,14 +31,33 @@
    
 }
 iframe {
-    position: absolute;
-    top: 20%;
-    left: 15%;
+     
+     
     width: auto;
     height: auto;
-    min-height: 40%;
-    min-width:70%;
+    min-height: 200px;
+    min-width: 200px;
 }
 .row {
     margin: 0;
+}
+#description {
+    color: white;
+    float: right;
+}
+ 
+li {
+    color: white;
+}
+
+i {
+    padding: 10px;
+}
+#overviewContent {
+    
+    color: white;
+    text-align: left;
+}
+#poster {
+    background-size:auto;
 }

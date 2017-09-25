@@ -226,6 +226,7 @@
     <Compile Include="Controllers\Api\Filter\CanManageRole.cs" />
     <Compile Include="Controllers\Api\Filter\ForceHttpsAttribute.cs" />
     <Compile Include="Controllers\Api\Filter\LoginSecurity.cs" />
+    <Compile Include="Controllers\Api\MovieDetailsController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
     <Compile Include="Controllers\Api\NewRentalsController.cs" />
     <Compile Include="Controllers\Api\ReturnsController.cs" />
@@ -416,6 +417,54 @@
     <Compile Include="Migrations\201709232149086_addedYouTubeIdData.Designer.cs">
       <DependentUpon>201709232149086_addedYouTubeIdData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709240923511_AddedMovieDescriptionModel.cs" />
+    <Compile Include="Migrations\201709240923511_AddedMovieDescriptionModel.Designer.cs">
+      <DependentUpon>201709240923511_AddedMovieDescriptionModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709240926226_ModifiedMovieDescriptionModel.cs" />
+    <Compile Include="Migrations\201709240926226_ModifiedMovieDescriptionModel.Designer.cs">
+      <DependentUpon>201709240926226_ModifiedMovieDescriptionModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709240930106_AddedMovieDescriptionModel01.cs" />
+    <Compile Include="Migrations\201709240930106_AddedMovieDescriptionModel01.Designer.cs">
+      <DependentUpon>201709240930106_AddedMovieDescriptionModel01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709240938508_ModifiedMovieDescriptionModel1.cs" />
+    <Compile Include="Migrations\201709240938508_ModifiedMovieDescriptionModel1.Designer.cs">
+      <DependentUpon>201709240938508_ModifiedMovieDescriptionModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709240941444_AddMovieDescriptionModel.cs" />
+    <Compile Include="Migrations\201709240941444_AddMovieDescriptionModel.Designer.cs">
+      <DependentUpon>201709240941444_AddMovieDescriptionModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709240949030_AddMovieDescriptionModel1.cs" />
+    <Compile Include="Migrations\201709240949030_AddMovieDescriptionModel1.Designer.cs">
+      <DependentUpon>201709240949030_AddMovieDescriptionModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709240951506_addExtraModel.cs" />
+    <Compile Include="Migrations\201709240951506_addExtraModel.Designer.cs">
+      <DependentUpon>201709240951506_addExtraModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709241541121_addExtraModel1.cs" />
+    <Compile Include="Migrations\201709241541121_addExtraModel1.Designer.cs">
+      <DependentUpon>201709241541121_addExtraModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709241612155_addModifyMovieDetailsModel.cs" />
+    <Compile Include="Migrations\201709241612155_addModifyMovieDetailsModel.Designer.cs">
+      <DependentUpon>201709241612155_addModifyMovieDetailsModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709241631028_addModifyMovieDetailsModel1.cs" />
+    <Compile Include="Migrations\201709241631028_addModifyMovieDetailsModel1.Designer.cs">
+      <DependentUpon>201709241631028_addModifyMovieDetailsModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709250314527_AddMovieDbToMovieModel.cs" />
+    <Compile Include="Migrations\201709250314527_AddMovieDbToMovieModel.Designer.cs">
+      <DependentUpon>201709250314527_AddMovieDbToMovieModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709250722146_UpdateMovieDbToMovieModel.cs" />
+    <Compile Include="Migrations\201709250722146_UpdateMovieDbToMovieModel.Designer.cs">
+      <DependentUpon>201709250722146_UpdateMovieDbToMovieModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -427,6 +476,7 @@
     <Compile Include="Models\MembershipType.cs" />
     <Compile Include="Models\Min18YearsIfAMember.cs" />
     <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\MovieDescription.cs" />
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\StockBetween1To20.cs" />
@@ -893,12 +943,14 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Shared\_MovieDescription.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="fonts\" />
     <Folder Include="font\" />
     <Folder Include="img\" />
+    <Folder Include="Views\MovieDetails\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1033,6 +1085,42 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709232149086_addedYouTubeIdData.resx">
       <DependentUpon>201709232149086_addedYouTubeIdData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709240923511_AddedMovieDescriptionModel.resx">
+      <DependentUpon>201709240923511_AddedMovieDescriptionModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709240926226_ModifiedMovieDescriptionModel.resx">
+      <DependentUpon>201709240926226_ModifiedMovieDescriptionModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709240930106_AddedMovieDescriptionModel01.resx">
+      <DependentUpon>201709240930106_AddedMovieDescriptionModel01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709240938508_ModifiedMovieDescriptionModel1.resx">
+      <DependentUpon>201709240938508_ModifiedMovieDescriptionModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709240941444_AddMovieDescriptionModel.resx">
+      <DependentUpon>201709240941444_AddMovieDescriptionModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709240949030_AddMovieDescriptionModel1.resx">
+      <DependentUpon>201709240949030_AddMovieDescriptionModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709240951506_addExtraModel.resx">
+      <DependentUpon>201709240951506_addExtraModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709241541121_addExtraModel1.resx">
+      <DependentUpon>201709241541121_addExtraModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709241612155_addModifyMovieDetailsModel.resx">
+      <DependentUpon>201709241612155_addModifyMovieDetailsModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709241631028_addModifyMovieDetailsModel1.resx">
+      <DependentUpon>201709241631028_addModifyMovieDetailsModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709250314527_AddMovieDbToMovieModel.resx">
+      <DependentUpon>201709250314527_AddMovieDbToMovieModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709250722146_UpdateMovieDbToMovieModel.resx">
+      <DependentUpon>201709250722146_UpdateMovieDbToMovieModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

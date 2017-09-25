@@ -35,9 +35,12 @@ namespace Vidly.ViewModels
         [Required]
         public short? Stock { get; set; }
         //prop public IEnumerable<Genre> Genres { get; set; }
-
+        [Display(Name = "Youtube ID")]
         public string YoutubeId { get; set; }
 
+        [Required]
+        [Display(Name = "MovieDb ID")]
+        public int MovieDb { get; set; }
         public string Title
         {
             get
@@ -65,6 +68,7 @@ namespace Vidly.ViewModels
             Stock = movie.Stock;
             GenreId = movie.GenreId;
            YoutubeId= movie.YoutubeId;
+            MovieDb = movie.MovieDb;
 
         }
 

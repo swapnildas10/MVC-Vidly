@@ -1,4 +1,6 @@
-﻿@using Microsoft.Ajax.Utilities
+﻿@using Glimpse.Mvc.AlternateType
+@using Microsoft.Ajax.Utilities
+@using Vidly.Models
 @model Vidly.Models.Movie
 @{
     ViewBag.Title = "Details";
@@ -9,30 +11,60 @@
 }
 
     
-    <div style="height: 100vh;" class="row">
-        <div class="d-block container-fluid video-container  col-md-12 col-lg-8 ">
-            <div id="player"></div>
-        </div>
-        <div class="d-block container-fluid details-container  col-xs-12 col-md-12 col-lg-4">
-        <div  style="padding-top: 10%;  "  class="row justify-content-center">
-        <div >
-            <div class="card align-self-center" style="width: 100%;">
-                <div class="card-body"></div>
-                <h4 style="text-align: center;" class="card-title ">@Model.Name</h4>
-                <div class="card-text">
-                    
-                    <ul  class="list-group">
-                        <li style="background-color: transparent" class="list-group-item">Genre: @Model.Genre.GenreName</listyle="background-color:>
-                        <li class="list-group-item">Release Date: @Model.ReleaseDate</li>
-                        <li class="list-group-item">Date Added: @Model.DateAdded</li>
-                        <li class="list-group-item">Number in Stock: @Model.Stock</li>
-                    </ul>
-                </div>
+<div style="min-height: 100vh;" class="row">
+   
+        <div  class="d-block container-fluid video-container row  col-md-12 col-lg-8">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div id="player"></div>
 
-                </div></div></div>
+                </div>
+                <div class=" col-lg-8 mx-auto my-auto">
+                    <ul class="btn-group  mx-auto my-auto" role="group" aria-label="Basic example">
+                        <li style="float: right; display: inline;font-size: 200%;"  class="mr-5"><span id="PgContent"></span></li>
+                        <li style="float: right; display: inline;font-size: 200%;" id="runtime"  class="mr-5"><i class="ion-android-time"></i></li>
+                        <li style="float: right; display: inline; font-size: 200%;" id="rating"  class="mr-5"><i class="ion-arrow-graph-up-right"></i></li>
+                        <li style="float: right; display: inline;font-size: 200%;" id="voteCount"  class="mr-5"><i class="ion-ios-people"></i></li>
+                    </ul>
+
+                </div>
+            </div>
             
-        </div>
+            
+            <div  class="row">
+                <div id="overviewContent" class="col-md-12 col-lg-8 col-lg-offset-5"></div>
+                
+            </div>
     </div>
+    
+    
+    <div style="padding-top: 5%;"  class="d-block container-fluid details-container  col-xs-12 col-md-12 col-lg-4">
+        <div class="row  align-self-center">
+            <div   class="col-xs-4 col-sm-6 col-lg-12 col-md-4 align-items-center">
+                <img id="poster" class="img-fluid align-self-center" alt="Responsive image">
+            </div>
+            <div style="float: right;" class="col-xs-8 col-sm-6 col-lg-12 col-md-8">
+                <div class="card">
+
+                    <div class="card-block">
+                        <h4 style="text-align: center;" class="card-title ">@Model.Name</h4>
+                        <div class="card-text">
+
+                            <ul style="float: left;" class="list-group">
+                                <li style="background-color: transparent" class="list-group-item">Genre: @Model.Genre.GenreName</li>
+                                <li class="list-group-item">Release Date: @Model.ReleaseDate</li>
+                                <li class="list-group-item">Date Added: @Model.DateAdded</li>
+                                <li class="list-group-item">Number in Stock: @Model.Stock</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+
 
 
 
@@ -40,54 +72,113 @@
 
 <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
 
+@section scripts
+{@Scripts.Render("~/Bundles/jqueryval")
+    <script>
 
-<script>
-    // 2. This code loads the IFrame Player API code asynchronously.
-    var tag = document.createElement('script');
+        var tag = document.createElement('script');
 
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    // 3. This function creates an <iframe> (and YouTube player)
-    //    after the API code downloads.
-    var player;
+        // 3. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        var player;
 
-    function onYouTubeIframeAPIReady() {
-        @{ string id = !Model.YoutubeId.IsNullOrWhiteSpace() ? @Model.YoutubeId : "k2qgadSvNyU";}
-        player = new YT.Player('player',
-            {
-                height: '390',
-                width: '640',
-                videoId: '@id',
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-    }
-
-    // 4. The API will call this function when the video player is ready.
-    function onPlayerReady(event) {
-        event.target.playVideo();
-    }
-
-    // 5. The API calls this function when the player's state changes.
-    //    The function indicates that when playing a video (state=1),
-    //    the player should play for six seconds and then stop.
-    var done = false;
-
-    function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-            setTimeout(stopVideo, 6000);
-            done = true;
+        function onYouTubeIframeAPIReady() {
+            @{ string id = !Model.YoutubeId.IsNullOrWhiteSpace() ? @Model.YoutubeId : "k2qgadSvNyU";}
+            player = new YT.Player('player',
+                {
+                    height: '390',
+                    width: '640',
+                    videoId: '@id',
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
         }
-    }
 
-    function stopVideo() {
-        player.stopVideo();
-    }
+        // 4. The API will call this function when the video player is ready.
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+        // 5. The API calls this function when the player's state changes.
+        //    The function indicates that when playing a video (state=1),
+        //    the player should play for six seconds and then stop.
+        var done = false;
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+                setTimeout(stopVideo, 6000);
+                done = true;
+            }
+        }
+
+        function stopVideo() {
+            player.stopVideo();
+        }
+
+
+
+    $(document).ready(function() {
+        // 2. This code loads the IFrame Player API code asynchronously.
+
+    // var https = require('https');
+
+        $.ajax({
+            url: "/api/moviedetails/" +@Model.MovieDb,
+            method: "GET",
+            contentType: "application/JSON"
+        }).done(function (success) {
+            $.each(success, function(key, value) {
+               
+                var list = document.createElement("li");
+                $(list).addClass("list-group-item");
+                $(list).text(value);
+                if (success['pgRated']===false) {
+                    $("#PgContent").addClass("badge  badge-success");
+                    $("#PgContent").text("UG");
+
+                } else {
+                    $("#PgContent").addClass("badge  badge-danger");
+                    $("#PgContent").text("A-Rated");
+                }
+                if (key.toString() === 'overview') {
+                    $("#overviewContent").append(value);
+                }
+                if (key.toString() === 'runtime') {
+                    $("#runtime").append(value+' min');
+                }if (key.toString() === 'rating') {
+                    $("#rating").append(value);
+                }if (key.toString() === 'voteCount') {
+                    $("#voteCount").append(value);
+                }
+                if (key.toString() === 'posterPath') {
+                    $("#poster").attr('src',  'https://image.tmdb.org/t/p/w342' + value );
+                    
+                }
+
+                $("#description").append(list);
+
+            });
+
+
+
+        }).fail(function(success) {
+
+        });
+
+
+
+
+
+    } );
 
 
 </script>
 
+
+}

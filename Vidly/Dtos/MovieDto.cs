@@ -30,7 +30,11 @@ namespace Vidly.Dtos
 
         public string YoutubeId { get; set; }
 
-       // [Range(1, 20)]
+        [Required]
+        
+        public int MovieDb { get; set; }
+
+        // [Range(1, 20)]
         [Required]
         public short Stock { get; set; }
     }

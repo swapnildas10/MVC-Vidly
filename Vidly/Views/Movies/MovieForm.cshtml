@@ -44,6 +44,10 @@
                         @Html.LabelFor(m =>m.YoutubeId)
                         @Html.TextBoxFor(m => m.YoutubeId, new { @class = "form-control" })
                         
+                    </div> <div class="form-group">
+                        @Html.LabelFor(m =>m.MovieDb)
+                        @Html.TextBoxFor(m => m.MovieDb, new { @class = "form-control" })
+                        
                     </div>
                     @Html.HiddenFor(m => m.Id)
                     @Html.AntiForgeryToken()

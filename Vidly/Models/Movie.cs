@@ -31,6 +31,10 @@ namespace Vidly.Models
             [Display(Name = "YouTube ID")]
             public string YoutubeId { get; set; }
 
+        [Required]
+        [Display(Name = "MovieDb ID")]
+        public int MovieDb { get; set; }
+
         [Display(Name = "Number in Stock")]
         [Range(1,20)]
         [Required]
