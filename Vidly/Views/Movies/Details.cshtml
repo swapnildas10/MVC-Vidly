@@ -44,7 +44,7 @@
                 <img id="poster" class="img-fluid align-self-center" alt="Responsive image">
             </div>
             <div style="float: right;" class="col-xs-8 col-sm-6 col-lg-12 col-md-8">
-                <div class="card">
+                <div class="card" style="width: 20rem;">
 
                     <div class="card-block">
                         <h4 style="text-align: center;" class="card-title ">@Model.Name</h4>
@@ -52,7 +52,7 @@
 
                             <ul style="float: left;" class="list-group">
                                 <li style="background-color: transparent" class="list-group-item">Genre: @Model.Genre.GenreName</li>
-                                <li class="list-group-item">Release Date: @Model.ReleaseDate</li>
+                                <li id="releaseddate" class="list-group-item">Release Date: @Model.ReleaseDate</li>
                                 <li class="list-group-item">Date Added: @Model.DateAdded</li>
                                 <li class="list-group-item">Number in Stock: @Model.Stock</li>
                             </ul>
@@ -159,6 +159,9 @@
                 if (key.toString() === 'posterPath') {
                     $("#poster").attr('src',  'https://image.tmdb.org/t/p/w342' + value );
                     
+                }
+                if (key.toString() === 'ReleasedDate') {
+                    $("#releaseddate").append('Release Date: '+value);
                 }
 
                 $("#description").append(list);
