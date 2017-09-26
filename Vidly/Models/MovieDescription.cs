@@ -18,12 +18,24 @@ namespace Vidly.Models
         [Required]
         public bool Adult { get; set; }
 
+        public double Budget { get; set; }
+
+        public MovieDetailsGenres[] Genres { get; set; }
+
+        public string Imdb_Id { get; set; }
+
         [Display(Name = "Overview")]
         [Required]
         public string Overview { get; set; }
 
+        public float Popularity { get; set; }
+
         [Display(Name = "Poster Path")]
         public string Poster_Path { get; set; }
+
+        public ProductionCompanies[] Production_Companies { get; set; }
+
+
 
         [Display(Name = "Released Date")]
         [Required]
@@ -33,6 +45,8 @@ namespace Vidly.Models
         [Required]
         public int RunTime { get; set; }
 
+        public string Tagline { get; set; }
+
         [Display(Name = "Rating")]
         [Required]
         public float Vote_Average { get; set; }
@@ -41,17 +55,15 @@ namespace Vidly.Models
         [Required]
         public int Vote_Count { get; set; }
 
-        public ProductionCompanies[] Production_Companies { get; set; }
+       
 
-        public float Popularity { get; set; }
+      
 
-        public double Budget { get; set; }
+       
 
-        public MovieDetailsGenres[] Genres { get; set; }
-
-        public string Tagline { get; set; }
+       
         
-        public string Imdb_Id { get; set; }
+       
         
     }
 }

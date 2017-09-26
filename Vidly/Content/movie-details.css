@@ -20,7 +20,7 @@
     position: relative;
 }
 .card {
-    top:20%;
+     
     background-color: transparent;
     border: 0;
     position: center;
@@ -92,4 +92,19 @@ i {
 }
 .card-title {
     text-align: left;
+}
+#imdb_link img{
+    width: 50px;
+    height: auto;
+    
+}
+#tagline {
+    float: none;
+    color: white;
+    font-style: italic;
+    text-align: right;
+}
+#releasedyear {
+    font-weight: normal;
+    color: grey;
 }

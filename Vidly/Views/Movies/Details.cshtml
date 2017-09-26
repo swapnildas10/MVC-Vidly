@@ -13,9 +13,11 @@
     
 <div style="min-height: 100vh;" class="row">
     <div class="video-section mx-auto my-0  col-md-12 col-lg-9">
+        
         <div class="row">
             <div id="poster" class="  container-fluid video-container ">
-                <div class="row"><h4 style="color: white">@Model.Name<span id="releasedyear"></span></h4>
+                <div style="text-align: right;float: right" class="row"><h4><i class="ion-disc"></i>@Model.NumberAvailable</h4></div>
+                <div class="row"><h2 style="color: white">@Model.Name<span  id="releasedyear"></span></h2>
                 </div>
                 <div class="row">
                     <div class="col-lg-4">
@@ -23,59 +25,68 @@
 
                     </div>
                     <div class=" col-lg-8 mx-auto my-auto">
-                        
-                        
-                        
+
+
+
                         <div class="row  mx-auto my-auto">
                             <ul class="btn-group " role="group" aria-label="Basic example">
                                 <li style="float: right; display: inline; font-size: 150%;" class="mr-3"><span id="PgContent"></span></li>
                                 <li style="float: right; display: inline; font-size: 150%;" id="runtime" class="mr-3"><i class="ion-android-time"></i></li>
-                                <li style="float: right; display: inline; font-size: 150%;" id="rating" class="mr-3"><i class="ion-ios-star"></i></li>
-                                <li style="float: right; display: inline; font-size: 150%;" id="voteCount" class="mr-3"><i class="ion-ios-people"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="rating" class="mr-3"><i style="color: yellow"  class="ion-ios-star"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="voteCount" class="mr-3"><i  style="color: black" class="ion-ios-people"></i></li>
                                 <li style="float: right; display: inline; font-size: 150%;" id="popularity" class="mr-3"><i class="ion-arrow-graph-up-right"></i></li>
                             </ul>
                         </div>
-                        <br />
+                        <br/>
                         <div style="text-align: left" class="row ">
                             <ul id="genres" class="btn-group   my-auto" role="group" aria-label="Basic example"></ul>
                         </div>
                     </div>
                 </div>
-                 
-                <hr />
-                <div  class="row col-md-12 col-lg-8 col-lg-offset-5 "><br/><h4 style="color: white">Overiew</h4></div>
+
+                <hr/>
+                <div id="tagline" class="row mx-auto my-auto">
+                    <h3><q></q>
+                    </h3>
+                </div>
+                <div class="row col-md-12 col-lg-8 col-lg-offset-5 "><br/><h4 style="color: white">Overiew</h4>
+                </div>
 
                 <div class="row">
-                    
-                    <div id="overviewContent" class="col-md-12 col-lg-8 col-lg-offset-5">
+
+                    <div id="overviewContent" class="col-md-12 col-sm-12 col-lg-8 col-lg-offset-5">
                     </div>
                 </div>
-            </div>
-          
-        </div>
-        <div  id="cast" class="row align-self-center">
-            <div style="text-align: center;color: white" class="col-lg-2 col-md-10 col-xs-12 mx-auto my-auto"><h2>Cast</h2></div>
-            <div class="col-lg-10 col-md-10 col-xs-12">
-            <div id="carouselSlides" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselSlides" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselSlides" data-slide-to="1"></li>
-
-                </ol>
-                <div class="carousel-inner cast-profile" role="listbox">
-
+                <div class="row"><span><a class="col-md-12 col-sm-12 col-lg-8 col-lg-offset-5" id="imdb_link" target="_blank" href=""><img src="~/img/imdb_icon_2.ico"/></a></span>
                 </div>
-                <a class="carousel-control-prev" href="#carouselSlides" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselSlides" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+            </div>
+
+        </div>
+        <div id="cast" class="row align-self-center">
+            <div style="text-align: center; color: white" class="col-lg-2 col-md-12 col-sm-12 col-xs-12 mx-auto my-auto">
+                <h2>Cast</h2>
+            </div>
+            <div class="col-lg-10 col-md-12 col-xs-12">
+                <div id="carouselSlides" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselSlides" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselSlides" data-slide-to="1"></li>
+
+                    </ol>
+                    <div class="carousel-inner cast-profile" role="listbox">
+
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselSlides" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselSlides" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
     </div> 
     
     
@@ -101,23 +112,34 @@
                     </div>
                 </div>
             </div>
-            @*<div class="col col-lg-12">
+            <div class="col col-lg-12">
                 <div class="card" style="max-width: 20rem; width: auto;">
 
                     <div class="card-block">
-                        <h4  class="card-title ">Movie Details</h4>
+                        <h4  class="card-title ">Released</h4>
                         <div class="card-text">
                             <ul style=" list-style: none">
                                 
-                                <li style="background-color: transparent" class="list-group-item">Genre: @Model.Genre.GenreName</li>
-                                <li id="releaseddate" class="list-group-item">Release Date: @Model.ReleaseDate</li>
-                                <li class="list-group-item">Date Added: @Model.DateAdded</li>
-                                <li class="list-group-item">Number in Stock: @Model.Stock</li>
+                                <li id="releaseddate" class="list-group-item"></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div>*@
+            </div>
+            <div class="col col-lg-12">
+                <div class="card" style="max-width: 20rem; width: auto;">
+
+                    <div class="card-block">
+                        <h4  class="card-title ">Budget</h4>
+                        <div class="card-text">
+                            <ul style=" list-style: none">
+                                
+                                <li id="budget" class="list-group-item"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         </div>
 
@@ -194,10 +216,14 @@
                 $.each(success,
                     function(key, value) {
 
-                        console.log(key);
+                        console.log(key+':'+value);
+                        if (key.toString() === 'tagline')
+                            $('#tagline q').text(value);
                         var list = document.createElement("li");
                         $(list).addClass("list-group-item");
                         $(list).text(value);
+                        if (key.toString() === 'imdbId')
+                            $("#imdb_link").attr('href', 'http://www.imdb.com/title/' + value);
                         if (success['pgRated'] === false) {
                             $("#PgContent").addClass("badge  badge-success");
                             $("#PgContent").text("UG");
@@ -210,9 +236,11 @@
                             $("#overviewContent").append(value);
                         }
                         if (key.toString() === 'releasedDate') {
-                            $("#releaseddate").text('Release Date: ' + new Date(value).toLocaleDateString());
+                            $("#releaseddate").text( new Date(value).toDateString());
                             $("#releasedyear").text(' (' + new Date(value).getFullYear() + ')');
                         }
+                        if (key.toString() === 'budget')
+                            $("#budget").text(value);
                         if (key.toString() === 'runtime') {
                             $("#runtime").append(value + '<span style="font-size:50%"> min</span>');
                         }
@@ -231,6 +259,8 @@
                                 ')');
 
                         }
+
+                        
                         if (key.toString() === 'popularity') {
                             $("#popularity").append(value);
                         }
