@@ -18,8 +18,7 @@ nav {
     background-color: rgba(52,58,64,0.91);
 }
 .video-container {
-    min-width: 640px;
-    min-height: 390px;
+    
     position: relative;
 }.card-title {
     text-align: center;

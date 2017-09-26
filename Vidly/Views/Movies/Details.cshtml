@@ -12,45 +12,103 @@
 
     
 <div style="min-height: 100vh;" class="row">
-   
-        <div  class="d-block container-fluid video-container row  col-md-12 col-lg-8">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div id="player"></div>
-
+    <div class="video-section mx-auto my-0  col-md-12 col-lg-9">
+        <div class="row">
+            <div id="poster" class="  container-fluid video-container ">
+                <div class="row"><h4 style="color: white">@Model.Name<span id="releasedyear"></span></h4>
                 </div>
-                <div class=" col-lg-8 mx-auto my-auto">
-                    <ul class="btn-group  mx-auto my-auto" role="group" aria-label="Basic example">
-                        <li style="float: right; display: inline;font-size: 200%;"  class="mr-5"><span id="PgContent"></span></li>
-                        <li style="float: right; display: inline;font-size: 200%;" id="runtime"  class="mr-5"><i class="ion-android-time"></i></li>
-                        <li style="float: right; display: inline; font-size: 200%;" id="rating"  class="mr-5"><i class="ion-arrow-graph-up-right"></i></li>
-                        <li style="float: right; display: inline;font-size: 200%;" id="voteCount"  class="mr-5"><i class="ion-ios-people"></i></li>
-                    </ul>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div id="player"></div>
 
+                    </div>
+                    <div class=" col-lg-8 mx-auto my-auto">
+                        
+                        
+                        
+                        <div class="row  mx-auto my-auto">
+                            <ul class="btn-group " role="group" aria-label="Basic example">
+                                <li style="float: right; display: inline; font-size: 150%;" class="mr-3"><span id="PgContent"></span></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="runtime" class="mr-3"><i class="ion-android-time"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="rating" class="mr-3"><i class="ion-ios-star"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="voteCount" class="mr-3"><i class="ion-ios-people"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="popularity" class="mr-3"><i class="ion-arrow-graph-up-right"></i></li>
+                            </ul>
+                        </div>
+                        <br />
+                        <div style="text-align: left" class="row ">
+                            <ul id="genres" class="btn-group   my-auto" role="group" aria-label="Basic example"></ul>
+                        </div>
+                    </div>
+                </div>
+                 
+                <hr />
+                <div  class="row col-md-12 col-lg-8 col-lg-offset-5 "><br/><h4 style="color: white">Overiew</h4></div>
+
+                <div class="row">
+                    
+                    <div id="overviewContent" class="col-md-12 col-lg-8 col-lg-offset-5">
+                    </div>
                 </div>
             </div>
-            
-            
-            <div  class="row">
-                <div id="overviewContent" class="col-md-12 col-lg-8 col-lg-offset-5"></div>
-                
+          
+        </div>
+        <div  id="cast" class="row align-self-center">
+            <div style="text-align: center;color: white" class="col-lg-2 col-md-10 col-xs-12 mx-auto my-auto"><h2>Cast</h2></div>
+            <div class="col-lg-10 col-md-10 col-xs-12">
+            <div id="carouselSlides" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselSlides" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselSlides" data-slide-to="1"></li>
+
+                </ol>
+                <div class="carousel-inner cast-profile" role="listbox">
+
+                </div>
+                <a class="carousel-control-prev" href="#carouselSlides" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselSlides" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
+        </div>
     </div>
+    </div> 
     
     
-    <div style="padding-top: 5%;"  class="d-block container-fluid details-container  col-xs-12 col-md-12 col-lg-4">
-        <div class="row  align-self-center">
-            <div   class="col-xs-4 col-sm-6 col-lg-12 col-md-4 align-items-center">
-                <img id="poster" class="img-fluid align-self-center" alt="Responsive image">
-            </div>
-            <div style="float: right;" class="col-xs-8 col-sm-6 col-lg-12 col-md-8">
-                <div class="card" style="width: 20rem;">
+    
+    
+
+    <div  style="padding-top: 5%;"  class="d-block container-fluid details-container  col-xs-12 col-md-12 col-lg-3">
+       
+        <div  class="row  align-self-center">
+            
+            <div style="float: right;" class="col col-lg-12">
+                <div class="card" style="max-width: 20rem; width: auto;">
 
                     <div class="card-block">
-                        <h4 style="text-align: center;" class="card-title ">@Model.Name</h4>
+                        <h4  class="card-title ">Production</h4>
                         <div class="card-text">
+                             
+                            <div  class="row">
+                                <ul class="list-group" id="production"></ul>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="col col-lg-12">
+                <div class="card" style="max-width: 20rem; width: auto;">
 
-                            <ul style="float: left;" class="list-group">
+                    <div class="card-block">
+                        <h4  class="card-title ">Movie Details</h4>
+                        <div class="card-text">
+                            <ul style=" list-style: none">
+                                
                                 <li style="background-color: transparent" class="list-group-item">Genre: @Model.Genre.GenreName</li>
                                 <li id="releaseddate" class="list-group-item">Release Date: @Model.ReleaseDate</li>
                                 <li class="list-group-item">Date Added: @Model.DateAdded</li>
@@ -59,7 +117,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
         </div>
         </div>
 
@@ -122,66 +180,194 @@
         }
 
 
+        $(document).ready(function() {
+            // 2. This code loads the IFrame Player API code asynchronously.
 
-    $(document).ready(function() {
-        // 2. This code loads the IFrame Player API code asynchronously.
+            // var https = require('https');
 
-    // var https = require('https');
 
-        $.ajax({
-            url: "/api/moviedetails/" +@Model.MovieDb,
-            method: "GET",
-            contentType: "application/JSON"
-        }).done(function (success) {
-            $.each(success, function(key, value) {
-               
-                var list = document.createElement("li");
-                $(list).addClass("list-group-item");
-                $(list).text(value);
-                if (success['pgRated']===false) {
-                    $("#PgContent").addClass("badge  badge-success");
-                    $("#PgContent").text("UG");
+            $.ajax({
+                url: "/api/moviedetails/description/" + @Model.MovieDb,
+                method: "GET",
+                contentType: "application/JSON"
+            }).done(function(success) {
+                $.each(success,
+                    function(key, value) {
 
-                } else {
-                    $("#PgContent").addClass("badge  badge-danger");
-                    $("#PgContent").text("A-Rated");
-                }
-                if (key.toString() === 'overview') {
-                    $("#overviewContent").append(value);
-                }
-                if (key.toString() === 'runtime') {
-                    $("#runtime").append(value+' min');
-                }if (key.toString() === 'rating') {
-                    $("#rating").append(value);
-                }if (key.toString() === 'voteCount') {
-                    $("#voteCount").append(value);
-                }
-                if (key.toString() === 'posterPath') {
-                    $("#poster").attr('src',  'https://image.tmdb.org/t/p/w342' + value );
-                    
-                }
-                if (key.toString() === 'ReleasedDate') {
-                    $("#releaseddate").append('Release Date: '+value);
-                }
+                        console.log(key);
+                        var list = document.createElement("li");
+                        $(list).addClass("list-group-item");
+                        $(list).text(value);
+                        if (success['pgRated'] === false) {
+                            $("#PgContent").addClass("badge  badge-success");
+                            $("#PgContent").text("UG");
 
-                $("#description").append(list);
+                        } else {
+                            $("#PgContent").addClass("badge  badge-danger");
+                            $("#PgContent").text("A");
+                        }
+                        if (key.toString() === 'overview') {
+                            $("#overviewContent").append(value);
+                        }
+                        if (key.toString() === 'releasedDate') {
+                            $("#releaseddate").text('Release Date: ' + new Date(value).toLocaleDateString());
+                            $("#releasedyear").text(' (' + new Date(value).getFullYear() + ')');
+                        }
+                        if (key.toString() === 'runtime') {
+                            $("#runtime").append(value + '<span style="font-size:50%"> min</span>');
+                        }
+                        if (key.toString() === 'rating') {
+                            $("#rating").append(value + '<span style="font-size:50%"> \/10</span>');
+                        }
+                        if (key.toString() === 'voteCount') {
+                            $("#voteCount").append(value + '<span style="font-size:50%"> votes</span>');
+                        }
+                        if (key.toString() === 'posterPath') {
+                            //$("#poster").attr('src',  'https://image.tmdb.org/t/p/w780' + value );
+                            $("#poster").css('background-image',
+                                'linear-gradient(rgba(80, 80, 80, 0.62), rgba(83, 82, 82, 0.63)),' +
+                                'url(https://image.tmdb.org/t/p/original' +
+                                value +
+                                ')');
+
+                        }
+                        if (key.toString() === 'popularity') {
+                            $("#popularity").append(value);
+                        }
+                        var genres = $("#genres");
+                        if (key.toString() === 'genres') {
+                            $.each(value,
+                                function(key, value) {
+                                    var list = $((document).createElement("li"));
+                                    $(list).addClass("list-genre mr-2");
+
+                                    var span = $((document).createElement("span"));
+                                    $(span).addClass("badge badge-info");
+                                    $(span).text(value.name);
+                                    $(list).append(span);
+                                    genres.append(list);
+
+                                });
+                        }
+                        var production = $("#production");
+                        if (key.toString() === 'productionCompanies') {
+                            $.each(value,
+                                function(key, value) {
+                                    var list = $((document).createElement("li"));
+                                    $(list).addClass("list-group-item");
+
+
+                                    $(list).text(value.name);
+
+                                    production.append(list);
+                                    // console.log(value.name);
+                                });
+                        }
+
+                        $("#description").append(list);
+
+                    });
+
+
+            });
+            $.ajax({
+                url: "/api/moviedetails/cast/" + @Model.MovieDb,
+
+                method: "GET",
+                contentType: "application/JSON"
+            }).done(function(success) {
+                //  console.log(success);
+                var castProfile = $(".cast-profile");
+                var divCarousel = $((document).createElement("div"))
+                    .addClass("carousel-item active");
+                var divCarousel3 = $((document).createElement("div"))
+                    .addClass("carousel-item ");
+                var divRow = $((document).createElement("div")).addClass("row");
+                var divRow3 = $((document).createElement("div")).addClass("row");
+                $(divCarousel).append(divRow);
+                $(castProfile).append(divCarousel);
+                $(divCarousel3).append(divRow3);
+                $(castProfile).append(divCarousel3);
+                var divCol3;
+
+                $.each(success,
+                    function(key, value) {
+
+                        $.each(value,
+                            function(subkey, subvalue) {
+                                //console.log(subkey.length);
+                                if (subkey < 8) {
+                                    if (subkey < 4) {
+
+
+                                       // console.log(subvalue);
+                                        var divCol = $((document).createElement("div")).addClass("col-sm-3");
+                                        var divsubRow = $((document).createElement("div")).addClass("row");
+                                        var divsubRow2 = $((document).createElement("div")).addClass("row");
+                                        var captiontitle = $((document).createElement("div"))
+                                            .addClass("carousel-caption d-none d-md-block");
+                                        var captionhead = $((document).createElement("h4"));
+                                        var captionpara = $((document).createElement("p"));
+                                        var img = $((document).createElement("img")).addClass("d-block img-fluid card-img-top")
+                                            .attr('src', 'https://image.tmdb.org/t/p/w185' + subvalue.profile_Path);
+                                        $(img).attr('alt', 'Photo');
+
+                                        $(captionhead).text(subvalue.name);
+                                        $(captionpara).text(subvalue.character);
+                                        $(captiontitle).append(captionhead);
+                                        $(captiontitle).append(captionpara);
+                                        $(divsubRow).append(img);
+                                        $(divsubRow2).append(captiontitle);
+                                        $(divCol).append(divsubRow);
+                                        $(divCol).append(divsubRow2);
+
+                                        $(divRow).append(divCol);
+
+                                    } else {
+                                        {
+                                            var divsubRow3 = $((document).createElement("div")).addClass("row");
+                                       
+                                            var divsubRow4 = $((document).createElement("div")).addClass("row");
+                                            var captiontitle1 = $((document).createElement("div"))
+                                                .addClass("carousel-caption d-none d-md-block");
+                                            var captionhead1 = $((document).createElement("h4"));
+                                            var captionpara1 = $((document).createElement("p"));
+                                            //console.log(subkey);
+                                            divCol3 = $((document).createElement("div")).addClass("col-sm-3");
+                                            var img3 = $((document).createElement("img")).addClass("d-block img-fluid card-img-top")
+                                                .attr('src', 'https://image.tmdb.org/t/p/w185' + subvalue.profile_Path);
+                                            $(img3).attr('alt', 'Photo');
+
+                                            $(captionhead1).text(subvalue.name);
+                                            $(captionpara1).text(subvalue.character);
+                                            $(captiontitle1).append(captionhead1);
+                                            $(captiontitle1).append(captionpara1);
+                                            $(divsubRow3).append(img3);
+                                            $(divsubRow4).append(captiontitle1);
+                                            $(divCol3).append(divsubRow3);
+                                            $(divCol3).append(divsubRow4);
+
+                                            
+                                            $(divRow3).append(divCol3);
+
+
+                                        }
+
+                                    }
+                                }
+                                //  console.log(subvalue.profile_Path);d-block img-fluid
+
+
+                            });
+                    });
+            }).fail(function(error) {
 
             });
 
 
-
-        }).fail(function(success) {
-
         });
 
-
-
-
-
-    } );
-
-
-</script>
+    </script>
 
 
 }

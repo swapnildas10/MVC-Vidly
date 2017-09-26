@@ -11,8 +11,9 @@ using Vidly.Models;
 
 namespace Vidly.Controllers.Api
 {
+   
     public class MovieDetailsController : ApiController
-    {
+    {   private const string API_KEY= "4520856e9bc4e97798334c0576400d36";
         ApplicationDbContext  _context;
         public MovieDetailsController()
         {
@@ -28,7 +29,7 @@ namespace Vidly.Controllers.Api
                 try
                 {
                     client.BaseAddress = new Uri("https://api.themoviedb.org");
-                    var response = await client.GetAsync($"/3/movie/{id}?api_key=4520856e9bc4e97798334c0576400d36");
+                    var response = await client.GetAsync($"/3/movie/{id}?language=en-US&api_key=4520856e9bc4e97798334c0576400d36");
                     response.EnsureSuccessStatusCode();
 
                     var stringResult = await response.Content.ReadAsStringAsync();
@@ -37,10 +38,16 @@ namespace Vidly.Controllers.Api
                     {
                         PgRated = rawMovieDescription.Adult,
                         Overview = rawMovieDescription.Overview,
+                        ImdbId = rawMovieDescription.Imdb_Id,
                         ReleasedDate = rawMovieDescription.Release_Date,
                         Runtime = rawMovieDescription.RunTime,
-                        
-                       
+                        ProductionCompanies = rawMovieDescription.Production_Companies,
+                        Popularity = rawMovieDescription.Popularity,
+                        Budget = rawMovieDescription.Budget,
+                        Tagline = rawMovieDescription.Tagline,
+                        Genres = rawMovieDescription.Genres,
+
+                      
                         Rating = rawMovieDescription.Vote_Average,
                        
                         VoteCount = rawMovieDescription.Vote_Count,
@@ -55,5 +62,34 @@ namespace Vidly.Controllers.Api
 
             }
         }
+        [HttpGet]
+        public async Task<IHttpActionResult> Cast(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri("https://api.themoviedb.org");
+                    var response = await client.GetAsync($"/3/movie/{id}/credits?api_key="+ API_KEY);
+                    response.EnsureSuccessStatusCode();
+
+                    var stringResult = await response.Content.ReadAsStringAsync();
+                    var rawMovieDescription = JsonConvert.DeserializeObject<MovieCast>(stringResult);
+                    return Ok(new
+                    {
+                       Cast = rawMovieDescription.Cast
+
+                         
+
+                    });
+                }
+                catch (HttpRequestException httpRequestException)
+                {
+                    return BadRequest($"Error getting weather from TheMovieDb: {httpRequestException.Message}");
+                }
+
+            }
+        }
     }
+   
 }

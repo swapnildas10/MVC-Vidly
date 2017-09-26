@@ -8,10 +8,11 @@
     max-width: 100%;
 }
 .video-container {
-    padding: 10% 0;
-    background-color: #231D19;
+    padding: 5% ;
+     
     text-align: center;
     position: relative;
+
     
 }
 .details-container {
@@ -59,5 +60,36 @@ i {
     text-align: left;
 }
 #poster {
-    background-size:auto;
+    background-size:cover;
+}
+.video-section {
+    padding: 0;
+    background-color: #231D19;
+}
+
+.list-genre {
+    float: right;
+    display: inline;
+     
+    list-style: none;
+}
+
+
+.carousel-control {
+    padding-top:10%;
+    width:5%;
+}
+.carousel-caption {
+    bottom: 5px;
+    padding: 0;
+     
+}
+#cast {
+    padding: 15px 0;
+}
+#production {
+    text-align: left;
+}
+.card-title {
+    text-align: left;
 }

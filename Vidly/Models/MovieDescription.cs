@@ -22,6 +22,9 @@ namespace Vidly.Models
         [Required]
         public string Overview { get; set; }
 
+        [Display(Name = "Poster Path")]
+        public string Poster_Path { get; set; }
+
         [Display(Name = "Released Date")]
         [Required]
         public DateTime Release_Date { get; set; }
@@ -38,8 +41,17 @@ namespace Vidly.Models
         [Required]
         public int Vote_Count { get; set; }
 
-        [Display(Name = "Poster Path")]
-        public string Poster_Path { get; set; }
+        public ProductionCompanies[] Production_Companies { get; set; }
+
+        public float Popularity { get; set; }
+
+        public double Budget { get; set; }
+
+        public MovieDetailsGenres[] Genres { get; set; }
+
+        public string Tagline { get; set; }
+        
+        public string Imdb_Id { get; set; }
         
     }
 }

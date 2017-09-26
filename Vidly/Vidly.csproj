@@ -465,10 +465,71 @@
     <Compile Include="Migrations\201709250722146_UpdateMovieDbToMovieModel.Designer.cs">
       <DependentUpon>201709250722146_UpdateMovieDbToMovieModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709251725007_UpdateMovieDbToMovieModel01.cs" />
+    <Compile Include="Migrations\201709251725007_UpdateMovieDbToMovieModel01.Designer.cs">
+      <DependentUpon>201709251725007_UpdateMovieDbToMovieModel01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709252255287_ModifyMovieDescriptionAddedProperties.cs" />
+    <Compile Include="Migrations\201709252255287_ModifyMovieDescriptionAddedProperties.Designer.cs">
+      <DependentUpon>201709252255287_ModifyMovieDescriptionAddedProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709252301435_ModifyMovieDescriptionAddedProperties01.cs" />
+    <Compile Include="Migrations\201709252301435_ModifyMovieDescriptionAddedProperties01.Designer.cs">
+      <DependentUpon>201709252301435_ModifyMovieDescriptionAddedProperties01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709252319143_addedProductionCompaniesGenresList.cs" />
+    <Compile Include="Migrations\201709252319143_addedProductionCompaniesGenresList.Designer.cs">
+      <DependentUpon>201709252319143_addedProductionCompaniesGenresList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709252322507_addedProductionCompaniesGenresList01.cs" />
+    <Compile Include="Migrations\201709252322507_addedProductionCompaniesGenresList01.Designer.cs">
+      <DependentUpon>201709252322507_addedProductionCompaniesGenresList01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709252327452_addedProductionCompaniesGenresList02.cs" />
+    <Compile Include="Migrations\201709252327452_addedProductionCompaniesGenresList02.Designer.cs">
+      <DependentUpon>201709252327452_addedProductionCompaniesGenresList02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709252351189_addedCastModel.cs" />
+    <Compile Include="Migrations\201709252351189_addedCastModel.Designer.cs">
+      <DependentUpon>201709252351189_addedCastModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709252357378_addedCastModel1.cs" />
+    <Compile Include="Migrations\201709252357378_addedCastModel1.Designer.cs">
+      <DependentUpon>201709252357378_addedCastModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709260002287_addedCastOnlyModel.cs" />
+    <Compile Include="Migrations\201709260002287_addedCastOnlyModel.Designer.cs">
+      <DependentUpon>201709260002287_addedCastOnlyModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709260102519_modifyMovieDescOnlyModel.cs" />
+    <Compile Include="Migrations\201709260102519_modifyMovieDescOnlyModel.Designer.cs">
+      <DependentUpon>201709260102519_modifyMovieDescOnlyModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709260103442_modifyMovieDescOnlyModel1.cs" />
+    <Compile Include="Migrations\201709260103442_modifyMovieDescOnlyModel1.Designer.cs">
+      <DependentUpon>201709260103442_modifyMovieDescOnlyModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709260110147_stringtointIndbId.cs" />
+    <Compile Include="Migrations\201709260110147_stringtointIndbId.Designer.cs">
+      <DependentUpon>201709260110147_stringtointIndbId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709260111350_stringtointIndbId1.cs" />
+    <Compile Include="Migrations\201709260111350_stringtointIndbId1.Designer.cs">
+      <DependentUpon>201709260111350_stringtointIndbId1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709260124129_CastToCastArray.cs" />
+    <Compile Include="Migrations\201709260124129_CastToCastArray.Designer.cs">
+      <DependentUpon>201709260124129_CastToCastArray.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709260125118_CastToCastArray01.cs" />
+    <Compile Include="Migrations\201709260125118_CastToCastArray01.Designer.cs">
+      <DependentUpon>201709260125118_CastToCastArray01.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Cast.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -476,7 +537,10 @@
     <Compile Include="Models\MembershipType.cs" />
     <Compile Include="Models\Min18YearsIfAMember.cs" />
     <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\MovieCast.cs" />
     <Compile Include="Models\MovieDescription.cs" />
+    <Compile Include="Models\MovieDetailsGenres.cs" />
+    <Compile Include="Models\ProductionCompanies.cs" />
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\StockBetween1To20.cs" />
@@ -1121,6 +1185,51 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709250722146_UpdateMovieDbToMovieModel.resx">
       <DependentUpon>201709250722146_UpdateMovieDbToMovieModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709251725007_UpdateMovieDbToMovieModel01.resx">
+      <DependentUpon>201709251725007_UpdateMovieDbToMovieModel01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709252255287_ModifyMovieDescriptionAddedProperties.resx">
+      <DependentUpon>201709252255287_ModifyMovieDescriptionAddedProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709252301435_ModifyMovieDescriptionAddedProperties01.resx">
+      <DependentUpon>201709252301435_ModifyMovieDescriptionAddedProperties01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709252319143_addedProductionCompaniesGenresList.resx">
+      <DependentUpon>201709252319143_addedProductionCompaniesGenresList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709252322507_addedProductionCompaniesGenresList01.resx">
+      <DependentUpon>201709252322507_addedProductionCompaniesGenresList01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709252327452_addedProductionCompaniesGenresList02.resx">
+      <DependentUpon>201709252327452_addedProductionCompaniesGenresList02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709252351189_addedCastModel.resx">
+      <DependentUpon>201709252351189_addedCastModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709252357378_addedCastModel1.resx">
+      <DependentUpon>201709252357378_addedCastModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709260002287_addedCastOnlyModel.resx">
+      <DependentUpon>201709260002287_addedCastOnlyModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709260102519_modifyMovieDescOnlyModel.resx">
+      <DependentUpon>201709260102519_modifyMovieDescOnlyModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709260103442_modifyMovieDescOnlyModel1.resx">
+      <DependentUpon>201709260103442_modifyMovieDescOnlyModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709260110147_stringtointIndbId.resx">
+      <DependentUpon>201709260110147_stringtointIndbId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709260111350_stringtointIndbId1.resx">
+      <DependentUpon>201709260111350_stringtointIndbId1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709260124129_CastToCastArray.resx">
+      <DependentUpon>201709260124129_CastToCastArray.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709260125118_CastToCastArray01.resx">
+      <DependentUpon>201709260125118_CastToCastArray01.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
