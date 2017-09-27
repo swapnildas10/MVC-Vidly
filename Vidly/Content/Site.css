@@ -65,7 +65,7 @@ footer {
     position:relative;
     bottom: 0px;
     width: 100%;
-    
+    text-align: center;
     background-color: #232220;
     padding: 20px;
 }
@@ -75,4 +75,18 @@ footer p {
 .container {
     height:auto !important;
     min-height: 38.9rem;
+}
+.social-links {
+    display: block;
+    list-style: none;
+    text-align: center;
+    
+     
+    
+}
+
+.social-links li {
+    float: right;  
+}.social-links ul {
+     text-align: center;
 }

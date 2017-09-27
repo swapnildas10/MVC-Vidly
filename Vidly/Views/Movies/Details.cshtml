@@ -12,30 +12,34 @@
 
     
 <div style="min-height: 100vh;" class="row">
-    <div class="video-section mx-auto my-0  col-md-12 col-lg-9">
+    <div class="video-section mx-auto my-0  col-md-12 col-lg-10">
         
         <div class="row">
             <div id="poster" class="  container-fluid video-container ">
-                <div style="text-align: right;float: right" class="row"><h4><i class="ion-disc"></i>@Model.NumberAvailable</h4></div>
+                <div style="text-align: right; float: right  " class="row">
+                    <canvas width=70 height=100 id="mycanvas"><h4><i class="ion-disc"></i>@Model.NumberAvailable</h4></canvas>
+                    
+                    
+                </div>
                 <div class="row"><h2 style="color: white">@Model.Name<span  id="releasedyear"></span></h2>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-12 col-xs-12 mx-auto my-auto">
                         <div id="player"></div>
 
                     </div>
-                    <div class=" col-lg-8 mx-auto my-auto">
+                    <div class=" col-lg-8 col-md-12 col-xs-12 mx-auto my-auto">
 
 
 
                         <div class="row  mx-auto my-auto">
                             <ul class="btn-group " role="group" aria-label="Basic example">
-                                <li style="float: right; display: inline; font-size: 150%;" class="mr-3"><span id="PgContent"></span></li>
-                                <li style="float: right; display: inline; font-size: 150%;" id="runtime" class="mr-3"><i class="ion-android-time"></i></li>
-                                <li style="float: right; display: inline; font-size: 150%;" id="rating" class="mr-3"><i style="color: yellow"  class="ion-ios-star"></i></li>
-                                <li style="float: right; display: inline; font-size: 150%;" id="voteCount" class="mr-3"><i  style="color: black" class="ion-ios-people"></i></li>
-                                <li style="float: right; display: inline; font-size: 150%;" id="popularity" class="mr-3"><i class="ion-arrow-graph-up-right"></i></li>
-                            </ul>
+                                <li style="float: right; display: inline; font-size: 150%;" class="mr-2"><span id="PgContent"></span></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="runtime" class="mr-2"><i class="ion-android-time"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="rating" class="mr-2"><i style="color: yellow"  class="ion-ios-star"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="voteCount" class="mr-2"><i  style="color: black" class="ion-ios-people"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="popularity" class="mr-2"><i class="ion-arrow-graph-up-right"></i></li>
+                             </ul>
                         </div>
                         <br/>
                         <div style="text-align: left" class="row ">
@@ -93,7 +97,7 @@
     
     
 
-    <div  style="padding-top: 5%;"  class="d-block container-fluid details-container  col-xs-12 col-md-12 col-lg-3">
+    <div  style="padding-top: 5%;"  class="d-block container-fluid details-container  col-xs-12 col-md-12 col-lg-2">
        
         <div  class="row  align-self-center">
             
@@ -216,7 +220,7 @@
                 $.each(success,
                     function(key, value) {
 
-                        console.log(key+':'+value);
+                     //   console.log(key+':'+value);
                         if (key.toString() === 'tagline')
                             $('#tagline q').text(value);
                         var list = document.createElement("li");
@@ -260,7 +264,7 @@
 
                         }
 
-                        
+
                         if (key.toString() === 'popularity') {
                             $("#popularity").append(value);
                         }
@@ -356,7 +360,7 @@
                                     } else {
                                         {
                                             var divsubRow3 = $((document).createElement("div")).addClass("row");
-                                       
+
                                             var divsubRow4 = $((document).createElement("div")).addClass("row");
                                             var captiontitle1 = $((document).createElement("div"))
                                                 .addClass("carousel-caption d-none d-md-block");
@@ -377,7 +381,7 @@
                                             $(divCol3).append(divsubRow3);
                                             $(divCol3).append(divsubRow4);
 
-                                            
+
                                             $(divRow3).append(divCol3);
 
 
@@ -393,7 +397,98 @@
             }).fail(function(error) {
 
             });
+            var $myCanvas = $('#mycanvas');
 
+// rectangle shape
+            setTimeout(function() {
+                $myCanvas.addLayer({
+                    type: 'arc',
+                    name: 'orangeCircle',
+                    strokeStyle: '#363C3D',
+
+                    strokeWidth: 3,
+                    x: 35,
+                    y: 35,
+                    radius: 25,
+                    // start and end angles in degrees
+                    start: 0,
+                    end: 1
+                }).drawLayers().animateLayer('orangeCircle',
+                    {
+
+
+                        // start and end angles in degrees
+                        start: 0,
+                        end: 360
+                    },
+                    2000,
+                    function(layer) { // Callback function\
+
+                        $(this).animateLayer(layer,
+                            {
+                                fillStyle: '#363C3D'
+                            },
+                            'slow',
+                            'ease-in-out');
+                    }).addLayer({
+                    name: 'stock',
+                    type: 'text',
+                    layer: true,
+                    fillStyle: '#211705',
+                    strokeWidth: 2,
+                    fontSize: '20pt',
+                    
+                    fontFamily: 'Verdana, sans-serif',
+                    x: 35,
+                    y: 35,
+
+
+                    text: @Model.NumberAvailable
+                }).drawLayers().animateLayer('stock',
+                    {
+                        fillStyle: '#E1FCFF' 
+                    },
+                    2000,
+                    function(layer) {
+                        $(this).animateLayer(layer,
+                            {
+                                animateend: function (layer) {
+                                    var status = '@Model.NumberAvailable' <= 0 ? "Out\nof Stock" : "CDs\nin Stock";
+                                    var color_code = '@Model.NumberAvailable' <= 0 ? "#C19311" : "#301130";
+                                    $myCanvas.addLayer({
+                                       name: 'stock_label',
+                                       type: 'text',
+                                       layer: true,
+                                       fillStyle: '#FFE5FF',
+                                       strokeWidth: 2,
+                                       fontSize: '10pt',
+                    
+                                       fontFamily: 'Verdana, sans-serif',
+                                       x: 35,
+                                       y: 80,
+
+
+                                       text: status
+                                   }).animateLayer('stock_label',
+                                       {
+                                           fillStyle: '#211705'
+                                       },2000,function(layer) {
+                                            $(this).animateLayer(layer,
+                                                {
+                                                    
+                                                    fillStyle: color_code
+                                                },
+                                                'slow',
+                                                'ease-in-out'
+                                                );
+                                        });
+                               }
+                            },
+                            'slow',
+                            'ease-in-out');
+                    
+            });
+            },2000);
 
         });
 

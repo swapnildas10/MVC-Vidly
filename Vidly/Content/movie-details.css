@@ -8,7 +8,7 @@
     max-width: 100%;
 }
 .video-container {
-    padding: 5% ;
+    padding: 5% 1%  ;
      
     text-align: center;
     position: relative;
@@ -60,7 +60,11 @@ i {
     text-align: left;
 }
 #poster {
-    background-size:cover;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position-y: 10%;
+
+   
 }
 .video-section {
     padding: 0;
@@ -107,4 +111,10 @@ i {
 #releasedyear {
     font-weight: normal;
     color: grey;
+}
+
+#mycanvas {
+   
+     
+    
 }
