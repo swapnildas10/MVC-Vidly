@@ -21,6 +21,7 @@ namespace Vidly.Controllers.Api
         }
         // GET: MovieDetails
         [HttpGet]
+        [Route("api/moviedetails/details/{id}")]
         public async  Task<IHttpActionResult> Description(int id)
         {
 
@@ -29,7 +30,7 @@ namespace Vidly.Controllers.Api
                 try
                 {
                     client.BaseAddress = new Uri("https://api.themoviedb.org");
-                    var response = await client.GetAsync($"/3/movie/{id}?language=en-US&api_key=4520856e9bc4e97798334c0576400d36");
+                    var response = await client.GetAsync($"/3/movie/{id}?language=en-US&api_key="+API_KEY);
                     response.EnsureSuccessStatusCode();
 
                     var stringResult = await response.Content.ReadAsStringAsync();
@@ -63,6 +64,7 @@ namespace Vidly.Controllers.Api
             }
         }
         [HttpGet]
+        [Route("api/moviedetails/cast/{id}")]
         public async Task<IHttpActionResult> Cast(int id)
         {
             using (var client = new HttpClient())
@@ -89,6 +91,59 @@ namespace Vidly.Controllers.Api
                 }
 
             }
+        }
+        [HttpGet]
+        [Route("api/moviedetails/search/{query}")]
+        public async Task<IHttpActionResult> GetMovieById(string query = null)
+        {
+
+
+
+
+
+
+
+
+
+
+            using(var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri("https://api.themoviedb.org");
+
+                    var response = await client.GetAsync($"/3/search/movie?api_key="+API_KEY+"&language=en-US&query="+query+"&include_adult=true");
+                    response.EnsureSuccessStatusCode();
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    var stringResult = await response.Content.ReadAsStringAsync();
+                    var rawMovieDescription = JsonConvert.DeserializeObject<MovieSearch>(stringResult);
+                    List<int> MovieId = new List<int>();
+                    foreach (MovieDescription movieDescription in rawMovieDescription.Results)
+                    {
+                        MovieId.Add(movieDescription.Id);
+                    }
+                    
+                    return Ok(rawMovieDescription);
+                }
+                catch (HttpRequestException httpRequestException)
+                {
+                    return BadRequest($"Error getting weather from TheMovieDb: {httpRequestException.Message}");
+                }
+
+            }
+             
         }
     }
    

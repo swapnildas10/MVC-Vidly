@@ -12,6 +12,8 @@ namespace Vidly.Models
 
         public int MovieId { get; set; }
 
+        public string Title { get; set; }
+
         public Movie Movie { get; set; }
 
         [Display(Name = "PG-Rating")]

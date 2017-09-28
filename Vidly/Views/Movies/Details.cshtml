@@ -17,7 +17,7 @@
         <div class="row">
             <div id="poster" class="  container-fluid video-container ">
                 <div style="text-align: right; float: right  " class="row">
-                    <canvas width=70 height=100 id="mycanvas"><h4><i class="ion-disc"></i>@Model.NumberAvailable</h4></canvas>
+                    <canvas width=70 height=110 id="mycanvas"><h4><i class="ion-disc"></i>@Model.NumberAvailable</h4></canvas>
                     
                     
                 </div>
@@ -34,11 +34,11 @@
 
                         <div class="row  mx-auto my-auto">
                             <ul class="btn-group " role="group" aria-label="Basic example">
-                                <li style="float: right; display: inline; font-size: 150%;" class="mr-2"><span id="PgContent"></span></li>
-                                <li style="float: right; display: inline; font-size: 150%;" id="runtime" class="mr-2"><i class="ion-android-time"></i></li>
-                                <li style="float: right; display: inline; font-size: 150%;" id="rating" class="mr-2"><i style="color: yellow"  class="ion-ios-star"></i></li>
-                                <li style="float: right; display: inline; font-size: 150%;" id="voteCount" class="mr-2"><i  style="color: black" class="ion-ios-people"></i></li>
-                                <li style="float: right; display: inline; font-size: 150%;" id="popularity" class="mr-2"><i class="ion-arrow-graph-up-right"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" class="mr-4"><span id="PgContent"></span></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="runtime" class="mr-4"><i class="ion-android-time"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="rating" class="mr-4"><i style="color: yellow"  class="ion-ios-star"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="voteCount" class="mr-4"><i  style="color: black" class="ion-ios-people"></i></li>
+                                <li style="float: right; display: inline; font-size: 150%;" id="popularity" class="mr-4"><i class="ion-arrow-graph-up-right"></i></li>
                              </ul>
                         </div>
                         <br/>
@@ -61,7 +61,14 @@
                     <div id="overviewContent" class="col-md-12 col-sm-12 col-lg-8 col-lg-offset-5">
                     </div>
                 </div>
-                <div class="row"><span><a class="col-md-12 col-sm-12 col-lg-8 col-lg-offset-5" id="imdb_link" target="_blank" href=""><img src="~/img/imdb_icon_2.ico"/></a></span>
+                <div class="row">
+                    <span>
+                        <a class="col-md-12 col-sm-12 col-lg-8 col-lg-offset-5" id="imdb_link" target="_blank" href="">
+                            
+                            <img src="~/img/imdb_icon_2.ico"/>
+                            <i style="color: black; font-size: 150%;" class="ion-ios-paperplane"></i>
+                        </a>
+                    </span>
                 </div>
             </div>
 
@@ -70,7 +77,7 @@
             <div style="text-align: center; color: white" class="col-lg-2 col-md-12 col-sm-12 col-xs-12 mx-auto my-auto">
                 <h2>Cast</h2>
             </div>
-            <div class="col-lg-10 col-md-12 col-xs-12">
+            <div class="col-lg-9 col-md-12 col-xs-12">
                 <div id="carouselSlides" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselSlides" data-slide-to="0" class="active"></li>
@@ -102,46 +109,42 @@
         <div  class="row  align-self-center">
             
             <div style="float: right;" class="col col-lg-12">
-                <div class="card" style="max-width: 20rem; width: auto;">
+                <div class="list-group" id="production" style="  width: auto;">
+            
+                     
+                </div>
+            </div>
+            <div class="col col-lg-12">
+                 
 
-                    <div class="card-block">
-                        <h4  class="card-title ">Production</h4>
-                        <div class="card-text">
-                             
-                            <div  class="row">
-                                <ul class="list-group" id="production"></ul>
+                    <div  class="list-group" style="  width: auto;">
+                         
+                        <div   class="list-group-item   flex-column align-items-start ">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Released Date</h5>
+                                 
                             </div>
-                            
+                            <p id="releaseddate" class="mb-1"> </p>  
                         </div>
-                    </div>
+                        
+
+                  
                 </div>
             </div>
             <div class="col col-lg-12">
-                <div class="card" style="max-width: 20rem; width: auto;">
-
-                    <div class="card-block">
-                        <h4  class="card-title ">Released</h4>
-                        <div class="card-text">
-                            <ul style=" list-style: none">
-                                
-                                <li id="releaseddate" class="list-group-item"></li>
-                            </ul>
+               
+                <div  class="list-group" style="  width: auto;">
+                         
+                    <div   class="list-group-item   flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Budget</h5>
+                           
                         </div>
+                        <p id="budget" class="mb-1"> </p>  
                     </div>
-                </div>
-            </div>
-            <div class="col col-lg-12">
-                <div class="card" style="max-width: 20rem; width: auto;">
+                        
 
-                    <div class="card-block">
-                        <h4  class="card-title ">Budget</h4>
-                        <div class="card-text">
-                            <ul style=" list-style: none">
-                                
-                                <li id="budget" class="list-group-item"></li>
-                            </ul>
-                        </div>
-                    </div>
+                  
                 </div>
             </div>
         </div>
@@ -213,7 +216,7 @@
 
 
             $.ajax({
-                url: "/api/moviedetails/description/" + @Model.MovieDb,
+                url: "/api/moviedetails/details/" + @Model.MovieDb,
                 method: "GET",
                 contentType: "application/JSON"
             }).done(function(success) {
@@ -243,8 +246,11 @@
                             $("#releaseddate").text( new Date(value).toDateString());
                             $("#releasedyear").text(' (' + new Date(value).getFullYear() + ')');
                         }
-                        if (key.toString() === 'budget')
-                            $("#budget").text(value);
+                        if (key.toString() === 'budget') {
+                            var num = '$' + value.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            $("#budget").text(num);
+                        }
+                            
                         if (key.toString() === 'runtime') {
                             $("#runtime").append(value + '<span style="font-size:50%"> min</span>');
                         }
@@ -266,7 +272,7 @@
 
 
                         if (key.toString() === 'popularity') {
-                            $("#popularity").append(value);
+                            $("#popularity").append(Math.ceil(value) );
                         }
                         var genres = $("#genres");
                         if (key.toString() === 'genres') {
@@ -285,13 +291,19 @@
                         }
                         var production = $("#production");
                         if (key.toString() === 'productionCompanies') {
+                            var div = $((document).createElement("div")).addClass("d-flex w-100 justify-content-between");
+                            (div).append($((document).createElement("h5")).addClass("mb-1").text("Production"));     
+                            var list = $((document).createElement("div"))
+                                .addClass("list-group-item flex-column align-items-start");
+                            list.append(div);
                             $.each(value,
                                 function(key, value) {
-                                    var list = $((document).createElement("li"));
-                                    $(list).addClass("list-group-item");
-
-
-                                    $(list).text(value.name);
+                                    
+                                    var para = $((document).createElement("p")).addClass("mb-2");
+                                    $(para).text(value.name);
+                                   
+                                    list.append(para);
+                                   
 
                                     production.append(list);
                                     // console.log(value.name);
@@ -426,7 +438,10 @@
 
                         $(this).animateLayer(layer,
                             {
-                                fillStyle: '#363C3D'
+                                fillStyle: '#363C3D',
+                                shadowColor: '#000',
+                                shadowBlur: 5,
+                                shadowX: -5, shadowY: 5
                             },
                             'slow',
                             'ease-in-out');
@@ -448,7 +463,7 @@
                     {
                         fillStyle: '#E1FCFF' 
                     },
-                    2000,
+                    1000,
                     function(layer) {
                         $(this).animateLayer(layer,
                             {
@@ -460,23 +475,25 @@
                                        type: 'text',
                                        layer: true,
                                        fillStyle: '#FFE5FF',
-                                       strokeWidth: 2,
-                                       fontSize: '10pt',
+                                       strokeWidth: 5,
+                                       fontSize: '13pt',
                     
                                        fontFamily: 'Verdana, sans-serif',
                                        x: 35,
-                                       y: 80,
+                                       y: 90,
 
 
                                        text: status
                                    }).animateLayer('stock_label',
                                        {
-                                           fillStyle: '#211705'
-                                       },2000,function(layer) {
+                                           fillStyle:  color_code
+                                       },1000,function(layer) {
                                             $(this).animateLayer(layer,
                                                 {
-                                                    
-                                                    fillStyle: color_code
+                                                    shadowColor: color_code ,
+                                                    shadowBlur: 2,
+                                                    shadowX: -5, shadowY: 5,
+                                                    fillStyle: '#E1FCFF'
                                                 },
                                                 'slow',
                                                 'ease-in-out'

@@ -38,6 +38,7 @@ namespace Vidly.Controllers.Api
         }
         //GET api/Returns
        [HttpGet]
+      
         public IHttpActionResult RentalCustomers(string customerName = null)
        {
            var rentalQuery = _context.Rentals.Include(r=>r.Customer).Include(r=>r.Movie);

@@ -525,6 +525,10 @@
     <Compile Include="Migrations\201709260125118_CastToCastArray01.Designer.cs">
       <DependentUpon>201709260125118_CastToCastArray01.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709280147262_UpdatedMovieDescModel.cs" />
+    <Compile Include="Migrations\201709280147262_UpdatedMovieDescModel.Designer.cs">
+      <DependentUpon>201709280147262_UpdatedMovieDescModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -540,6 +544,7 @@
     <Compile Include="Models\MovieCast.cs" />
     <Compile Include="Models\MovieDescription.cs" />
     <Compile Include="Models\MovieDetailsGenres.cs" />
+    <Compile Include="Models\MovieSearch.cs" />
     <Compile Include="Models\ProductionCompanies.cs" />
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Models\RoleName.cs" />
@@ -1231,6 +1236,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709260125118_CastToCastArray01.resx">
       <DependentUpon>201709260125118_CastToCastArray01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709280147262_UpdatedMovieDescModel.resx">
+      <DependentUpon>201709280147262_UpdatedMovieDescModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

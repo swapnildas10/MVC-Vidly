@@ -21,7 +21,7 @@ namespace Vidly.Controllers.Api
         {
             _context = new ApplicationDbContext();
         }
-       
+       [HttpGet]
         // GET: api/Movies
         public IHttpActionResult GetMovies(string query = null)
         {
@@ -33,7 +33,7 @@ namespace Vidly.Controllers.Api
             return Ok(movieDtos);
 
         }
-        
+        [HttpGet]
         // GET: api/Movies/5
         public IHttpActionResult GetMovie(int id)
         {

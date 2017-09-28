@@ -17,7 +17,9 @@
                     @Html.ValidationSummary(true, "Please fix following errors")
                     <div class="form-group">
                         @Html.LabelFor(m => m.Name)
-                        @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+                        @Html.TextBoxFor(m => m.Name,   new { @class = "form-control" })
+
+    
                         @Html.ValidationMessageFor(m => m.Name)
 
                     </div>
@@ -71,6 +73,7 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+ 
 
 }
 
