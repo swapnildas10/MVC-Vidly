@@ -79,8 +79,8 @@ namespace Vidly.Controllers.Api
                     var rawMovieDescription = JsonConvert.DeserializeObject<MovieCast>(stringResult);
                     return Ok(new
                     {
-                       Cast = rawMovieDescription.Cast
-
+                       Cast = rawMovieDescription.Cast,
+                       Crew = rawMovieDescription.Crew
                          
 
                     });

@@ -529,11 +529,16 @@
     <Compile Include="Migrations\201709280147262_UpdatedMovieDescModel.Designer.cs">
       <DependentUpon>201709280147262_UpdatedMovieDescModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709281805007_AddedCrewModel.cs" />
+    <Compile Include="Migrations\201709281805007_AddedCrewModel.Designer.cs">
+      <DependentUpon>201709281805007_AddedCrewModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Cast.cs" />
+    <Compile Include="Models\Crew.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -926,6 +931,10 @@
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\MyApp09282017 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Vidly20170928014315 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Vidly20170928120751 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -1239,6 +1248,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709280147262_UpdatedMovieDescModel.resx">
       <DependentUpon>201709280147262_UpdatedMovieDescModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709281805007_AddedCrewModel.resx">
+      <DependentUpon>201709281805007_AddedCrewModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

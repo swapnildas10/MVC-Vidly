@@ -113,8 +113,22 @@ i {
     color: grey;
 }
 
-#mycanvas {
-   
-     
+.card-actor {
+    max-width: 100%;
+    max-height: none;
+    padding: 0;
+    margin: 0;
     
 }
+    .card-actor .card-block,
+    .card-title {
+        color: white;
+        text-align: center;
+        font-size: 100%;
+    }
+   
+
+.carousel-control-prev, .carousel-control-next {
+    width :2%;
+}
+

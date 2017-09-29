@@ -11,5 +11,6 @@ namespace Vidly.Models
          
          
         public Cast[] Cast { get; set; }
+        public Crew[] Crew { get; set; }
     }
 }

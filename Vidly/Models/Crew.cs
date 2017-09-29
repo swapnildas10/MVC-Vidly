@@ -5,13 +5,14 @@ using System.Web;
 
 namespace Vidly.Models
 {
-    public class Cast
+    public class Crew
     {
-        public int Id { get; set; }
-        public string Character { get; set; }
-        public string Name { get; set; }
-        public int Order { get; set; }
-        public string Profile_Path { get; set; }
         public string Credit_Id { get; set; }
+        public string Department { get; set; }
+        public int Id { get; set; }
+        public string Job { get; set; }
+        public string Name { get; set; }
+        public string Profile_Path { get; set; }
+
     }
 }

@@ -9,7 +9,17 @@
 @section Styles{
     <link rel="stylesheet" href="~/Content/movie-details.css" type="text/css"/>
 }
+<div id="maskloading">
+    <div class="container" style="width: 100%;height: 100%">
+        <div   id="loader"></div>
+    </div>
+       
+ 
+       
+ 
+    
 
+</div>
     
 <div style="min-height: 100vh;" class="row">
     <div class="video-section mx-auto my-0  col-md-12 col-lg-10">
@@ -74,10 +84,10 @@
 
         </div>
         <div id="cast" class="row align-self-center">
-            <div style="text-align: center; color: white" class="col-lg-2 col-md-12 col-sm-12 col-xs-12 mx-auto my-auto">
+            <div style="text-align: center; color: white" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mx-auto my-auto">
                 <h2>Cast</h2>
             </div>
-            <div class="col-lg-9 col-md-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-xs-12">
                 <div id="carouselSlides" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselSlides" data-slide-to="0" class="active"></li>
@@ -114,6 +124,17 @@
                      
                 </div>
             </div>
+            <div style="float: right;" class="col col-lg-12">
+                <div class="list-group" id="crews" style="  width: auto;">
+            
+                     
+                </div>
+            </div><div style="float: right;" class="col col-lg-12">
+                <div class="list-group" id="directorandwriter" style="  width: auto;">
+            
+                     
+                </div>
+            </div>
             <div class="col col-lg-12">
                  
 
@@ -126,27 +147,20 @@
                             </div>
                             <p id="releaseddate" class="mb-1"> </p>  
                         </div>
-                        
-
-                  
-                </div>
-            </div>
-            <div class="col col-lg-12">
-               
-                <div  class="list-group" style="  width: auto;">
-                         
-                    <div   class="list-group-item   flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Budget</h5>
+                        <div   class="list-group-item   flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Budget</h5>
                            
+                            </div>
+                            <p id="budget" class="mb-1"> </p>  
                         </div>
-                        <p id="budget" class="mb-1"> </p>  
-                    </div>
+                        
                         
 
                   
                 </div>
             </div>
+           
         </div>
         </div>
 
@@ -162,7 +176,9 @@
 @section scripts
 {@Scripts.Render("~/Bundles/jqueryval")
     <script>
-
+        $(window).load(function() {
+            $("#maskloading").remove();
+        });
         var tag = document.createElement('script');
 
         tag.src = "https://www.youtube.com/iframe_api";
@@ -223,7 +239,7 @@
                 $.each(success,
                     function(key, value) {
 
-                     //   console.log(key+':'+value);
+                       
                         if (key.toString() === 'tagline')
                             $('#tagline q').text(value);
                         var list = document.createElement("li");
@@ -243,14 +259,14 @@
                             $("#overviewContent").append(value);
                         }
                         if (key.toString() === 'releasedDate') {
-                            $("#releaseddate").text( new Date(value).toDateString());
+                            $("#releaseddate").text(new Date(value).toDateString());
                             $("#releasedyear").text(' (' + new Date(value).getFullYear() + ')');
                         }
                         if (key.toString() === 'budget') {
                             var num = '$' + value.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                             $("#budget").text(num);
                         }
-                            
+
                         if (key.toString() === 'runtime') {
                             $("#runtime").append(value + '<span style="font-size:50%"> min</span>');
                         }
@@ -272,7 +288,7 @@
 
 
                         if (key.toString() === 'popularity') {
-                            $("#popularity").append(Math.ceil(value) );
+                            $("#popularity").append(Math.ceil(value));
                         }
                         var genres = $("#genres");
                         if (key.toString() === 'genres') {
@@ -291,22 +307,23 @@
                         }
                         var production = $("#production");
                         if (key.toString() === 'productionCompanies') {
-                            var div = $((document).createElement("div")).addClass("d-flex w-100 justify-content-between");
-                            (div).append($((document).createElement("h5")).addClass("mb-1").text("Production"));     
+                            var div = $((document).createElement("div"))
+                                .addClass("d-flex w-100 justify-content-between");
+                            (div).append($((document).createElement("h5")).addClass("mb-1").text("Production"));
                             var list = $((document).createElement("div"))
                                 .addClass("list-group-item flex-column align-items-start");
                             list.append(div);
                             $.each(value,
                                 function(key, value) {
-                                    
+
                                     var para = $((document).createElement("p")).addClass("mb-2");
                                     $(para).text(value.name);
-                                   
+
                                     list.append(para);
-                                   
+
 
                                     production.append(list);
-                                    // console.log(value.name);
+                                 
                                 });
                         }
 
@@ -322,7 +339,7 @@
                 method: "GET",
                 contentType: "application/JSON"
             }).done(function(success) {
-                //  console.log(success);
+                
                 var castProfile = $(".cast-profile");
                 var divCarousel = $((document).createElement("div"))
                     .addClass("carousel-item active");
@@ -330,184 +347,229 @@
                     .addClass("carousel-item ");
                 var divRow = $((document).createElement("div")).addClass("row");
                 var divRow3 = $((document).createElement("div")).addClass("row");
+                var carddeck = $((document).createElement("div")).addClass("card-deck");
+                var carddeck3 = $((document).createElement("div")).addClass("card-deck");
                 $(divCarousel).append(divRow);
                 $(castProfile).append(divCarousel);
                 $(divCarousel3).append(divRow3);
+                $(divRow3).append(carddeck3);
+                $(divRow).append(carddeck);
                 $(castProfile).append(divCarousel3);
                 var divCol3;
+                var crew = $("#crews");
+                var directorandwriter = $("#directorandwriter");
 
+
+                    function createCard(imagesrc, name, character) {
+                        
+                        var card = $((document).createElement("div")).addClass("card card-actor");
+                        var image = $((document).createElement("img"))
+                            .addClass("card-img-top img-responsive")
+                            .attr({ 'src': imagesrc, 'alt': 'Photo' });
+                        var cardBlock = $((document).createElement("div")).addClass("card-block");
+                        var cardTitle = $((document).createElement("h3")).addClass("card-title mt-2");
+                        var cardText = $((document).createElement("p")).addClass("card-text");
+                        $(cardTitle).text(name);
+                        $(cardText).text(character);
+                        $(cardBlock).append(cardTitle);
+                        $(cardBlock).append(cardText);
+                        $(card).append(image).append(cardBlock);
+                        return card;
+                    }
                 $.each(success,
                     function(key, value) {
+                        if (key === 'cast') {
+                            $.each(value,
+                                function (subkey, subvalue) {
+                                    
+                                    
+                                    if (subkey < 12) {
+                                        if (subkey < 6) {
+                                             
+                                            var divCol = $((document).createElement("div")).addClass("col col-sm-2");
+                                            $(divCol).append(createCard('https://image.tmdb.org/t/p/w342' + subvalue.profile_Path, subvalue.name,subvalue.character));
+                                            $(carddeck).append(divCol);
 
-                        $.each(value,
-                            function(subkey, subvalue) {
-                                //console.log(subkey.length);
-                                if (subkey < 8) {
-                                    if (subkey < 4) {
-
-
-                                       // console.log(subvalue);
-                                        var divCol = $((document).createElement("div")).addClass("col-sm-3");
-                                        var divsubRow = $((document).createElement("div")).addClass("row");
-                                        var divsubRow2 = $((document).createElement("div")).addClass("row");
-                                        var captiontitle = $((document).createElement("div"))
-                                            .addClass("carousel-caption d-none d-md-block");
-                                        var captionhead = $((document).createElement("h4"));
-                                        var captionpara = $((document).createElement("p"));
-                                        var img = $((document).createElement("img")).addClass("d-block img-fluid card-img-top")
-                                            .attr('src', 'https://image.tmdb.org/t/p/w185' + subvalue.profile_Path);
-                                        $(img).attr('alt', 'Photo');
-
-                                        $(captionhead).text(subvalue.name);
-                                        $(captionpara).text(subvalue.character);
-                                        $(captiontitle).append(captionhead);
-                                        $(captiontitle).append(captionpara);
-                                        $(divsubRow).append(img);
-                                        $(divsubRow2).append(captiontitle);
-                                        $(divCol).append(divsubRow);
-                                        $(divCol).append(divsubRow2);
-
-                                        $(divRow).append(divCol);
-
-                                    } else {
-                                        {
-                                            var divsubRow3 = $((document).createElement("div")).addClass("row");
-
-                                            var divsubRow4 = $((document).createElement("div")).addClass("row");
-                                            var captiontitle1 = $((document).createElement("div"))
-                                                .addClass("carousel-caption d-none d-md-block");
-                                            var captionhead1 = $((document).createElement("h4"));
-                                            var captionpara1 = $((document).createElement("p"));
-                                            //console.log(subkey);
-                                            divCol3 = $((document).createElement("div")).addClass("col-sm-3");
-                                            var img3 = $((document).createElement("img")).addClass("d-block img-fluid card-img-top")
-                                                .attr('src', 'https://image.tmdb.org/t/p/w185' + subvalue.profile_Path);
-                                            $(img3).attr('alt', 'Photo');
-
-                                            $(captionhead1).text(subvalue.name);
-                                            $(captionpara1).text(subvalue.character);
-                                            $(captiontitle1).append(captionhead1);
-                                            $(captiontitle1).append(captionpara1);
-                                            $(divsubRow3).append(img3);
-                                            $(divsubRow4).append(captiontitle1);
-                                            $(divCol3).append(divsubRow3);
-                                            $(divCol3).append(divsubRow4);
+                    } else
+                {
+                     divCol3 = $((document).createElement("div")).addClass("col col-sm-2");
+                       $(divCol3).append(createCard('https://image.tmdb.org/t/p/w154' + subvalue.profile_Path, subvalue.name,subvalue.character));
+                        $(carddeck3).append(divCol3);
+ }
+            }
+             
 
 
-                                            $(divRow3).append(divCol3);
+        });
+        }
+
+        if (key === 'crew') {
+            var writers = [];
+            var directors = [];
+            var producers = [];
+
+            function initlist(title) {
+                var div = $((document).createElement("div")).addClass("d-flex w-100 justify-content-between");
+                var list = $((document).createElement("div"))
+                    .addClass("list-group-item flex-column align-items-start");
+                list.append(div);
+                (div).append($((document).createElement("h5")).addClass("mb-1").text(title)); //text value put    
 
 
-                                        }
+                return list;
 
-                                    }
-                                }
-                                //  console.log(subvalue.profile_Path);d-block img-fluid
+            };
+
+            $.each(value,
+                function(subkey, subvalue) {
+                    if (subvalue.job === 'Director') {
+                        directors.push(subvalue.name);
+
+                    }
+                    if (subvalue.job === 'Producer') {
+                        producers.push(subvalue.name);
+
+                    }
+
+                    if (subvalue.job === 'Writer') {
+                        writers.push(subvalue.name);
+                    
+                    }
+                });
+            var plist = initlist("Producers");
+            createList(producers, plist, crew);
+            var dlist = initlist("Directors");
+            createList(directors, dlist, directorandwriter);
+            var wlist = initlist("Writers");
+            createList(writers, wlist, directorandwriter);
+
+            function createList(array, list, listgroup) {
+                $.each(array,
+                    function(key, value) {
+
+                        var para = $((document).createElement("p")).addClass("mb-1");
+                        $(para).text(value);
+                       
+                        list.append(para);
 
 
-                            });
+                        listgroup.append(list);
+
+
                     });
-            }).fail(function(error) {
+            };
 
-            });
-            var $myCanvas = $('#mycanvas');
+
+        }
+        });
+        }).
+        fail(function(error) {
+
+        });
+        var $myCanvas = $('#mycanvas');
 
 // rectangle shape
-            setTimeout(function() {
-                $myCanvas.addLayer({
-                    type: 'arc',
-                    name: 'orangeCircle',
-                    strokeStyle: '#363C3D',
+        setTimeout(function() {
+            $myCanvas.addLayer({
+                type: 'arc',
+                name: 'orangeCircle',
+                strokeStyle: '#363C3D',
 
-                    strokeWidth: 3,
-                    x: 35,
-                    y: 35,
-                    radius: 25,
+                strokeWidth: 3,
+                x: 35,
+                y: 35,
+                radius: 25,
+                // start and end angles in degrees
+                start: 0,
+                end: 1
+            }).drawLayers().animateLayer('orangeCircle',
+                {
+
+
                     // start and end angles in degrees
                     start: 0,
-                    end: 1
-                }).drawLayers().animateLayer('orangeCircle',
-                    {
+                    end: 360
+                },
+                2000,
+                function(layer) { // Callback function\
+
+                    $(this).animateLayer(layer,
+                        {
+                            fillStyle: '#363C3D',
+                            shadowColor: '#000',
+                            shadowBlur: 5,
+                            shadowX: -5,
+                            shadowY: 5
+                        },
+                        'slow',
+                        'ease-in-out');
+                }).addLayer({
+                name: 'stock',
+                type: 'text',
+                layer: true,
+                fillStyle: '#211705',
+                strokeWidth: 2,
+                fontSize: '20pt',
+
+                fontFamily: 'Verdana, sans-serif',
+                x: 35,
+                y: 35,
 
 
-                        // start and end angles in degrees
-                        start: 0,
-                        end: 360
-                    },
-                    2000,
-                    function(layer) { // Callback function\
-
-                        $(this).animateLayer(layer,
-                            {
-                                fillStyle: '#363C3D',
-                                shadowColor: '#000',
-                                shadowBlur: 5,
-                                shadowX: -5, shadowY: 5
-                            },
-                            'slow',
-                            'ease-in-out');
-                    }).addLayer({
-                    name: 'stock',
-                    type: 'text',
-                    layer: true,
-                    fillStyle: '#211705',
-                    strokeWidth: 2,
-                    fontSize: '20pt',
-                    
-                    fontFamily: 'Verdana, sans-serif',
-                    x: 35,
-                    y: 35,
-
-
-                    text: @Model.NumberAvailable
-                }).drawLayers().animateLayer('stock',
-                    {
-                        fillStyle: '#E1FCFF' 
-                    },
-                    1000,
-                    function(layer) {
-                        $(this).animateLayer(layer,
-                            {
-                                animateend: function (layer) {
-                                    var status = '@Model.NumberAvailable' <= 0 ? "Out\nof Stock" : "CDs\nin Stock";
-                                    var color_code = '@Model.NumberAvailable' <= 0 ? "#C19311" : "#301130";
+                text: @Model.NumberAvailable
+            }).drawLayers().animateLayer('stock',
+                {
+                    fillStyle: '#E1FCFF'
+                },
+                1000,
+                function(layer) {
+                    $(this).animateLayer(layer,
+                        {
+                            animateend: function(layer) {
+                                var status = '@Model.NumberAvailable' <= 0 ? "Out\nof Stock" : "CDs\nin Stock";
+                                var color_code = '@Model.NumberAvailable' <= 0 ? "#C19311" : "#301130";
                                     $myCanvas.addLayer({
-                                       name: 'stock_label',
-                                       type: 'text',
-                                       layer: true,
-                                       fillStyle: '#FFE5FF',
-                                       strokeWidth: 5,
-                                       fontSize: '13pt',
-                    
-                                       fontFamily: 'Verdana, sans-serif',
-                                       x: 35,
-                                       y: 90,
+                                        name: 'stock_label',
+                                        type: 'text',
+                                        layer: true,
+                                        fillStyle: '#FFE5FF',
+                                        strokeWidth: 5,
+                                        fontSize: '13pt',
+
+                                        fontFamily: 'Verdana, sans-serif',
+                                        x: 35,
+                                        y: 90,
 
 
-                                       text: status
-                                   }).animateLayer('stock_label',
-                                       {
-                                           fillStyle:  color_code
-                                       },1000,function(layer) {
+                                        text: status
+                                    }).animateLayer('stock_label',
+                                        {
+                                            fillStyle: color_code
+                                        },
+                                        1000,
+                                        function(layer) {
                                             $(this).animateLayer(layer,
                                                 {
-                                                    shadowColor: color_code ,
+                                                    shadowColor: color_code,
                                                     shadowBlur: 2,
-                                                    shadowX: -5, shadowY: 5,
+                                                    shadowX: -5,
+                                                    shadowY: 5,
                                                     fillStyle: '#E1FCFF'
                                                 },
                                                 'slow',
                                                 'ease-in-out'
-                                                );
+                                            );
                                         });
-                               }
+                                }
                             },
                             'slow',
                             'ease-in-out');
-                    
-            });
-            },2000);
 
-        });
+                    });
+            },
+            2000);
+
+    });
 
     </script>
 
