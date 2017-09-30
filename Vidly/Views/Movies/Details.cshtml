@@ -11,14 +11,8 @@
 }
 <div id="maskloading">
     <div class="container" style="width: 100%;height: 100%">
-        <div  id="loader"></div>
+        <div id="loader"></div>
     </div>
-       
- 
-       
- 
-    
-
 </div>
     
 <div style="min-height: 100vh;" class="row">
@@ -73,13 +67,18 @@
                 </div>
                 <div class="row">
                     <span>
-                        <a class="col-md-12 col-sm-12 col-lg-8 col-lg-offset-5" id="imdb_link" target="_blank" href="">
+                        <a class="col-md-2 col-sm-2 col-lg-2 col-lg-offset-5" id="imdb_link" target="_blank" href="">
                             
                             <img src="~/img/imdb_icon_2.ico"/>
-                            <i style="color: black; font-size: 150%;" class="ion-ios-paperplane"></i>
+                            
+                        </a>
+                        <a class="col-md-2 col-sm-2 col-lg-2 col-lg-offset-5" id="movie_Link" target="_blank" href="">
+                            
+                            
                         </a>
                     </span>
-                </div>
+                </div> 
+                 
             </div>
 
         </div>
@@ -154,6 +153,14 @@
                             </div>
                             <p id="budget" class="mb-1"> </p>  
                         </div>
+                        <div   class="list-group-item   flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Revenue</h5>
+                           
+                            </div>
+                            <p id="revenue" class="mb-1"> </p>  
+                        </div>
+                        
                         
                         
 
@@ -239,7 +246,7 @@
                 $.each(success,
                     function(key, value) {
 
-                       
+                       console.log(key+":"+value);
                         if (key.toString() === 'tagline')
                             $('#tagline q').text(value);
                         var list = document.createElement("li");
@@ -261,6 +268,13 @@
                         if (key.toString() === 'releasedDate') {
                             $("#releaseddate").text(new Date(value).toDateString());
                             $("#releasedyear").text(' (' + new Date(value).getFullYear() + ')');
+                        }
+                        if (key.toString() === 'revenue') {
+                            var revenue = '$' + value.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            $("#revenue").text(revenue);
+                        }if (key.toString()  === 'homePage') {
+                            $("#movie_Link").attr('href',value);
+                            $("#movie_Link").text("Movie Homepage");
                         }
                         if (key.toString() === 'budget') {
                             var num = '$' + value.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");

@@ -57,7 +57,9 @@ namespace Vidly.Models
         [Required]
         public int Vote_Count { get; set; }
 
-       
+        public int Revenue { get; set; }
+
+        public string Homepage { get; set; }
 
       
 

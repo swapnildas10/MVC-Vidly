@@ -533,6 +533,14 @@
     <Compile Include="Migrations\201709281805007_AddedCrewModel.Designer.cs">
       <DependentUpon>201709281805007_AddedCrewModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709300300586_addedrevnueandhomepagetoMovieDetails.cs" />
+    <Compile Include="Migrations\201709300300586_addedrevnueandhomepagetoMovieDetails.Designer.cs">
+      <DependentUpon>201709300300586_addedrevnueandhomepagetoMovieDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709300322005_ModifiedaddedrevnueandhomepagetoMovieDetails.cs" />
+    <Compile Include="Migrations\201709300322005_ModifiedaddedrevnueandhomepagetoMovieDetails.Designer.cs">
+      <DependentUpon>201709300322005_ModifiedaddedrevnueandhomepagetoMovieDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -1251,6 +1259,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709281805007_AddedCrewModel.resx">
       <DependentUpon>201709281805007_AddedCrewModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709300300586_addedrevnueandhomepagetoMovieDetails.resx">
+      <DependentUpon>201709300300586_addedrevnueandhomepagetoMovieDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709300322005_ModifiedaddedrevnueandhomepagetoMovieDetails.resx">
+      <DependentUpon>201709300322005_ModifiedaddedrevnueandhomepagetoMovieDetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

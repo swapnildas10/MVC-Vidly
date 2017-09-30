@@ -174,5 +174,16 @@ td {
 .card-block> h3 {
     border: none;
 }
- 
+
+#movie_Link {
+    text-decoration: none;
+    color: black;
+    font-weight: bolder;
+}
+#movie_Link:hover {
+    color: white;
+    transition: color 1s;
+
+}
+
  

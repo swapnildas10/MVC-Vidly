@@ -47,8 +47,8 @@ namespace Vidly.Controllers.Api
                         Budget = rawMovieDescription.Budget,
                         Tagline = rawMovieDescription.Tagline,
                         Genres = rawMovieDescription.Genres,
-
-                      
+                        HomePage = rawMovieDescription.Homepage,
+                        Revenue = rawMovieDescription.Revenue,
                         Rating = rawMovieDescription.Vote_Average,
                        
                         VoteCount = rawMovieDescription.Vote_Count,
