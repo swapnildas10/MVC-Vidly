@@ -5,9 +5,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Movies</h2>
 
-<table id="movies" class="table table-bordered table-hover">
+<div class="row"><h2>Movies</h2></div>
+<br/>
+<div class="row">
+    
+        
+            <input type="text" id="search" name="search" />
+            
+        
+    
+</div>
+<br/>
+<div class="card-group mx-auto my-auto mr-auto " id="cardgroup">
+    
+</div>
+
+ 
+@*<table id="movies" class="table table-bordered table-hover">
     <thead>
     <tr>
         <th>Movie</th>
@@ -18,37 +33,113 @@
     <tbody>
    
     </tbody>
-</table>
+</table>*@
+ 
 
-
-
+<hr/>
 
 @section scripts
 {
     <script>
-        $(document).ready(function() {
-            var table = $("#movies").DataTable({
-                ajax: {
-                    url: "api/movies/",
-                    dataSrc: ""
-                },
-                columns: [
-                    {
-                        data: "name",
-                        render: function (data, type, movies) {
-                            return "<a class='nav-link' href='/movies/details/" + movies.id + "'>" + movies.name + "</a>";
-                        }
-                        
-                    },
-                    {
-                        data: "genre.genreName"
-                    }
-                    
-                ]
+        $(document).ready(function () {
+
+            $("#search").;
+
+
+            function createCard(imagesrc, name, linkid) {
+                var link = $((document).createElement("a")).attr('href', linkid);
+                $(link).addClass("mb-2");       
+                var card = $((document).createElement("div")).addClass("card ");
+                $(card).css('max-width','15rem');
+                $(card).css('margin','0');
+                var image = $((document).createElement("img"))
+                    .addClass("card-img-top img-responsive")
+                    .attr({ 'src': imagesrc, 'alt': 'Photo' });
+                var cardBlock = $((document).createElement("div")).addClass("card-block");
+                var cardTitle = $((document).createElement("h3")).addClass("card-title mt-2");
+                var cardText = $((document).createElement("p")).addClass("card-link");
+                $(cardTitle).text(name);
+                $(cardText).html(linkid);
+                $(cardBlock).append(cardTitle);
+               // $(cardBlock).append(cardText);
+                $(card).append(image).append(cardBlock);
+                $(link).html(card);
+                return link;
+            }
+
+            var cards = $("#cardgroup");
+            $.ajax({
+                url: "api/movies",
+                method:"GET"
+            }).done(function(success) {
+                $.each(success,function(key, value) {
+                    $.ajax({
+                        url: "api/moviedetails/details/" + value.movieDb,
+                        method: "GET"
+
+                    }).done(function (output) {
+                        var column = $((document).createElement("div")).addClass("col-xs-12 col-md-6 col-sm-6 col-lg-4 col-xl-3 mb-2").css('text-align','center');
+                        $(cards).append(column);
+                        $(column).append(createCard("https://image.tmdb.org/t/p/w154"+output.posterPath, value.name, "/movies/details/" + value.id  ));
+                    });
+                });
+
             });
 
 
+            var table = $("#movies").DataTable({
+                ajax: {
+                    url: "api/movies",
+                    dataSrc: ""
+                },
+                deferRender: true,
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, movies, meta) {
 
+
+                            var currentCell = $("#movies").DataTable().cells({ "row": meta.row, "column": meta.col }).nodes(0);
+                            $(currentCell).text("Loading...");
+                            $.ajax({
+                                url: "api/moviedetails/details/" + movies.movieDb,
+                                method: "GET"
+
+                            }).done(function (output) {
+                                console.log(output);
+                                var moviepath = "<a class='nav-link' href='/movies/details/" + movies.id + "'>" + "<img src='https://image.tmdb.org/t/p/w154" + output.posterPath + "'/>" +"<hr/>" + movies.name + "</a>";
+                                $(currentCell).html(moviepath);
+                            });
+                            return null;
+
+
+
+                        }
+                    },
+                    {
+                        data: "movieDb",
+                        render: function (data, type, full, meta) {
+                            var currentCell = $("#movies").DataTable().cells({ "row": meta.row, "column": meta.col }).nodes(0);
+                            $(currentCell).text("Loading...");
+                            $.ajax({
+                                url: "api/moviedetails/details/" + data,
+                                method: "GET"
+
+                            }).done(function (output) {
+
+                                $(currentCell).text(output.rating);
+                            }).fail(function(error) {
+                                $(currentCell).text("Unable to load. Refresh Page");
+                            });
+                            return null;
+                        }
+                    }
+                    
+                ]
+
+               
+            });
+ 
             
         });
     </script>

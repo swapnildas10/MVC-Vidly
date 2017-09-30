@@ -30,15 +30,45 @@
                     url: "api/movies",
                     dataSrc: ""
                 },
+                deferRender: true,
                 columns: [
                     {
                         data: "name",
-                        render: function(data, type, movies) {
-                            return "<a class='nav-link' href='/movies/edit/" + movies.id + "'>" + movies.name + "</a>";
+                        render: function (data, type, movies,meta) {
+
+
+                            var currentCell = $("#movies").DataTable().cells({"row":meta.row, "column":meta.col}).nodes(0);
+                            $(currentCell).text("Loading...");
+                            $.ajax({
+                                url: "api/moviedetails/details/" + movies.movieDb,
+                                method: "GET" 
+
+                            }).done(function (output) {
+                              //  console.log(output);
+                                var moviepath = "<img src='https://image.tmdb.org/t/p/w154" + output.posterPath+"'/><a class='nav-link' href='/movies/edit/" + movies.id + "'>" + movies.name + "</a>";
+                                $(currentCell).html(moviepath);
+                            });
+                            return null;
+
+
+                             
                         }
                     },
                     {
-                        data: "genre.genreName"
+                        data: "movieDb",
+                        render: function (data,type, full, meta) {
+                            var currentCell = $("#movies").DataTable().cells({"row":meta.row, "column":meta.col}).nodes(0);
+                            $(currentCell).text("Loading...");
+                            $.ajax({
+                                url: "api/moviedetails/details/" + data,
+                                method: "GET" 
+
+                            }).done(function (output) {
+                                
+                                $(currentCell).text(output.rating);
+                            });
+                            return null;
+                        }
                     }, {
                         data: "id",
                         render: function(data) {
@@ -59,7 +89,7 @@
                         function(result) {
                             if (result) {
                                 $.ajax({
-                                    url: "/api/movies" + button.attr("data-movie-id"),
+                                    url: "/api/movies/" + button.attr("data-movie-id"),
                                     method: "DELETE",
                                     success: function () {
                                         table.row(button.parents("tr")).remove().draw();
@@ -71,6 +101,7 @@
 
                 });
         });
+
     </script>
 
 }

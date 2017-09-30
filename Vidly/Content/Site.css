@@ -56,7 +56,7 @@ input.error{
 }
 .card {
     background-color: rgba(52, 58, 64, 0.25);
-    width: 23rem;
+    max-width: 23rem;
 }
 .tt-menu {
     width: 100%;
@@ -74,6 +74,7 @@ footer {
 .container {
     height:auto !important;
     min-height: 38.9rem;
+   
 }
 footer .list-group {
      display: inline-block;
@@ -111,7 +112,8 @@ footer p {
     position: absolute;
     left: 50%;
     top: 50%;
-    z-index: 1;
+    z-index:  1;
+     
     margin: -75px 0 0 -75px;
     border: 5px solid #f3f3f3;
     border-radius: 50%;
@@ -131,3 +133,46 @@ footer p {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+td {
+    text-align: center;
+}
+
+#cardgroup a{
+
+    text-decoration: none;
+ 
+}
+ 
+#cardgroup a:hover{
+     color: lightblue;
+     transition: color 1s;
+    text-decoration: none;
+    
+    
+     
+}#cardgroup a:hover {
+     color: lightblue;
+     transition: color 1s;
+    text-decoration: none;
+     
+}
+    #cardgroup a:hover .card:hover {
+        -webkit-transform: scale(1.05); /* Safari and Chrome */
+        -moz-transform: scale(1.05); /* Firefox */
+        -ms-transform: scale(1.05); /* IE 9 */
+        -o-transform: scale(1.05); /* Opera */
+        transform: scale(1.05);
+        transition: transform 1s;
+    }
+         
+ 
+#cardgroup {
+    text-align: center;
+}
+
+.card-block> h3 {
+    border: none;
+}
+ 
+ 
