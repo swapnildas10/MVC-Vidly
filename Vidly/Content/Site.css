@@ -57,6 +57,8 @@ input.error{
 .card {
     background-color: rgba(52, 58, 64, 0.25);
     max-width: 23rem;
+   
+
 }
 .tt-menu {
     width: 100%;
@@ -141,17 +143,10 @@ td {
 #cardgroup a{
 
     text-decoration: none;
- 
+   
 }
  
-#cardgroup a:hover{
-     color: lightblue;
-     transition: color 1s;
-    text-decoration: none;
-    
-    
-     
-}#cardgroup a:hover {
+ #cardgroup a:hover {
      color: lightblue;
      transition: color 1s;
     text-decoration: none;
@@ -169,10 +164,17 @@ td {
  
 #cardgroup {
     text-align: center;
+  
 }
-
+#cardgroup img{
+    height: 40%;
+}
+.card-block {
+    height: 120%;
+}
 .card-block> h3 {
     border: none;
+    font-size: 100%;
 }
 
 #movie_Link {
@@ -186,4 +188,21 @@ td {
 
 }
 
+#searchinput {
+     
+    border-radius: .25rem;
+    border: 2px solid transparent;
+}
+
+#searchinput:focus {
  
+    outline: none !important;
+    
+    border-color: lightgreen;
+    box-shadow: 0 0 10px #719ECE;
+    transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+#navbarSupportedContent {
+    float: none;
+}

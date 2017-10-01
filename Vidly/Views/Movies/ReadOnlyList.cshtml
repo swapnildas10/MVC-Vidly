@@ -8,9 +8,9 @@
 
 <div class="row"><h2>Movies</h2></div>
 <br/>
-<div class="row">
+<div class="row mx-auto my-auto mr-auto ">
     
-        
+    <input type="search" class="form-control col-lg-4 col-xs-12 col-sm-4" placeholder="Search Movies" id="searchinput" />       
             
             
         
@@ -22,18 +22,6 @@
 </div>
 
  
-@*<table id="movies" class="table table-bordered table-hover">
-    <thead>
-    <tr>
-        <th>Movie</th>
-        <th>Genre</th>
-       
-    </tr>
-    </thead>
-    <tbody>
-   
-    </tbody>
-</table>*@
  
 
 <hr/>
@@ -42,21 +30,49 @@
 {
     <script>
         $(document).ready(function () {
-            
-            
 
+
+            $("#searchinput").keyup(function(event) {
+                $("h3").each(function () {
+                    //console.log($(this).text().toLowerCase());
+                   // console.log($("#searchinput").val().toLowerCase());
+                   // console.log(($(this).text()).indexOf($("#searchinput").val()) ); 
+                    
+                     
+                    if ($(this).text().length>1)
+                    if (($(this).text().toLowerCase()).indexOf($("#searchinput").val().toLowerCase()) === -1) {
+                        $(this).parent().parent().fadeOut(200,function() {
+                            $(this).parent().parent().hide();
+                        });
+                        //prepend function
+                        // $(this).parent().parent().parent().draw();
+                    } else {
+
+                        $(this).parent().parent().show(200,function() {
+                            $(this).parent().parent().fadeIn(400);
+                        });
+                        
+                      
+                        // $(this).parent().parent().parent().draw();
+                    }
+                     
+                });
+                 
+            });
           
 
 
             function createCard(imagesrc, name, linkid) {
-                var link = $((document).createElement("a")).attr('href', linkid);
+                var link = $($((document).createElement("a")).attr('href', linkid)) ;
                 $(link).addClass("mb-2");       
-                var card = $((document).createElement("div")).addClass("card ");
+                var card = $($((document).createElement("div")).addClass("card")).attr("data-id", name);
+              
                 $(card).css('max-width','15rem');
-                $(card).css('margin','0');
-                var image = $((document).createElement("img"))
+                $(card).css('margin', '0');  
+                $(card).css('border-radius','.50rem');
+                var image = $($((document).createElement("img"))
                     .addClass("card-img-top img-responsive")
-                    .attr({ 'src': imagesrc, 'alt': 'Photo' });
+                    .attr({ 'src': imagesrc, 'alt': 'Photo' })).css('border-top-left-radius','.50rem');
                 var cardBlock = $((document).createElement("div")).addClass("card-block");
                 var cardTitle = $((document).createElement("h3")).addClass("card-title mt-2");
                 var cardText = $((document).createElement("p")).addClass("card-link");
@@ -80,68 +96,24 @@
                         method: "GET"
 
                     }).done(function (output) {
-                        var column = $((document).createElement("div")).addClass("col-xs-12 col-md-6 col-sm-6 col-lg-4 col-xl-3 mb-2").css('text-align','center');
+                        var column = $($((document).createElement("div")).addClass("col-xs-12 col-md-6 col-sm-6 col-lg-4 col-xl-3 mb-2 moviecard").css('text-align','center')).attr('data-name',value.name);
                         $(cards).append(column);
-                        $(column).append(createCard("https://image.tmdb.org/t/p/w154"+output.posterPath, value.name, "/movies/details/" + value.id  ));
+                        $(column).append(createCard("https://image.tmdb.org/t/p/original"+output.posterPath, value.name, "/movies/details/" + value.id  ));
                     });
                 });
-
-            });
-
-
-            var table = $("#movies").DataTable({
-                ajax: {
-                    url: "api/movies",
-                    dataSrc: ""
-                },
-                deferRender: true,
-                columns: [
-                    {
-                        data: "name",
-                        render: function (data, type, movies, meta) {
-
-
-                            var currentCell = $("#movies").DataTable().cells({ "row": meta.row, "column": meta.col }).nodes(0);
-                            $(currentCell).text("Loading...");
-                            $.ajax({
-                                url: "api/moviedetails/details/" + movies.movieDb,
-                                method: "GET"
-
-                            }).done(function (output) {
-                                console.log(output);
-                                var moviepath = "<a class='nav-link' href='/movies/details/" + movies.id + "'>" + "<img src='https://image.tmdb.org/t/p/w154" + output.posterPath + "'/>" +"<hr/>" + movies.name + "</a>";
-                                $(currentCell).html(moviepath);
-                            });
-                            return null;
-
-
-
-                        }
-                    },
-                    {
-                        data: "movieDb",
-                        render: function (data, type, full, meta) {
-                            var currentCell = $("#movies").DataTable().cells({ "row": meta.row, "column": meta.col }).nodes(0);
-                            $(currentCell).text("Loading...");
-                            $.ajax({
-                                url: "api/moviedetails/details/" + data,
-                                method: "GET"
-
-                            }).done(function (output) {
-
-                                $(currentCell).text(output.rating);
-                            }).fail(function(error) {
-                                $(currentCell).text("Unable to load. Refresh Page");
-                            });
-                            return null;
-                        }
-                    }
-                    
-                ]
-
+                var arrange = $(".moviecard").sort(function (a, b) {
+                    console.log(a);
+                    return String.prototype.localeCompare.call($(a).attr("data-name").toLowerCase(), $(b).attr("data-name").toLowerCase());
+                 
+                });
+                var cardgroup = $(".card-group").empty().append(arrange);
+                $(".container").append(cardgroup);
                
             });
- 
+
+            
+           
+          
             
         });
     </script>

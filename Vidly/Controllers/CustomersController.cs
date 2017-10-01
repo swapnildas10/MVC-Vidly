@@ -6,8 +6,11 @@ using System.Web.Mvc;
 using Vidly.Models;
 using Vidly.ViewModels;
 using System.Data.Entity;
+using Vidly.Controllers.Api.Filter;
 namespace Vidly.Controllers
 {
+    [CanManageRole(RoleName.CanManageMovies)]
+
     public class CustomersController : Controller
     {
         private ApplicationDbContext _context;
@@ -21,7 +24,7 @@ namespace Vidly.Controllers
         {
            _context.Dispose();
         }
-
+       
         public ViewResult Index()
         {
           //  var customers = GetCustomers();

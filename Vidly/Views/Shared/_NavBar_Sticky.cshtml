@@ -1,0 +1,31 @@
+﻿@using Vidly.Models
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="stickynavbar">
+    <a href="@Url.Action("Index","Home")" ><span><i class="ion-person"></i></span></a>
+    
+         
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+       
+    </button>
+         
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            @if (this.User.IsInRole(RoleName.CanManageMovies))
+            {
+                <li class="nav-item">
+</li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Returns","Returns")" ><span><i class="ion-person"></i></span></a>
+                      </li>
+           
+            }
+            <li class="nav-item">
+                <a href="@Url.Action("New","Rentals")" ><span><i class="ion-person"></i></span></a>
+            </li>
+            <li class="nav-item">
+             </li>
+        </ul>
+        @Html.Partial("_LoginPartial")
+    </div>
+    
+</nav>

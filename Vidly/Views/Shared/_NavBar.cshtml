@@ -1,4 +1,5 @@
-﻿<nav class="navbar navbar-expand-lg navbar-dark ">
+﻿@using Vidly.Models
+<nav class="navbar navbar-expand-lg navbar-dark " id="navbar">
     @Html.ActionLink("Vidly", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
         
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,14 +7,38 @@
        
     </button>
          
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">@Html.ActionLink("New Rental", "New", "Rentals",new { area = "" }, new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("Customers", "Index", "Customers", new { area = "" }, new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("Movies", "Index", "Movies", new { area = "" }, new { @class = "nav-link" })</li>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="row"><ul class="navbar-nav   normal">
+    @if (this.User.IsInRole(RoleName.CanManageMovies))
+            {
+        <li class="nav-item">@Html.ActionLink("Customers", "Index", "Customers", new { area = "" }, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("Returns", "Returns", "Returns", new { area = "" }, new { @class = "nav-link" })</li>
-            </ul>
-            @Html.Partial("_LoginPartial")
-        </div>
+
+    }
+    <li class="nav-item">@Html.ActionLink("New Rental", "New", "Rentals", new { area = "" }, new { @class = "nav-link" })</li>
+    <li class="nav-item">@Html.ActionLink("Movies", "Index", "Movies", new { area = "" }, new { @class = "nav-link" })</li>
+</ul></div>
+        <div class="row"><ul class="navbar-nav mr-auto icons">
+    @if (this.User.IsInRole(RoleName.CanManageMovies))
+            {
+        <li class="nav-item">
+            <a href="@Url.Action("Index", "Customers")"><span><i class="ion-person"></i></span></a>
+        </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Returns", "Returns")"><span><i class="ion-person"></i></span></a>
+                </li>
+
+    }
+    <li class="nav-item">
+        <a href="@Url.Action("New", "Rentals")"><span><i class="ion-person"></i></span></a>
+    </li>
+    <li class="nav-item">
+        <a href="@Url.Action("Index", "Movies")"><span><i class="ion-person"></i></span></a>
+    </li>
+</ul></div>
+       
+        
+        @Html.Partial("_LoginPartial")
+    </div>
     
 </nav>

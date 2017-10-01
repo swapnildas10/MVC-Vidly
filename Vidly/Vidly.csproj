@@ -541,6 +541,10 @@
     <Compile Include="Migrations\201709300322005_ModifiedaddedrevnueandhomepagetoMovieDetails.Designer.cs">
       <DependentUpon>201709300322005_ModifiedaddedrevnueandhomepagetoMovieDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709302258382_addedyoutubedetailsmodel.cs" />
+    <Compile Include="Migrations\201709302258382_addedyoutubedetailsmodel.Designer.cs">
+      <DependentUpon>201709302258382_addedyoutubedetailsmodel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -558,6 +562,8 @@
     <Compile Include="Models\MovieDescription.cs" />
     <Compile Include="Models\MovieDetailsGenres.cs" />
     <Compile Include="Models\MovieSearch.cs" />
+    <Compile Include="Models\MovieTrailers.cs" />
+    <Compile Include="Models\MovieVideos.cs" />
     <Compile Include="Models\ProductionCompanies.cs" />
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Models\RoleName.cs" />
@@ -1031,6 +1037,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_MovieDescription.cshtml" />
+    <Content Include="Views\Shared\_NavBar_Sticky.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1265,6 +1272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709300322005_ModifiedaddedrevnueandhomepagetoMovieDetails.resx">
       <DependentUpon>201709300322005_ModifiedaddedrevnueandhomepagetoMovieDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709302258382_addedyoutubedetailsmodel.resx">
+      <DependentUpon>201709302258382_addedyoutubedetailsmodel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

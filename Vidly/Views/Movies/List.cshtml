@@ -12,7 +12,7 @@
     <thead>
     <tr>
         <th>Movie</th>
-        <th>Genre</th>
+        <th>Stock</th>
         <th>Delete</th>
     </tr>
     </thead>
@@ -36,38 +36,16 @@
                         data: "name",
                         render: function (data, type, movies,meta) {
 
-
-                            var currentCell = $("#movies").DataTable().cells({"row":meta.row, "column":meta.col}).nodes(0);
-                            $(currentCell).text("Loading...");
-                            $.ajax({
-                                url: "api/moviedetails/details/" + movies.movieDb,
-                                method: "GET" 
-
-                            }).done(function (output) {
-                              //  console.log(output);
-                                var moviepath = "<img src='https://image.tmdb.org/t/p/w154" + output.posterPath+"'/><a class='nav-link' href='/movies/edit/" + movies.id + "'>" + movies.name + "</a>";
-                                $(currentCell).html(moviepath);
-                            });
-                            return null;
+                            return "<a class='nav-link' href='/movies/edit/" + movies.id + "'>" + movies.name + "</a>";
 
 
-                             
                         }
                     },
                     {
-                        data: "movieDb",
+                        data: "stock",
                         render: function (data,type, full, meta) {
-                            var currentCell = $("#movies").DataTable().cells({"row":meta.row, "column":meta.col}).nodes(0);
-                            $(currentCell).text("Loading...");
-                            $.ajax({
-                                url: "api/moviedetails/details/" + data,
-                                method: "GET" 
+                            return "<p class='nav-link'>"+data+"</p>";
 
-                            }).done(function (output) {
-                                
-                                $(currentCell).text(output.rating);
-                            });
-                            return null;
                         }
                     }, {
                         data: "id",

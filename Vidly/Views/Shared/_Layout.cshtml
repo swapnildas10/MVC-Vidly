@@ -10,36 +10,38 @@
     @RenderSection("Rentals", false)
 </head>
 <body>
+ 
 @Html.Partial("_NavBar")
-    
+
 <div id="maskloading">
-    <div class="container" style="width: 100%;height: 100%">
-        <div  id="loader"></div>
+    <div class="container" style="width: 100%; height: 100%">
+        <div id="loader"></div>
     </div>
 </div>
- 
-   
+
+
 <div class="container body-content">
-    
+
     @RenderBody()
-    
-    
+
+
 </div>
 <footer>
     <div class="row" style="clear: both; text-align: center;">
         <div class="col"><ul class="list-group social-links">
-            <li class="list-group-item"><a href="https://www.facebook.com/swap990" target="_blank"><i class="ion-social-facebook"></i></a></li>
-            <li class="list-group-item"><a href="#" target="_blank"><i class="ion-social-twitter"></i></a></li>
-            <li class="list-group-item"><a href="https://plus.google.com/u/1/104541414030652849679" target="_blank"><i class="ion-social-googleplus"></i></a></li>
-            <li class="list-group-item"><a href="https://www.instagram.com/swapnildas10/?hl=en" target="_blank"><i class="ion-social-instagram"></i></a></li>
-        </ul> </div>
+                <li class="list-group-item"><a href="https://www.facebook.com/swap990" target="_blank"><i class="ion-social-facebook"></i></a></li>
+                <li class="list-group-item"><a href="#" target="_blank"><i class="ion-social-twitter"></i></a></li>
+                <li class="list-group-item"><a href="https://plus.google.com/u/1/104541414030652849679" target="_blank"><i class="ion-social-googleplus"></i></a></li>
+                <li class="list-group-item"><a href="https://www.instagram.com/swapnildas10/?hl=en" target="_blank"><i class="ion-social-instagram"></i></a></li>
+            </ul>
+        </div>
         <div class="col mx-auto my-auto">
             <p style="color: white;">Made By Swapnil Das</p>
         </div>
-        
+
 
     </div>
-    
+
 </footer>
 
 @Scripts.Render("~/bundles/lib")
@@ -47,6 +49,18 @@
 <script>
     $(window).load(function() {
         $("#maskloading").remove();
+    });
+
+    $(document).ready(function() {
+        $(window).scroll(function() {
+            console.log($(window).scrollTop());
+            if ($(window).scrollTop() > $('#navbar').height()) {
+                $('#navbar').addClass('sticky-top');
+            }
+            if ($(window).scrollTop() < $('#navbar').height()) {
+                $('#navbar').removeClass('sticky-top');
+            }
+        });
     });
 
 </script>

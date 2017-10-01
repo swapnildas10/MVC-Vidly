@@ -11,7 +11,6 @@ using Vidly.Models;
 
 namespace Vidly.Controllers.Api
 {
-   
     public class MovieDetailsController : ApiController
     {   private const string API_KEY= "4520856e9bc4e97798334c0576400d36";
         ApplicationDbContext  _context;
@@ -24,7 +23,6 @@ namespace Vidly.Controllers.Api
         [Route("api/moviedetails/details/{id}")]
         public async  Task<IHttpActionResult> Description(int id)
         {
-
             using (var client = new HttpClient())
             {
                 try
@@ -32,9 +30,13 @@ namespace Vidly.Controllers.Api
                     client.BaseAddress = new Uri("https://api.themoviedb.org");
                     var response = await client.GetAsync($"/3/movie/{id}?language=en-US&api_key="+API_KEY);
                     response.EnsureSuccessStatusCode();
-
+                   
+                    var youtubeResponse = await client.GetAsync($"/3/movie/{id}/videos?api_key="+API_KEY+"&language=en-US");
+                    youtubeResponse.EnsureSuccessStatusCode();
                     var stringResult = await response.Content.ReadAsStringAsync();
+                    var youtubeResult = await youtubeResponse.Content.ReadAsStringAsync();
                     var rawMovieDescription = JsonConvert.DeserializeObject<MovieDescription>(stringResult);
+                    var youtubeResultDescription = JsonConvert.DeserializeObject<MovieTrailers>(youtubeResult);
                     return Ok(new
                     {
                         PgRated = rawMovieDescription.Adult,
@@ -50,7 +52,7 @@ namespace Vidly.Controllers.Api
                         HomePage = rawMovieDescription.Homepage,
                         Revenue = rawMovieDescription.Revenue,
                         Rating = rawMovieDescription.Vote_Average,
-                       
+                       Videos = youtubeResultDescription.Results,
                         VoteCount = rawMovieDescription.Vote_Count,
                          PosterPath = rawMovieDescription.Poster_Path
                        
@@ -81,8 +83,6 @@ namespace Vidly.Controllers.Api
                     {
                        Cast = rawMovieDescription.Cast,
                        Crew = rawMovieDescription.Crew
-                         
-
                     });
                 }
                 catch (HttpRequestException httpRequestException)
@@ -96,16 +96,6 @@ namespace Vidly.Controllers.Api
         [Route("api/moviedetails/search/{query}")]
         public async Task<IHttpActionResult> GetMovieById(string query = null)
         {
-
-
-
-
-
-
-
-
-
-
             using(var client = new HttpClient())
             {
                 try
@@ -114,19 +104,6 @@ namespace Vidly.Controllers.Api
 
                     var response = await client.GetAsync($"/3/search/movie?api_key="+API_KEY+"&language=en-US&query="+query+"&include_adult=true");
                     response.EnsureSuccessStatusCode();
-
-
-
-
-
-
-
-
-
-
-
-
-
                     var stringResult = await response.Content.ReadAsStringAsync();
                     var rawMovieDescription = JsonConvert.DeserializeObject<MovieSearch>(stringResult);
                     List<int> MovieId = new List<int>();

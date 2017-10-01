@@ -242,11 +242,12 @@
                 url: "/api/moviedetails/details/" + @Model.MovieDb,
                 method: "GET",
                 contentType: "application/JSON"
-            }).done(function(success) {
+            }).done(function (success) {
+                console.log(success['videos'][0].key);
                 $.each(success,
                     function(key, value) {
 
-                       console.log(key+":"+value);
+                     
                         if (key.toString() === 'tagline')
                             $('#tagline q').text(value);
                         var list = document.createElement("li");
