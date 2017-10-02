@@ -42,9 +42,9 @@ namespace Vidly.Controllers.Api
        {//.Where(m => m.NumberAvailable > 0)
             var moviesQuery = _context.Movies.Include(c => c.Genre);//deferred execution here
             if (!String.IsNullOrWhiteSpace(query))
-                moviesQuery = moviesQuery.Where(m => m.Name.Contains(query)).Distinct();
+                moviesQuery = moviesQuery.Where(m => m.Name.Contains(query));
             
-            var movieDtos = moviesQuery.Include(c => c.Genre).ToList().Select(Mapper.Map<Movie, MovieDto>);
+            var movieDtos = moviesQuery.Include(c => c.Genre).OrderBy(m => m.Name).ToList().Select(Mapper.Map<Movie, MovieDto>);
             return Ok(movieDtos);
 
         }
@@ -53,8 +53,7 @@ namespace Vidly.Controllers.Api
         public IHttpActionResult GetPages()
         {
             var count = _context.Movies.Count();
-            float pages = (count / 10) + (count %10);
-           
+            float pages = (float)count / 10;
             return Ok(Math.Ceiling(pages));
         }
 

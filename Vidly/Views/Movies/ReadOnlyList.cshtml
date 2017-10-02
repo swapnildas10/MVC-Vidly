@@ -49,23 +49,26 @@
 
 
 @section scripts
-{
+{@Scripts.Render("~/Bundles/jqueryval")
     <script>
+         
         $(document).ready(function () {
 
-
+            apicall(1);
             $("#submitsearch").click(function (event) {
                 $("#cardgroup").empty();
-                console.log($("#searchinput").val().toLowerCase());
-                console.log("HE");
-                if ($("#searchinput").val().length === 0) {
+                var cards = $("#cardgroup");
+                
+                var searchinput = $("#searchinput");
+                
+                if ($(searchinput).val().length === 0) {
                     apicall(1);
                 } else {
                     $.ajax({
-                        url: "api/movies/allmovies?query=" + $("#searchinput").val().toLowerCase(),
+                        url: "api/movies/allmovies?query=" + $(searchinput).val().toLowerCase(),
                         method:"GET"
                     }).done(function (success) {
-                        $("#cardgroup").empty();
+                        $(cards).empty();
                         $.each(success,function(key, value) {
                             $.ajax({
                                 url: "api/moviedetails/details/" + value.movieDb,
@@ -130,20 +133,20 @@
                 $(cardTitle).text(name);
                 $(cardText).html(linkid);
                 $(cardBlock).append(cardTitle);
-               // $(cardBlock).append(cardText);
+                // $(cardBlock).append(cardText);
                 $(card).append(image).append(cardBlock);
                 $(link).html(card);
                 return link;
             }
 
             var cards = $("#cardgroup");
-            apicall(1);
+            
             function apicall(page) {
                 $.ajax({
                     url: "api/movies?page="+page,
                     method:"GET"
                 }).done(function (success) {
-                    $("#cardgroup").empty();
+                    $(cards).empty();
                     $.each(success,function(key, value) {
                         $.ajax({
                             url: "api/moviedetails/details/" + value.movieDb,
@@ -164,27 +167,27 @@
             };
            
             
-                $.ajax({
-                    url: "api/movies/pages",
-                    method: "GET"
-                }).success(function(success) {
-                  //  console.log(success);
-                    var pagination = $("#pagination");
+            $.ajax({
+                url: "api/movies/pages",
+                method: "GET"
+            }).success(function(success) {
+                      console.log(success);
+                var pagination = $("#pagination");
                   
-                    for (var i = 0; i < success; i++) {
+                for (var i = 0; i < success; i++) {
                      
-                   var list =     $((document).createElement("li")).addClass("page-item");
-                   var link = $((document).createElement("a")).addClass("page-link").text(i + 1);
-                   $(link).attr('data-linkid', i+1);
-                   $(link).on('click', function() {
-                       var parameter = $(this).attr("data-linkid");
-                       apicall(parameter);
-                    //   console.log(parameter);
-                   });
-                        $(list).append(link);
-                        $(pagination).before(list);
-                    }
-                });
+                    var list =     $((document).createElement("li")).addClass("page-item");
+                    var link = $((document).createElement("a")).addClass("page-link").text(i + 1);
+                    $(link).attr('data-linkid', i+1);
+                    $(link).on('click', function() {
+                        var parameter = $(this).attr("data-linkid");
+                        apicall(parameter);
+                        //   console.log(parameter);
+                    });
+                    $(list).append(link);
+                    $(pagination).before(list);
+                }
+            });
         });
     </script>
 
