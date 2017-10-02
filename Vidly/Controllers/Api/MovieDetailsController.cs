@@ -28,7 +28,7 @@ namespace Vidly.Controllers.Api
                 try
                 {
                     client.BaseAddress = new Uri("https://api.themoviedb.org");
-                    var response = await client.GetAsync($"/3/movie/{id}?language=en-US&api_key="+API_KEY);
+                    var response = await client.GetAsync($"/3/movie/{id}?api_key="+API_KEY+ "&language=en-US");
                     response.EnsureSuccessStatusCode();
                    
                     var youtubeResponse = await client.GetAsync($"/3/movie/{id}/videos?api_key="+API_KEY+"&language=en-US");

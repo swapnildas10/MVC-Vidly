@@ -11,20 +11,42 @@
 <div class="row mx-auto my-auto mr-auto ">
     
     <input type="search" class="form-control col-lg-4 col-xs-12 col-sm-4" placeholder="Search Movies" id="searchinput" />       
-            
+    <button id="submitsearch" type="submit" class="btn btn-cyan">Search</button>        
             
         
     
 </div>
-<br/>
-<div class="card-group mx-auto my-auto mr-auto " id="cardgroup">
+<hr />
+<div class="row">
+    <div class=" card-group mx-auto my-auto mr-auto " id="cardgroup">
     
+    </div>
 </div>
+<hr />
+<div class="row" style="text-align: right">
+    <div aria-label="Page navigation example" class="col-xs-12 col-sm-12 col-lg-4">
+        <ul class="pagination">
+            <li class="page-item" >
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+           
+            <li class="page-item" id="pagination">
+                <a class="page-link" href="#" aria-label="Next" >
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 
+</div>
  
  
 
-<hr/>
+
 
 @section scripts
 {
@@ -32,31 +54,60 @@
         $(document).ready(function () {
 
 
-            $("#searchinput").keyup(function(event) {
-                $("h3").each(function () {
-                    //console.log($(this).text().toLowerCase());
-                   // console.log($("#searchinput").val().toLowerCase());
-                   // console.log(($(this).text()).indexOf($("#searchinput").val()) ); 
+            $("#submitsearch").click(function (event) {
+                $("#cardgroup").empty();
+                console.log($("#searchinput").val().toLowerCase());
+                console.log("HE");
+                if ($("#searchinput").val().length === 0) {
+                    apicall(1);
+                } else {
+                    $.ajax({
+                        url: "api/movies/allmovies?query=" + $("#searchinput").val().toLowerCase(),
+                        method:"GET"
+                    }).done(function (success) {
+                        $("#cardgroup").empty();
+                        $.each(success,function(key, value) {
+                            $.ajax({
+                                url: "api/moviedetails/details/" + value.movieDb,
+                                method: "GET"
+
+                            }).done(function (output) {
+                                var column = $($((document).createElement("div")).addClass("col-xs-12 col-md-6 col-sm-6 col-lg-4 col-xl-3 mb-2 moviecard").css('text-align','center')).attr('data-name',value.name);
+                                $(cards).append(column);
+                                $(column).append(createCard("https://image.tmdb.org/t/p/original"+output.posterPath, value.name, "/movies/details/" + value.id  ));
+                            }).fail(function(error) {
+                                console.log(error);
+                            });
+                        });
+                    }).fail(function(error) {
+                    
+                    });
+                }
+                
+                //$("h3").each(function () {
+                //    //console.log($(this).text().toLowerCase());
+                //   // console.log($("#searchinput").val().toLowerCase());
+                //   // console.log(($(this).text()).indexOf($("#searchinput").val()) ); 
                     
                      
-                    if ($(this).text().length>1)
-                    if (($(this).text().toLowerCase()).indexOf($("#searchinput").val().toLowerCase()) === -1) {
-                        $(this).parent().parent().fadeOut(200,function() {
-                            $(this).parent().parent().hide();
-                        });
-                        //prepend function
-                        // $(this).parent().parent().parent().draw();
-                    } else {
+                //    if ($(this).text().length>1)
+                //    if (($(this).text().toLowerCase()).indexOf($("#searchinput").val().toLowerCase()) === -1) {
+                //        $(this).parent().parent().fadeOut(200,function() {
+                //            $(this).parent().parent().hide();
+                //        });
+                //        //prepend function
+                //        // $(this).parent().parent().parent().draw();
+                //    } else {
 
-                        $(this).parent().parent().show(200,function() {
-                            $(this).parent().parent().fadeIn(400);
-                        });
+                //        $(this).parent().parent().show(200,function() {
+                //            $(this).parent().parent().fadeIn(400);
+                //        });
                         
                       
-                        // $(this).parent().parent().parent().draw();
-                    }
+                //        // $(this).parent().parent().parent().draw();
+                //    }
                      
-                });
+                //});
                  
             });
           
@@ -67,7 +118,7 @@
                 $(link).addClass("mb-2");       
                 var card = $($((document).createElement("div")).addClass("card")).attr("data-id", name);
               
-                $(card).css('max-width','15rem');
+                $(card).css('max-width','100rem');
                 $(card).css('margin', '0');  
                 $(card).css('border-radius','.50rem');
                 var image = $($((document).createElement("img"))
@@ -86,35 +137,54 @@
             }
 
             var cards = $("#cardgroup");
-            $.ajax({
-                url: "api/movies",
-                method:"GET"
-            }).done(function(success) {
-                $.each(success,function(key, value) {
-                    $.ajax({
-                        url: "api/moviedetails/details/" + value.movieDb,
-                        method: "GET"
+            apicall(1);
+            function apicall(page) {
+                $.ajax({
+                    url: "api/movies?page="+page,
+                    method:"GET"
+                }).done(function (success) {
+                    $("#cardgroup").empty();
+                    $.each(success,function(key, value) {
+                        $.ajax({
+                            url: "api/moviedetails/details/" + value.movieDb,
+                            method: "GET"
 
-                    }).done(function (output) {
-                        var column = $($((document).createElement("div")).addClass("col-xs-12 col-md-6 col-sm-6 col-lg-4 col-xl-3 mb-2 moviecard").css('text-align','center')).attr('data-name',value.name);
-                        $(cards).append(column);
-                        $(column).append(createCard("https://image.tmdb.org/t/p/original"+output.posterPath, value.name, "/movies/details/" + value.id  ));
+                        }).done(function (output) {
+                            var column = $($((document).createElement("div")).addClass("col-xs-12 col-md-6 col-sm-6 col-lg-4 col-xl-3 mb-2 moviecard").css('text-align','center')).attr('data-name',value.name);
+                            $(cards).append(column);
+                            $(column).append(createCard("https://image.tmdb.org/t/p/original"+output.posterPath, value.name, "/movies/details/" + value.id  ));
+                        }).fail(function(error) {
+                            console.log(error);
+                        });
                     });
-                });
-                var arrange = $(".moviecard").sort(function (a, b) {
-                    console.log(a);
-                    return String.prototype.localeCompare.call($(a).attr("data-name").toLowerCase(), $(b).attr("data-name").toLowerCase());
                  
-                });
-                var cardgroup = $(".card-group").empty().append(arrange);
-                $(".container").append(cardgroup);
+                
                
-            });
-
-            
+                });
+            };
            
-          
             
+                $.ajax({
+                    url: "api/movies/pages",
+                    method: "GET"
+                }).success(function(success) {
+                  //  console.log(success);
+                    var pagination = $("#pagination");
+                  
+                    for (var i = 0; i < success; i++) {
+                     
+                   var list =     $((document).createElement("li")).addClass("page-item");
+                   var link = $((document).createElement("a")).addClass("page-link").text(i + 1);
+                   $(link).attr('data-linkid', i+1);
+                   $(link).on('click', function() {
+                       var parameter = $(this).attr("data-linkid");
+                       apicall(parameter);
+                    //   console.log(parameter);
+                   });
+                        $(list).append(link);
+                        $(pagination).before(list);
+                    }
+                });
         });
     </script>
 

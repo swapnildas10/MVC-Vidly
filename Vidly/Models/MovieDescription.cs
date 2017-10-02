@@ -20,7 +20,7 @@ namespace Vidly.Models
         [Required]
         public bool Adult { get; set; }
 
-        public double Budget { get; set; }
+        public int Budget { get; set; }
 
         public MovieDetailsGenres[] Genres { get; set; }
 
@@ -45,7 +45,7 @@ namespace Vidly.Models
 
         [Display(Name = "Runtime")]
         [Required]
-        public int RunTime { get; set; }
+        public int? RunTime { get; set; }
 
         public string Tagline { get; set; }
 

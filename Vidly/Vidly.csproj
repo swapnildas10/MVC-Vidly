@@ -79,6 +79,12 @@
     <Reference Include="Microsoft.Owin.Security.Facebook, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.1.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -545,6 +551,10 @@
     <Compile Include="Migrations\201709302258382_addedyoutubedetailsmodel.Designer.cs">
       <DependentUpon>201709302258382_addedyoutubedetailsmodel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710020205099_modefyMovieDescriptionModelAgain.cs" />
+    <Compile Include="Migrations\201710020205099_modefyMovieDescriptionModelAgain.Designer.cs">
+      <DependentUpon>201710020205099_modefyMovieDescriptionModelAgain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -754,6 +764,7 @@
     <Content Include="Content\mdb.css" />
     <Content Include="Content\movie-details.css" />
     <Content Include="Content\new-rental.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\typeahead.css" />
@@ -1275,6 +1286,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709302258382_addedyoutubedetailsmodel.resx">
       <DependentUpon>201709302258382_addedyoutubedetailsmodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710020205099_modefyMovieDescriptionModelAgain.resx">
+      <DependentUpon>201710020205099_modefyMovieDescriptionModelAgain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

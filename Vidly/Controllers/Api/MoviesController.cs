@@ -9,6 +9,7 @@ using Vidly.Dtos;
 using Vidly.Models;
 using System.Data.Entity;
 using System.Web;
+using System.Web.Routing;
 using Vidly.Controllers.Api.Filter;
 
 namespace Vidly.Controllers.Api
@@ -23,16 +24,41 @@ namespace Vidly.Controllers.Api
         }
        [HttpGet]
         // GET: api/Movies
-        public IHttpActionResult GetMovies(string query = null)
+        public IHttpActionResult GetMovies(int? page  ,string query = null)
         {//.Where(m => m.NumberAvailable > 0)
-            var moviesQuery = _context.Movies.Include(c => c.Genre);
+            var moviesQuery = _context.Movies.Include(c => c.Genre);//deferred execution here
             if(!String.IsNullOrWhiteSpace(query))
                 moviesQuery = moviesQuery.Where(m => m.Name.Contains(query));
-           
+            if (page.HasValue)
+                moviesQuery = moviesQuery.OrderBy(m=>m.Name).Skip((10 * (page.Value - 1))).Take((10));//deferred execution here
+
             var movieDtos = moviesQuery.Include(c=>c.Genre).ToList().Select(Mapper.Map<Movie,MovieDto>);
             return Ok(movieDtos);
 
         }
+        [HttpGet]
+        [Route("api/movies/allmovies")]
+        public IHttpActionResult GetAllMovies( string query = null)
+       {//.Where(m => m.NumberAvailable > 0)
+            var moviesQuery = _context.Movies.Include(c => c.Genre);//deferred execution here
+            if (!String.IsNullOrWhiteSpace(query))
+                moviesQuery = moviesQuery.Where(m => m.Name.Contains(query)).Distinct();
+            
+            var movieDtos = moviesQuery.Include(c => c.Genre).ToList().Select(Mapper.Map<Movie, MovieDto>);
+            return Ok(movieDtos);
+
+        }
+        [HttpGet]
+        [Route("api/movies/pages")]
+        public IHttpActionResult GetPages()
+        {
+            var count = _context.Movies.Count();
+            float pages = (count / 10) + (count %10);
+           
+            return Ok(Math.Ceiling(pages));
+        }
+
+
         [HttpGet]
         // GET: api/Movies/5
         public IHttpActionResult GetMovie(int id)
