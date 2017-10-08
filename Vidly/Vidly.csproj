@@ -563,6 +563,7 @@
     <Compile Include="Models\Crew.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MembershipType.cs" />
@@ -956,13 +957,17 @@
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\Filesystem.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
+    <None Include="Properties\PublishProfiles\MVC5-AWS.pubxml" />
     <None Include="Properties\PublishProfiles\MyApp09282017 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\onlinemovierental.swapnildas.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\swapnildas.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Vidly20170928014315 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Vidly20170928120751 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Vidly20171003113424 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Vidly20171004121718 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -1003,8 +1008,11 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -1057,7 +1065,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\img\" />
     <Folder Include="fonts\" />
     <Folder Include="font\" />
     <Folder Include="img\" />

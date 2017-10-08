@@ -18,7 +18,8 @@ namespace Vidly.Models
         public DbSet<MovieCast> MovieCasts { get; set; }
         public DbSet<Cast> Casts { get; set; }
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+           //  : base("DefaultConnection", throwIfV1Schema: false)
+            : base(Helpers.GetRDSConnection() ?? "DefaultConnection", throwIfV1Schema: false)
         {
         }
 

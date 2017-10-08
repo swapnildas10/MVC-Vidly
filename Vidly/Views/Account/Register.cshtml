@@ -19,7 +19,7 @@
                 @Html.AntiForgeryToken()
                 
                 <hr/>
-               // @Html.ValidationSummary("", new {@class = "text-danger"})
+                @Html.ValidationSummary(true,"Please fix following errors", new {@class = "text-danger"})
                 <div class="form-group">
                    
 
