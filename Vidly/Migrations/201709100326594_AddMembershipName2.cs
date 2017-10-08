@@ -7,7 +7,7 @@ namespace Vidly.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.MembershipTypes", "MembershipName", c => c.String());
+          //  AddColumn("dbo.MembershipTypes", "MembershipName", c => c.String());
             Sql("UPDATE MembershipTypes SET MembershipName = 'Pay As You Go'" +
                 "WHERE DiscountRate = 0 ");
             Sql("UPDATE MembershipTypes SET MembershipName = 'Monthly'" +
