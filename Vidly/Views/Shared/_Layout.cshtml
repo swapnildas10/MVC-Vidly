@@ -20,7 +20,7 @@
 </div>
 
 
-<div class="container body-content">
+<div id="mainbody" class="container body-content">
 
     @RenderBody()
 
@@ -54,10 +54,10 @@
     $(document).ready(function() {
         $(window).scroll(function() {
            
-            if ($(window).scrollTop() > $('#navbar').height()) {
+            if ($(window).scrollTop() > 0) {
                 $('#navbar').addClass('sticky-top');
             }
-            if ($(window).scrollTop() < $('#navbar').height()) {
+            if ($(window).scrollTop() < 1) {
                 $('#navbar').removeClass('sticky-top');
             }
         });
