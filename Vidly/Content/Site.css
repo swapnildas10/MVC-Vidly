@@ -204,3 +204,24 @@ td {
 #navbarSupportedContent {
     float: none;
 }
+#closeicon {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    bottom: 0;
+    height: 24px;
+    margin: auto;
+    cursor: pointer;
+    color: lightslategrey;
+}
+
+#closeicon:hover {
+    color: black;
+    transition: color .5s;
+}
+
+#submitsearch:hover {
+    color: white;
+    background-color: darkgray;
+    cursor: pointer;
+}

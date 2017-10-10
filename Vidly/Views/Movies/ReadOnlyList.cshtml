@@ -8,10 +8,15 @@
 
 <div class="row"><h2>Movies</h2></div>
 <br/>
-<div class="row mx-auto my-auto mr-auto ">
-    
-    <input type="search" class="form-control col-lg-4 col-xs-12 col-sm-4" placeholder="Search Movies" id="searchinput" />       
-    <button id="submitsearch" type="submit" class="btn btn-cyan">Search</button>        
+<div  class="row mx-auto my-auto mr-auto ">
+    <div id="parentinputwrapper" style="position: relative;" class=" col-lg-4 col-xs-12 col-sm-4">
+        <input type="search" class="form-control" placeholder="Search Movies" id="searchinput" />       
+    </div >
+    <div class=" col-lg-2 col-xs-12 col-sm-4">
+               <button id="submitsearch" type="submit" class="btn btn-cyan">Search</button>   
+
+    </div>
+             
             
         
     
@@ -53,7 +58,26 @@
     <script>
          
         $(document).ready(function () {
+            var searchIconInput = $("#searchinput");
+            $("#parentinputwrapper").on("click","#closeicon", function () {
+                
+                $(searchIconInput).val('');
+                $("#closeicon").remove();
+            });
+            
+            $(searchIconInput).on("keyup", function () {
+                
+                if (($(searchIconInput).val().length > 0) && ($("#closeicon").length===0) ) {
+                    var closeIcon = $((document).createElement("span")).addClass("ion-close-round").attr('id','closeicon');
+                    $(closeIcon).insertAfter((searchIconInput));
 
+                }  
+                if (($(searchIconInput).val().length === 0) && ($("#closeicon").length > 0)) {
+                    $("#closeicon").remove();
+                }
+            });
+            
+            
             apicall(1);
             $("#submitsearch").click(function (event) {
                 $("#cardgroup").empty();
@@ -64,7 +88,7 @@
                 if ($(searchinput).val().length === 0) {
                     apicall(1);
                 } else {
-                    $.ajax({
+                     $.ajax({
                         url: "api/movies/allmovies?query=" + $(searchinput).val().toLowerCase(),
                         method:"GET"
                     }).done(function (success) {
