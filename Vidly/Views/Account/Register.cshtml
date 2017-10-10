@@ -10,7 +10,7 @@
 
         <div class="card-body">
             <h4 style="text-align: center" class="card-title">Register</h4>
-            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new {@class = "form-horizontal", role = "form", id = "parentform" }))
             {
 
 
@@ -20,36 +20,37 @@
                 
                 <hr/>
                 @Html.ValidationSummary(true,"Please fix following errors", new {@class = "text-danger"})
-                <div class="form-group">
+                <div  class="form-group">
                    
 
-                    @Html.TextBoxFor(m => m.Email, new {@class = "form-control",@placeholder="E-Mail"})
+                    @Html.TextBoxFor(m => m.Email, new {@class = "form-control",@placeholder="E-Mail",@id="email"})
                     @Html.ValidationMessageFor(m=>m.Email,null,new{@class = "text-danger"})
 
                 </div>
                 <div class="form-group">
                     
 
-                    @Html.PasswordFor(m => m.Password, new {@class = "form-control",@placeholder="Password"})
+                    @Html.PasswordFor(m => m.Password, new {@class = "form-control",@placeholder="Password",
+                   @id = "password"})
                     @Html.ValidationMessageFor(m=>m.Password,null,new{@class = "text-danger"})
 
                 </div>
                 <div class="form-group">
                    
 
-                    @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control",@placeholder="Confirm Password"})
+                    @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control",@placeholder="Confirm Password", @id = "confirmpassword" })
                     @Html.ValidationMessageFor(m=>m.ConfirmPassword, null,new{@class = "text-danger"})
                 </div>
                 <div class="form-group">
                   
 
                     @Html.TextBoxFor(m => m.DrivingLicense, new {@class = "form-control",@placeholder="Driving License"})
-                    @Html.ValidationMessageFor(m => m.DrivingLicense, null, new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(m => m.DrivingLicense, null, new { @class = "text-danger", @id = "drivinglicense" })
                 </div>
                 <div class="form-group">
                     
 
-                    @Html.TextBoxFor(m => m.PhoneNumber, new {@class = "form-control",@placeholder="Phone Number"})
+                    @Html.TextBoxFor(m => m.PhoneNumber, new {@class = "form-control",@placeholder="Phone Number", @id = "phonenumber" })
                     @Html.ValidationMessageFor(m => m.PhoneNumber, null, new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
@@ -69,4 +70,71 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function() {
+
+
+            $("#parentform").find("input.form-control").each(function(key, value) {
+                if ($(value).attr("id") !== undefined) {
+
+                    var element = $(value).attr("id");
+                    required(element);
+                   
+                    putclose(element);
+                }
+
+            });
+            function required(element) {
+                var inputElementid = "#" + element;
+                
+                if (($(inputElementid).data("val-required")) || $(inputElementid).data("val-equalto")) {
+                    $(inputElementid).attr("placeholder", $(inputElementid).attr("placeholder") + "*");
+                }
+            }
+
+            function putclose(inputElement) {
+                var inputElementid = "#" + inputElement;
+                var closeiconid = "#close" + inputElement;
+                var parentid = $(inputElementid).parent();
+                $(parentid).css('position', 'relative');
+                $(parentid).on("click",
+                    closeiconid,
+                    function() {
+
+                        $(inputElementid).val('');
+                        $(closeiconid).remove();
+                    });
+
+                $(inputElementid).on("keyup",
+                    function() {
+
+                        if (($(inputElementid).val().length > 0) && ($(closeiconid).length === 0)) {
+                            var closeIcon = $((document).createElement("span")).addClass("ion-close-round")
+                                .attr('id', 'close' + inputElement).css({
+                                    "position": "absolute",
+                                    "top": "0",
+                                    "bottom": "0",
+                                    "height": "25px",
+                                    "right": "10px",
+                                    "margin-top": "5px",
+                                    "font-size": "120%",
+                                    "cursor": "pointer",
+                                    "color": "darkgray",
+                                    "transition":"color .6s"
+                                }).hover(function(e) {
+                                    $(this).css("color", e.type === "mouseenter" ? "black" : "darkgray");
+                                });
+                            $(closeIcon).insertAfter((inputElementid));
+
+                        }
+                        if (($(inputElementid).val().length === 0) && ($(closeiconid).length > 0)) {
+                            $(closeiconid).remove();
+                        }
+                    });
+            }
+
+
+        });
+
+    </script>
 }

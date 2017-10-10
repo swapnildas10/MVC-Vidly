@@ -14,7 +14,7 @@
             <h4 style="text-align: center;" class="card-title ">Vidly</h4>
             <p class="card-text">
                 <section id="loginForm">
-                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form",@id="parentform" }))
                     {
                         @Html.AntiForgeryToken()
                         
@@ -88,4 +88,67 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function() {
+            $("#parentform").find("input.form-control").each(function(key, value) {
+                if ($(value).attr("id") !== undefined) {
+
+                    var element = $(value).attr("id");
+                    required(element);
+                    putclose(element);
+
+                }
+
+            });
+            function putclose(inputElement) {
+                var inputElementid = "#" + inputElement;
+                var closeiconid = "#close" + inputElement;
+                var parentid = $(inputElementid).parent();
+                $(parentid).css('position', 'relative');
+                $(parentid).on("click",
+                    closeiconid,
+                    function() {
+
+                        $(inputElementid).val('');
+                        $(closeiconid).remove();
+                    });
+
+                $(inputElementid).on("keyup",
+                    function() {
+
+                        if (($(inputElementid).val().length > 0) && ($(closeiconid).length === 0)) {
+                            var closeIcon = $((document).createElement("span")).addClass("ion-close-round")
+                                .attr('id', 'close' + inputElement).css({
+                                    "position": "absolute",
+                                    "top": "0",
+                                    "bottom": "0",
+                                    "height": "25px",
+                                    "right": "10px",
+                                    "margin-top": "5px",
+                                    "font-size": "120%",
+                                    "cursor": "pointer",
+                                    "color": "darkgray",
+                                    "transition":"color .6s"
+                                }).hover(function(e) {
+                                    $(this).css("color", e.type === "mouseenter" ? "black" : "darkgray");
+                                });
+                            $(closeIcon).insertAfter((inputElementid));
+
+                        }
+                        if (($(inputElementid).val().length === 0) && ($(closeiconid).length > 0)) {
+                            $(closeiconid).remove();
+                        }
+                    });
+            }
+            function required(element) {
+                var inputElementid = "#" + element;
+
+                if (($(inputElementid).data("val-required")) || $(inputElementid).data("val-equalto")) {
+                    $(inputElementid).attr("placeholder", $(inputElementid).attr("placeholder") + "*");
+                }
+            }
+
+        });
+    </script>
 }
