@@ -18,6 +18,16 @@ namespace Vidly.Models
         public string DrivingLicense { get; set; }
 
         [Required]
+        [StringLength(255)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(255)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
         [Display(Name = "Phone Number")]
         public override string PhoneNumber { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

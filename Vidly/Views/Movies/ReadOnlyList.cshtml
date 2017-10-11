@@ -62,19 +62,23 @@
             $("#parentinputwrapper").on("click","#closeicon", function () {
                 
                 $(searchIconInput).val('');
-                $("#closeicon").remove();
+                $("#closeicon").fadeOut();
             });
             
             $(searchIconInput).on("keyup", function () {
                 
                 if (($(searchIconInput).val().length > 0) && ($("#closeicon").length===0) ) {
-                    var closeIcon = $((document).createElement("span")).addClass("ion-close-round").attr('id','closeicon');
+                    var closeIcon = $((document).createElement("span")).addClass("ion-backspace").attr('id','closeicon');
                     $(closeIcon).insertAfter((searchIconInput));
 
                 }  
                 if (($(searchIconInput).val().length === 0) && ($("#closeicon").length > 0)) {
-                    $("#closeicon").remove();
+                    $("#closeicon").fadeOut();
                 }
+                if (($(searchIconInput).val().length > 0) && ($("#closeicon").length > 0)) {
+                    $("#closeicon").fadeIn();
+
+                }  
             });
             
             
@@ -110,31 +114,7 @@
                     
                     });
                 }
-                
-                //$("h3").each(function () {
-                //    //console.log($(this).text().toLowerCase());
-                //   // console.log($("#searchinput").val().toLowerCase());
-                //   // console.log(($(this).text()).indexOf($("#searchinput").val()) ); 
-                    
-                     
-                //    if ($(this).text().length>1)
-                //    if (($(this).text().toLowerCase()).indexOf($("#searchinput").val().toLowerCase()) === -1) {
-                //        $(this).parent().parent().fadeOut(200,function() {
-                //            $(this).parent().parent().hide();
-                //        });
-                //        //prepend function
-                //        // $(this).parent().parent().parent().draw();
-                //    } else {
-
-                //        $(this).parent().parent().show(200,function() {
-                //            $(this).parent().parent().fadeIn(400);
-                //        });
-                        
-                      
-                //        // $(this).parent().parent().parent().draw();
-                //    }
-                     
-                //});
+                 
                  
             });
           
