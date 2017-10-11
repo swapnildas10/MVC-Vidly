@@ -2,47 +2,227 @@
 @{
     ViewBag.Title = "Register";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>Associate your @ViewBag.LoginProvider account.</h3>
 
-@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
+<div class="row justify-content-center">
+    <h2>@ViewBag.Title</h2>
+    
 
-    <h4>Association Form</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <p class="text-info">
-        You've successfully authenticated with <strong>@ViewBag.LoginProvider</strong>.
-        Please enter a user name for this site below and click the Register button to finish
-        logging in.
-    </p>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+</div>
+<div class="row justify-content-center">
+    <h3>Associate your @ViewBag.LoginProvider account.</h3>
+</div>
+<hr/>
+<div class="row justify-content-center">
+    
+    <div class="col-xs-6 col-xs-offset-2">
+        <div class="card align-self-center" style="width: 23rem; background-color: rgba(52, 58, 64, 0.25);">
+
+            <div class="card-body">
+                <h4 style="text-align: center" class="card-title">Association Form</h4>
+
+                @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "form-horizontal", role = "form", id = "parentform"}))
+                {
+                    @Html.AntiForgeryToken()
+
+
+                    <hr/>
+                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                    <div class="row">
+                        <div class="form-group col">
+
+                            <div class="">
+                                @Html.TextBoxFor(m => m.FirstName, new {@class = "form-control", @placeholder = "First Name", @id = "fname"})
+                                @Html.ValidationMessageFor(m => m.FirstName, "", new {@class = "text-danger"})
+                            </div>
+
+
+                        </div>
+                        <div class="form-group col">
+
+                            <div class=" ">
+                                @Html.TextBoxFor(m => m.LastName, new {@class = "form-control", @placeholder = "Last Name", @id = "lname"})
+                                @Html.ValidationMessageFor(m => m.LastName, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class=" ">
+                            @Html.TextBoxFor(m => m.Email, new {@class = "form-control", @readonly = "readonly"})
+                            @Html.ValidationMessageFor(m => m.Email, "", new {@class = "text-danger", @placeholder = "E-Mail"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class=" ">
+                            @Html.TextBoxFor(m => m.DrivingLicense, new {@class = "form-control", @placeholder = "Driving License", @id = "drivinglicense"})
+                            @Html.ValidationMessageFor(m => m.DrivingLicense, "", new {@class = "text-danger", @placeholder = "E-Mail"})
+                     
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class=" ">
+                            @Html.TextBoxFor(m => m.PhoneNumber, new {@class = "form-control", @placeholder = "Phone Number", @id = "phonenumber"})
+                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new {@class = "text-danger", @placeholder = "E-Mail"})
+                     
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div >
+                            <input type="submit" class="btn btn-dark form-control" value="Register"/>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.DrivingLicense, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.DrivingLicense, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}
+</div>
+
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script>
+        $(document).ready(function() {
+
+
+            $("#parentform").find("input.form-control").each(function(key, value) {
+                if ($(value).attr("id") !== undefined) {
+
+                    var element = $(value).attr("id");
+                    required(element);
+
+                    putclose(element);
+                    if ($(value).attr("id") !== "email") {
+                        toggleicon($(value).attr("id"));
+                    }
+                }
+                function toggleicon(elementid) {
+                    $("#" + elementid).focusin(function() {
+                        if (!$(this).siblings("#close"+elementid).hasClass("ion-alert")) {
+                            $(this).siblings("#close" + elementid).show();
+                        }
+
+
+                    }).focusout(function() {
+                        if (!$(this).siblings("#close" + elementid).hasClass("ion-alert")) {
+                            $(this).siblings("#close" + elementid).fadeOut();
+
+                        }
+
+
+                    });
+                };
+            });
+            $("#email").blur(function () {
+                var _this = $(this);
+
+
+                function addcloseontype(context) {
+                    $(context).next().removeClass().addClass("ion-backspace").css("color", "darkgray");
+
+                }
+                if ($(this).val().length >0 && !$(this).hasClass("input-validation-error")) {
+                    $.ajax({
+                        url: "/api/users?email=" + $(this).val(),
+                        method: "GET"
+
+                    }).success(function (success) {
+                        if (success === "Email Exists") {
+                            $(_this).one("keyup",
+                                function () {
+                                    addcloseontype(_this);
+                                });
+
+                            $(_this).siblings("#closeemail").removeClass().addClass("ion-alert").css("color", "red").data("toggle",
+                                "tooltip").data("placement", "top").attr("placement", "top").attr("title", "Email already registered").hover(function (e) {
+                                    $(this).removeClass("ion-alert").addClass("ion-backspace");
+                                }, function () {
+                                    $(this).removeClass("ion-backspace").addClass("ion-alert");
+                                });
+                            $('[data-toggle="tooltip"]').tooltip();
+                             //  data-toggle="tooltip" data-placement="top" title="Tooltip on top"
+                            //$(userexistIcon).insertAfter(_this);
+                        } if (success === "Email Available") {
+                            $(_this).one("keyup",
+                                function () {
+                                    addcloseontype(_this);
+
+                                });
+
+                            $(_this).siblings("#closeemail").removeClass().addClass("ion-checkmark-round").css("color", "lightgreen").hover(function(e) {
+                                $(this).removeClass("ion-checkmark-round").addClass("ion-backspace");
+                            },function() {
+                                $(this).removeClass("ion-backspace").addClass("ion-checkmark-round");
+                            });
+
+                        }
+
+                    }).fail(function(error) {
+
+                    });
+                }
+            });
+
+            function required(element) {
+                var inputElementid = "#" + element;
+
+                if (($(inputElementid).data("val-required")) || $(inputElementid).data("val-equalto")) {
+                    $(inputElementid).attr("placeholder", $(inputElementid).attr("placeholder") + "*");
+                }
+            }
+
+            function putclose(inputElement) {
+                var inputElementid = "#" + inputElement;
+                var closeiconid = "#close" + inputElement;
+                var parentid = $(inputElementid).parent();
+                $(parentid).css('position', 'relative');
+                $(parentid).on("click",
+                    closeiconid,
+                    function() {
+
+                        $(inputElementid).val('');
+                        $(closeiconid).fadeOut(function() {
+                            $(this).remove();
+                        });
+                    });
+
+                $(inputElementid).on("keyup",
+                    function() {
+
+                        if (($(inputElementid).val().length > 0)) {
+                            if ($(closeiconid).length) {
+
+                                $(closeiconid).remove();
+                           }
+                            var closeIcon = $((document).createElement("span")).addClass("ion-backspace")
+                                .attr('id', 'close' + inputElement).css({
+                                    "position": "absolute",
+                                    "top": "0",
+                                    "bottom": "0",
+                                    "height": "25px",
+                                    "right": "15px",
+                                    "margin-top": "5px",
+                                    "font-size": "120%",
+                                    "cursor": "pointer",
+                                    "color": "darkgray",
+                                    "transition":"color .6s"
+                                }).hover(function(e) {
+                                    $(this).css("color", e.type === "mouseenter" ? "black" : "darkgray");
+                                });
+                            $(closeIcon).insertAfter((inputElementid));
+
+                        }
+                        if (($(inputElementid).val().length === 0)  ) {
+                            $(closeiconid).remove();
+                        }
+                    });
+            }
+
+
+        });
+
+</script>
 }

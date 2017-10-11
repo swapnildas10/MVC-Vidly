@@ -57,7 +57,7 @@ input.error{
 .card {
     background-color: rgba(52, 58, 64, 0.25);
     max-width: 23rem;
-   
+    margin: 10% 0;
 
 }
 .tt-menu {
