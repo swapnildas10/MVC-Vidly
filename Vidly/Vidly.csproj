@@ -236,6 +236,7 @@
     <Compile Include="Controllers\Api\MoviesController.cs" />
     <Compile Include="Controllers\Api\NewRentalsController.cs" />
     <Compile Include="Controllers\Api\ReturnsController.cs" />
+    <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -554,6 +555,18 @@
     <Compile Include="Migrations\201710020205099_modefyMovieDescriptionModelAgain.cs" />
     <Compile Include="Migrations\201710020205099_modefyMovieDescriptionModelAgain.Designer.cs">
       <DependentUpon>201710020205099_modefyMovieDescriptionModelAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710110558262_addedfirstnameandlastname.cs" />
+    <Compile Include="Migrations\201710110558262_addedfirstnameandlastname.Designer.cs">
+      <DependentUpon>201710110558262_addedfirstnameandlastname.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710110601305_addedfirstnameandlastnameagain1.cs" />
+    <Compile Include="Migrations\201710110601305_addedfirstnameandlastnameagain1.Designer.cs">
+      <DependentUpon>201710110601305_addedfirstnameandlastnameagain1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710110603040_addedfirstnameandlastnameagain2.cs" />
+    <Compile Include="Migrations\201710110603040_addedfirstnameandlastnameagain2.Designer.cs">
+      <DependentUpon>201710110603040_addedfirstnameandlastnameagain2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1303,6 +1316,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710020205099_modefyMovieDescriptionModelAgain.resx">
       <DependentUpon>201710020205099_modefyMovieDescriptionModelAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710110558262_addedfirstnameandlastname.resx">
+      <DependentUpon>201710110558262_addedfirstnameandlastname.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710110601305_addedfirstnameandlastnameagain1.resx">
+      <DependentUpon>201710110601305_addedfirstnameandlastnameagain1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710110603040_addedfirstnameandlastnameagain2.resx">
+      <DependentUpon>201710110603040_addedfirstnameandlastnameagain2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

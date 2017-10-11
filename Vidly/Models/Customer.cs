@@ -14,6 +14,14 @@ namespace Vidly.Models
         [Required] //data annotation
         [StringLength(255)]
         public string Name { get; set; }
+        [Required] //data annotation
+        [StringLength(255)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+        [Required] //data annotation
+        [StringLength(255)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         public bool IsSubscribedToNewsLetter { get; set; }
 
