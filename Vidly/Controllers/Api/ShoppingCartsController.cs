@@ -1,119 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
-using System.Web.Http.Description;
+using Glimpse.Core.Extensions;
+using Microsoft.AspNet.Identity;
 using Vidly.Models;
 
 namespace Vidly.Controllers.Api
 {
     public class ShoppingCartsController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
-        // GET: api/ShoppingCarts
-        public IQueryable<ShoppingCart> GetShoppingCarts()
+        private ApplicationDbContext _context;
+        public ShoppingCartsController()
         {
-            return db.ShoppingCarts;
+           _context=new ApplicationDbContext();
         }
-
-        // GET: api/ShoppingCarts/5
-        [ResponseType(typeof(ShoppingCart))]
-        public async Task<IHttpActionResult> GetShoppingCart(int id)
+        [HttpPost]
+        public IHttpActionResult AddMovieToShoppingCart(int id )
         {
-            ShoppingCart shoppingCart = await db.ShoppingCarts.FindAsync(id);
-            if (shoppingCart == null)
+            var uid = HttpContext.Current.User.Identity.GetUserId();
+          
+            var cartitem = _context.ShoppingCarts.Where(s => s.User == uid);
+            if (cartitem.Any(c => c.Movie.Id == id))
+                return BadRequest("Already in Cart");
+            var movie = _context.Movies.Single(m => m.Id == id);
+            ShoppingCart cart = new ShoppingCart
             {
-                return NotFound();
-            }
+                Movie = movie,
+                User = uid
 
-            return Ok(shoppingCart);
+            };
+           
+            _context.ShoppingCarts.Add(cart);
+            _context.SaveChanges();
+            return Ok();
         }
-
-        // PUT: api/ShoppingCarts/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutShoppingCart(int id, ShoppingCart shoppingCart)
+        [HttpGet]
+        
+        public IHttpActionResult GetItemsforShoppingCart()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var uid = HttpContext.Current.User.Identity.GetUserId();
+            var items = _context.ShoppingCarts.Where(s => s.User == uid);
 
-            if (id != shoppingCart.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(shoppingCart).State = EntityState.Modified;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ShoppingCartExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            return null;
         }
-
-        // POST: api/ShoppingCarts
-        [ResponseType(typeof(ShoppingCart))]
-        public async Task<IHttpActionResult> PostShoppingCart(ShoppingCart shoppingCart)
+        
+        [HttpDelete]
+        public IHttpActionResult DeleteItemfromShoppingCart(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.ShoppingCarts.Add(shoppingCart);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = shoppingCart.Id }, shoppingCart);
-        }
-
-        // DELETE: api/ShoppingCarts/5
-        [ResponseType(typeof(ShoppingCart))]
-        public async Task<IHttpActionResult> DeleteShoppingCart(int id)
-        {
-            ShoppingCart shoppingCart = await db.ShoppingCarts.FindAsync(id);
-            if (shoppingCart == null)
-            {
-                return NotFound();
-            }
-
-            db.ShoppingCarts.Remove(shoppingCart);
-            await db.SaveChangesAsync();
-
-            return Ok(shoppingCart);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool ShoppingCartExists(int id)
-        {
-            return db.ShoppingCarts.Count(e => e.Id == id) > 0;
+            var uid = HttpContext.Current.User.Identity.GetUserId();
+            var item = _context.ShoppingCarts.Single(s => s.User == uid && s.Movie.Id == id);
+           
+            _context.ShoppingCarts.Remove(item);
+            _context.SaveChanges();
+            return Ok();
         }
     }
 }

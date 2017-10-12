@@ -2,6 +2,7 @@
 @using Microsoft.Ajax.Utilities
 @using Vidly.Models
 @model Vidly.Models.Movie
+
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,10 +21,17 @@
         
         <div class="row">
             <div id="poster" class="  container-fluid video-container ">
-                <div style="text-align: right; float: right  " class="row">
-                    <canvas width=70 height=110 id="mycanvas"><h4><i class="ion-disc"></i>@Model.NumberAvailable</h4></canvas>
+                <div style="text-align: right; float: right;max-width: 160px" class="row">
+                    <div class="col-12">
+                        <canvas width=70 height=110 id="mycanvas"><h4><i class="ion-disc"></i>@Model.NumberAvailable</h4></canvas>
+                   
+                    </div>
+                    <div class="col-12">
+                       
+                        <input id="addtocart" data-id="@Model.Id" type="submit"  class="btn-link" value="To Cart"/>
+                    </div>
                     
-                    
+
                 </div>
                 <div class="row"><h2 style="color: white">@Model.Name<span  id="releasedyear"></span></h2>
                 </div>
@@ -583,8 +591,18 @@
                     });
             },
             2000);
-
-    });
+        $("#addtocart").click(function () {
+            var id = $("#addtocart").data("id");
+                $.ajax({
+                    url: "/api/ShoppingCarts/"+id,
+                    method: "POST"
+                }).success(function(success) {
+                    console.log(success);
+                }).fail(function(error) {
+                    console.log("error");
+                });
+            });
+        });
 
     </script>
 

@@ -20,7 +20,11 @@ namespace Vidly
            config.Filters.Add(new ForceHttpsAttribute());
          //  config.Filters.Add(new CanManageRole());
             config.MapHttpAttributeRoutes();
-
+            config.Routes.MapHttpRoute(
+                name: "ShoppingApi",
+                routeTemplate: "ShoppingCarts/api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

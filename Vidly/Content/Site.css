@@ -1,6 +1,6 @@
 ﻿
 body {
-    background-image: url(../../App_Data/img/login-background.jpg);
+    background-image: url(../Content/image/login-background.jpg);
     background-size: cover;
     background-attachment: fixed;
     min-height: 100%;

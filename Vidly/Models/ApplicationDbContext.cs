@@ -18,6 +18,7 @@ namespace Vidly.Models
         public DbSet<MovieCast> MovieCasts { get; set; }
         public DbSet<Cast> Casts { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<OnlineRentals> OnlineRentals{ get; set; }
         public ApplicationDbContext()
            //  : base("DefaultConnection", throwIfV1Schema: false)
             : base(Helpers.GetRDSConnection() ?? "DefaultConnection", throwIfV1Schema: false)

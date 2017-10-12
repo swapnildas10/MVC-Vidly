@@ -1,0 +1,23 @@
+﻿#collapsebutton .list-group-item {
+    background-color: teal;
+}
+
+.card {
+    margin:  0;
+}
+
+.card-summary {
+    margin: 5% 0;
+}
+.ion-ios-information, .ion-close-round {
+    font-size: 170%;
+    color: lightblue;
+    cursor: pointer;
+}.ion-ios-information:hover, .ion-close-round:hover {
+    font-size: 170%;
+    color: teal;
+     transition: color 0.4s;
+}
+.ion-close-round:hover {
+    color: darkred;
+}
