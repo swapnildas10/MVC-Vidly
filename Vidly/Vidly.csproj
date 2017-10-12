@@ -582,6 +582,30 @@
     <Compile Include="Migrations\201710110814295_RemovedListMoviesShoppingCartModel.Designer.cs">
       <DependentUpon>201710110814295_RemovedListMoviesShoppingCartModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710112019166_modifiedShoppingCartModel.cs" />
+    <Compile Include="Migrations\201710112019166_modifiedShoppingCartModel.Designer.cs">
+      <DependentUpon>201710112019166_modifiedShoppingCartModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710112033525_modifiedShoppingCartModel1.cs" />
+    <Compile Include="Migrations\201710112033525_modifiedShoppingCartModel1.Designer.cs">
+      <DependentUpon>201710112033525_modifiedShoppingCartModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710112038035_modifiedShoppingCartModelagain.cs" />
+    <Compile Include="Migrations\201710112038035_modifiedShoppingCartModelagain.Designer.cs">
+      <DependentUpon>201710112038035_modifiedShoppingCartModelagain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710112307503_addedonlinerentalmodel.cs" />
+    <Compile Include="Migrations\201710112307503_addedonlinerentalmodel.Designer.cs">
+      <DependentUpon>201710112307503_addedonlinerentalmodel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710112313267_updatedonlinerentalmodel.cs" />
+    <Compile Include="Migrations\201710112313267_updatedonlinerentalmodel.Designer.cs">
+      <DependentUpon>201710112313267_updatedonlinerentalmodel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710112327599_updatedShoppingCartModel.cs" />
+    <Compile Include="Migrations\201710112327599_updatedShoppingCartModel.Designer.cs">
+      <DependentUpon>201710112327599_updatedShoppingCartModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -602,6 +626,7 @@
     <Compile Include="Models\MovieSearch.cs" />
     <Compile Include="Models\MovieTrailers.cs" />
     <Compile Include="Models\MovieVideos.cs" />
+    <Compile Include="Models\OnlineRentals.cs" />
     <Compile Include="Models\ProductionCompanies.cs" />
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Models\RoleName.cs" />
@@ -621,6 +646,7 @@
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\SendCodeViewModel.cs" />
+    <Compile Include="ViewModels\UserShoppingCartViewModel.cs" />
     <Compile Include="ViewModels\VerifyCodeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -794,6 +820,7 @@
     <Content Include="Content\movie-details.css" />
     <Content Include="Content\new-rental.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\shoppingcart.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\typeahead.css" />
@@ -1018,6 +1045,7 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\simplify.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\typeahead.bundle.js" />
@@ -1089,12 +1117,14 @@
     <Content Include="Views\Shared\_MovieDescription.cshtml" />
     <Content Include="Views\Shared\_NavBar_Sticky.cshtml" />
     <Content Include="Views\ShoppingCarts\Index.cshtml" />
+    <Content Include="Views\ShoppingCarts\CheckOut.cshtml" />
     <None Include="Web.Testing.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\img\" />
+    <Folder Include="Content\image\" />
     <Folder Include="fonts\" />
     <Folder Include="font\" />
     <Folder Include="img\" />
@@ -1350,6 +1380,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710110814295_RemovedListMoviesShoppingCartModel.resx">
       <DependentUpon>201710110814295_RemovedListMoviesShoppingCartModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710112019166_modifiedShoppingCartModel.resx">
+      <DependentUpon>201710112019166_modifiedShoppingCartModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710112033525_modifiedShoppingCartModel1.resx">
+      <DependentUpon>201710112033525_modifiedShoppingCartModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710112038035_modifiedShoppingCartModelagain.resx">
+      <DependentUpon>201710112038035_modifiedShoppingCartModelagain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710112307503_addedonlinerentalmodel.resx">
+      <DependentUpon>201710112307503_addedonlinerentalmodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710112313267_updatedonlinerentalmodel.resx">
+      <DependentUpon>201710112313267_updatedonlinerentalmodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710112327599_updatedShoppingCartModel.resx">
+      <DependentUpon>201710112327599_updatedShoppingCartModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ namespace Vidly.Models
     {   
         public int Id { get; set; }
         [Required]
-        public ApplicationUser ApplicationUser { get; set; }
+        public string User { get; set; }
         [Required]
         public Movie Movie { get; set; }
 
