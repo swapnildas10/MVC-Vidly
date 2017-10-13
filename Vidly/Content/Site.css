@@ -189,13 +189,13 @@ td {
 #searchinput {
      
     border-radius: .25rem;
-    border: 1px solid transparent;
-    border-bottom: 1px solid black;
+    border: 2px solid transparent;
+    
 }
 
     #searchinput:focus {
         outline: none !important;
-        border-bottom: 2px;
+         
         border-color: lightgreen;
         box-shadow: 0 0 10px #719ECE;
         transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
@@ -226,4 +226,8 @@ td {
     cursor: pointer;
 }
 
- 
+.ion-ios-circle-filled {
+    color: #F1FFBE;
+    font-size: 60%;
+    position: absolute;
+}

@@ -17,7 +17,11 @@
     }
     <li class="nav-item">@Html.ActionLink("New Rental", "New", "Rentals", new { area = "" }, new { @class = "nav-link" })</li>
     <li class="nav-item">@Html.ActionLink("Movies", "Index", "Movies", new { area = "" }, new { @class = "nav-link" })</li>
-             <li class="nav-item">@Html.ActionLink("Shopping Cart", "Index", "ShoppingCarts", new { area = "" }, new { @class = "nav-link" })</li>
+             <li class="nav-item">
+                 
+                     @Html.ActionLink("Shopping Cart", "Index", "ShoppingCarts", new {area = ""}, new {@class = "nav-link",@id="nav-cart"})
+                
+             </li>
 
          </ul> 
        

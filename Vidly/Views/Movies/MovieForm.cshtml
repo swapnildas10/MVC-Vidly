@@ -41,6 +41,11 @@
                             @Html.LabelFor(m => m.Stock)
                             @Html.TextBoxFor(m => m.Stock, new {@class = "form-control"})
                             @Html.ValidationMessageFor(m => m.Stock)
+                        </div> 
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Cost)
+                            @Html.TextBoxFor(m => m.Cost, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(m => m.Cost)
                         </div>
                         <div   class="form-group">
                             @Html.LabelFor(m =>m.YoutubeId)

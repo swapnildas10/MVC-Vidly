@@ -4,11 +4,26 @@
 
 .card {
     margin:  0;
+    background-color: white;
 }
 
 .card-summary {
     margin: 5% 0;
+    background-color: rgba(22,33,22,0.8);
+    color: white;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    border-radius: 0;
+    
+    
 }
+    .card-summary div {
+        color: white;
+    }
+ .card-summary hr {
+     background-color: white;
+ }
 .ion-ios-information, .ion-close-round {
     font-size: 170%;
     color: lightblue;
@@ -21,3 +36,36 @@
 .ion-close-round:hover {
     color: darkred;
 }
+.cart {
+    background-color: white;
+    padding: 0 2%;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+    .cart .card {
+        border: none;
+        border-bottom: 1px solid black;
+        border-radius: 0;
+        height: auto;
+        position: relative;
+    }
+.cart .card:last-child {
+    border-bottom: none;
+}
+    .card-body {
+        height: auto;
+    }
+    .jumbotron-fluid {
+        padding-bottom: 5%;
+    }
+
+    #totalcost {
+        font-size: 200%;
+    }
+        #totalcost + span {
+            font-size: 200%;
+            left: 100%;
+            bottom: 20%;
+            position: absolute;
+        }

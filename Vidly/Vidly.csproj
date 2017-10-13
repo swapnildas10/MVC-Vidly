@@ -606,6 +606,14 @@
     <Compile Include="Migrations\201710112327599_updatedShoppingCartModel.Designer.cs">
       <DependentUpon>201710112327599_updatedShoppingCartModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710122045285_addedCurrencyToMovieModel.cs" />
+    <Compile Include="Migrations\201710122045285_addedCurrencyToMovieModel.Designer.cs">
+      <DependentUpon>201710122045285_addedCurrencyToMovieModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710130308411_addedSavedMovieModel.cs" />
+    <Compile Include="Migrations\201710130308411_addedSavedMovieModel.Designer.cs">
+      <DependentUpon>201710130308411_addedSavedMovieModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -630,6 +638,7 @@
     <Compile Include="Models\ProductionCompanies.cs" />
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Models\RoleName.cs" />
+    <Compile Include="Models\SavedMovie.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\StockBetween1To20.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1398,6 +1407,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710112327599_updatedShoppingCartModel.resx">
       <DependentUpon>201710112327599_updatedShoppingCartModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710122045285_addedCurrencyToMovieModel.resx">
+      <DependentUpon>201710122045285_addedCurrencyToMovieModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710130308411_addedSavedMovieModel.resx">
+      <DependentUpon>201710130308411_addedSavedMovieModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
