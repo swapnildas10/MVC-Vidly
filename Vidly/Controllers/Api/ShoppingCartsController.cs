@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,6 +9,7 @@ using System.Web.Http;
 using Glimpse.Core.Extensions;
 using Microsoft.AspNet.Identity;
 using Vidly.Models;
+using WebGrease.Css.Extensions;
 
 namespace Vidly.Controllers.Api
 {
@@ -43,9 +45,17 @@ namespace Vidly.Controllers.Api
         public IHttpActionResult GetItemsforShoppingCart()
         {
             var uid = HttpContext.Current.User.Identity.GetUserId();
-            var items = _context.ShoppingCarts.Where(s => s.User == uid);
-
-            return null;
+            //how to aggregate 
+            var items = _context.ShoppingCarts.Include(m=>m.Movie).Where(s => s.User == uid).ToList();
+            if (items.Count == 0)
+                return Ok(0.00);
+            var total = 0.00;
+            foreach (ShoppingCart item in items)
+            {
+                total =+ (Double)item.Movie.Cost;
+            }
+           
+            return Ok(total);
         }
         
         [HttpDelete]

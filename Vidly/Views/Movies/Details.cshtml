@@ -21,15 +21,21 @@
         
         <div class="row">
             <div id="poster" class="  container-fluid video-container ">
-                <div style="text-align: right; float: right;max-width: 160px" class="row">
-                    <div class="col-12">
+                <div style="text-align: right; float: right;max-width: 150px" class="row">
+                    <div style="text-align: center" class="col-12">
                         <canvas width=70 height=110 id="mycanvas"><h4><i class="ion-disc"></i>@Model.NumberAvailable</h4></canvas>
                    
                     </div>
-                    <div class="col-12">
-                       
-                        <input id="addtocart" data-id="@Model.Id" type="submit"  class="btn-link" value="To Cart"/>
-                    </div>
+                    <div style="position: relative;text-align: center;" class="col-12">
+                     </div>
+                    <div style="position: relative;text-align: center;" class="col-12">
+                        <div id="priceandcart"  class="row">
+                            <div class="col-6">      <span class="ion-social-usd"><span style="font-size:100%">@Model.Cost</span></span> 
+                            </div>
+                            <div class="col-6">   <span id="addtocart" data-id="@Model.Id"><i class="ion-android-cart"></i><i class="ion-plus-round"></i></span>
+                            </div>
+                        </div>
+                     </div>
                     
 
                 </div>
@@ -77,7 +83,7 @@
                     <span>
                         <a class="col-md-2 col-sm-2 col-lg-2 col-lg-offset-5" id="imdb_link" target="_blank" href="">
                             
-                            <img src="~/App_Data/img/imdb_icon_2.ico"/>
+                            <img src="~/Content/image/imdb_icon_2.ico"/>
                             
                         </a>
                         <a class="col-md-2 col-sm-2 col-lg-2 col-lg-offset-5" id="movie_Link" target="_blank" href="">
@@ -244,7 +250,8 @@
             // 2. This code loads the IFrame Player API code asynchronously.
 
             // var https = require('https');
-
+         //add badge to nav-links
+            $("#notification").css("visibility", "hidden");
 
             $.ajax({
                 url: "/api/moviedetails/details/" + @Model.MovieDb,
@@ -591,15 +598,19 @@
                     });
             },
             2000);
-        $("#addtocart").click(function () {
+        $("#addtocart").click(function (event) {
+ 
             var id = $("#addtocart").data("id");
                 $.ajax({
                     url: "/api/ShoppingCarts/"+id,
                     method: "POST"
-                }).success(function(success) {
-                    console.log(success);
+                }).success(function (success) {
+                   // console.log(success); <a class="nav-l"><span class="badge badge-secondary">4</span></a>
+                 // var link=  $((document).createElement("a")).addClass("nav-link");
+                    $("#notification").css("visibility", "visible");
+                    toastr.success("Added");
                 }).fail(function(error) {
-                    console.log("error");
+                    toastr.warning("Already in Cart");
                 });
             });
         });

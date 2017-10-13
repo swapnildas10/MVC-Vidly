@@ -22,19 +22,37 @@ namespace Vidly.Controllers
         public ActionResult Index()
         {
             var uid = HttpContext.User.Identity.GetUserId();
+            bool cartChanged = false;
             var list = _context.ShoppingCarts.Include(s => s.Movie)
                 .Where(u => u.User == uid);
             var results = list.ToList();
-            
-            List<UserShoppingCartViewModel> rentals = new List<UserShoppingCartViewModel>();
+            if (list.Where(m => m.Movie.NumberAvailable == 0).ToList().Any())
+            {
+                cartChanged = true;
+            }
+                List<UserShoppingCartViewModel> rentals = new List<UserShoppingCartViewModel>();
+            List<SavedMovie> savedmovies = new List<SavedMovie>();
             foreach (ShoppingCart shoppingCart in results)
             {
-                rentals.Add(new UserShoppingCartViewModel
+                if (shoppingCart.Movie.NumberAvailable > 0)
                 {
-                    Movie = shoppingCart.Movie,
-                     
-                });
+                    rentals.Add(new UserShoppingCartViewModel
+                    {
+                        Movie = shoppingCart.Movie
+
+                    });
+                }
+                else
+                {
+                    _context.SavedMovies.Add(new SavedMovie
+                    {
+                        Movie = shoppingCart.Movie,
+                        User = uid
+                    });
+                }
+               
             }
+            _context.SaveChanges();
             return View("Index",rentals);
         }
 

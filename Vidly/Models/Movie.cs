@@ -43,6 +43,11 @@ namespace Vidly.Models
 
         public short NumberAvailable { get; set; }
 
+        [Required]
+        [DataType(DataType.Currency)]
+        [Range(0.00,10.00)]
+        [Display(Name="Rate per day")]
+        public decimal Cost { get; set; }
     }
 
 

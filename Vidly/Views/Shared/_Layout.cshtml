@@ -50,7 +50,17 @@
     $(window).load(function() {
         $("#maskloading").remove();
     });
-
+    function createNotificationIcon(element) {
+        var span = $((document).createElement("span"));
+        $(span).attr("id", "notification").css("visibility","visible");
+        var icon=  $((document).createElement("i")).addClass("ion-ios-circle-filled");
+        var notification = $(span).append(icon);
+        var result = $(element).append(notification);
+      
+    }
+    
+    var navcart = $("#nav-cart ");
+    createNotificationIcon(navcart);
     $(document).ready(function() {
         $(window).scroll(function() {
            

@@ -56,6 +56,12 @@ namespace Vidly.ViewModels
             }
         }
 
+        [Required]
+        [DataType(DataType.Currency)]
+        [Range(0.00, 10.00)]
+        [Display(Name = "Rate per day")]
+        public decimal Cost { get; set; }
+
         public MovieFormViewModel()
         {
             Id = 0;
@@ -69,7 +75,7 @@ namespace Vidly.ViewModels
             GenreId = movie.GenreId;
            YoutubeId= movie.YoutubeId;
             MovieDb = movie.MovieDb;
-
+            Cost = movie.Cost;
         }
 
     }

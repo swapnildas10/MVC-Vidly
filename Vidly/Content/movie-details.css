@@ -102,6 +102,7 @@ i {
     height: auto;
     
 }
+
 #tagline {
     float: none;
     color: white;
@@ -132,3 +133,45 @@ i {
     width :2%;
 }
 
+.ion-android-cart {
+    font-size: 150%;
+}
+.ion-plus-round {
+    position: absolute;
+     
+}
+
+#addtocart {
+
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    color: #211618;
+}
+#addtocart:hover {
+    color: #0b9b70;
+    transition: color .4s;
+    cursor: pointer;
+}
+
+.ion-social-usd {
+    position: absolute;
+     top:5%;
+    text-align: center;
+    right: 10%;
+    font-size: 120%;
+}
+
+#priceandcart {
+    background-color: rgba(166,186,172,0.7);
+    border-radius: 2%;
+    padding: 10px 0;
+    -webkit-box-shadow: -8px 8px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -8px 8px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: -8px 8px 5px 0px rgba(0,0,0,0.75);
+}
+
+#priceandcart>div:first-child {
+    border-right: 1px solid black;
+}

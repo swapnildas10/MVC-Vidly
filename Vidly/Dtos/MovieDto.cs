@@ -37,5 +37,8 @@ namespace Vidly.Dtos
         // [Range(1, 20)]
         [Required]
         public short Stock { get; set; }
+
+        [Required]
+        public decimal Cost { get; set; }
     }
 }
