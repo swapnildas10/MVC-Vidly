@@ -175,3 +175,22 @@ i {
 #priceandcart>div:first-child {
     border-right: 1px solid black;
 }
+
+.ion-android-bookmark {
+    font-size: 200%;
+    color: lightblue;
+}
+.ion-android-bookmark:hover {
+    color: darkgreen;
+    transition: color .4s;
+}
+
+.ion-heart {
+    font-size: 200%;
+    color: lightcoral;
+}
+    .ion-heart:hover {
+        font-size: 200%;
+        color: darkred;
+        transition: color .4s;
+    }

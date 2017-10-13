@@ -63,6 +63,13 @@
                         <div style="text-align: left" class="row ">
                             <ul id="genres" class="btn-group   my-auto" role="group" aria-label="Basic example"></ul>
                         </div>
+                        <br/>
+                        <div style="text-align: left" class="row">
+                            <ul class="btn-group my-auto" role="group" aria-label="Basic example">
+                                <li class="list-genre mr-3"><span id="addtosave"><i  class="ion-android-bookmark"></i></span></li>
+                                <li class="list-genre mr-3" ><span id="addtofavorites"><i class="ion-heart"></i></span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -246,7 +253,21 @@
         }
 
 
-        $(document).ready(function() {
+        $(document).ready(function () {
+
+            //add to saved section
+            var bookmark = $("#addtosave");
+            $(bookmark).click(function() {
+                $.ajax({
+                    url: "/api/shoppingcarts",
+                    method: "PUT"
+                    
+                });
+            });
+
+
+
+
             // 2. This code loads the IFrame Player API code asynchronously.
 
             // var https = require('https');
@@ -603,16 +624,21 @@
             var id = $("#addtocart").data("id");
                 $.ajax({
                     url: "/api/ShoppingCarts/"+id,
-                    method: "POST"
+                    method: "POST",
+                    contentType: "application/JSON"
                 }).success(function (success) {
-                   // console.log(success); <a class="nav-l"><span class="badge badge-secondary">4</span></a>
+                     
+                   // <a class="nav-l"><span class="badge badge-secondary">4</span></a>
                  // var link=  $((document).createElement("a")).addClass("nav-link");
                     $("#notification").css("visibility", "visible");
                     toastr.success("Added");
-                }).fail(function(error) {
-                    toastr.warning("Already in Cart");
+                    }).fail(function (error) {
+                         
+                    toastr.error(error.responseJSON);
                 });
-            });
+        });
+
+
         });
 
     </script>

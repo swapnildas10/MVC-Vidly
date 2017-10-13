@@ -654,6 +654,7 @@
     <Compile Include="ViewModels\RandomMovieViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\SavedMoviesViewModel.cs" />
     <Compile Include="ViewModels\SendCodeViewModel.cs" />
     <Compile Include="ViewModels\UserShoppingCartViewModel.cs" />
     <Compile Include="ViewModels\VerifyCodeViewModel.cs" />
