@@ -204,8 +204,15 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <h3>Saved Movies</h3>
+
+    </div>
+<div id="savedmoviessection" class="row">
     
-     
+    
+
+</div>
 
      
 </div>
@@ -218,27 +225,65 @@
 
     <script>
 
-        function createCard(imagesrc, name, linkid) {
-            var link = $($((document).createElement("a")).attr('href', linkid));
+
+
+        /*
+
+        <div class="card-deck">
+  <div class="card">
+    <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card-body">
+      <h4 class="card-title">Card title</h4>
+      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    </div>
+  </div>
+  <div class="card">
+    <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card-body">
+      <h4 class="card-title">Card title</h4>
+      <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    </div>
+  </div>
+  <div class="card">
+    <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card-body">
+      <h4 class="card-title">Card title</h4>
+      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    </div>
+  </div>
+</div>
+
+
+        */
+
+
+
+
+
+
+
+        function createCard(name, linkid, stock) {
+            var link = $($((document).createElement("a")).attr('href', linkid)).text(name);
             $(link).addClass("mb-2");
             var card = $($((document).createElement("div")).addClass("card")).attr("data-id", name);
 
             $(card).css('max-width', '100rem');
-            $(card).css('margin', '0');
-            $(card).css('border-radius', '.50rem');
-            var image = $($((document).createElement("img"))
-                .addClass("card-img-top img-responsive")
-                .attr({ 'src': imagesrc, 'alt': 'Photo' })).css('border-top-left-radius', '.50rem');
+            $(card).css('margin', '0 10%');
+             
+             
             var cardBlock = $((document).createElement("div")).addClass("card-block");
             var cardTitle = $((document).createElement("h3")).addClass("card-title mt-2");
-            var cardText = $((document).createElement("p")).addClass("card-link");
-            $(cardTitle).text(name);
-            $(cardText).html(linkid);
+            var cardText = $((document).createElement("p")).addClass("card-text");
+            $(cardTitle).html(link);
+            $(cardText).html(stock);
             $(cardBlock).append(cardTitle);
-            // $(cardBlock).append(cardText);
-            $(card).append(image).append(cardBlock);
-            $(link).html(card);
-            return link;
+            $(cardBlock).append(cardText);
+            $(card).append(cardBlock);
+            
+            return card;
         }
 
         //AJAX call to Delete item
@@ -246,36 +291,74 @@
             $.ajax({
                 url: "/api/shoppingcarts/" + id,
                 method: "DELETE"
-            }).done(function(success) {
+            }).done(function (success) {
                 $("#" + id).fadeOut();
                 $("." + id).fadeOut();
-                 updateSummary();
-               
-            }).fail(function(error) {
+                updateSummary();
+
+            }).fail(function (error) {
 
             });
         };
 
         function updateSummary() {
             var totalcost = $("#totalcost");
-             
+
             var total = 0.00;
             $.ajax({
                 url: "/api/shoppingcarts",
                 method: "GET"
             }).done(function (success) {
-                
-                 
-                    
+
+
+
                 $(totalcost).text(success);
-            }).fail(function(error) {
+            }).fail(function (error) {
                 $(totalcost).val(0.00);
             });
-            
+
         };
 
         $(document).ready(
-            function() {
+
+
+            function () {
+                //notify of shopping card updated
+                //What you have should work, assuming that the value from the ViewBag is of a type which javascript can understand.
+
+               // Note however, that your first example most likely did not work because boolean values are lowercase in javascript and uppercase in C#. With that in mind, try this:
+                var changed = @ViewBag.cartChanged.ToString().ToLower();
+                if (changed)
+                    toastr.info("Recent changes in your cart");
+                
+                //add saved cards
+                $.ajax({
+                    url: "/api/savedmovies",
+                    method: "GET"
+                }).done(function (success) {
+                     
+                    $.each(success,
+                        function (key, value) {
+                            var savedmoviessection = $("#savedmoviessection");
+                            var col = $((document).createElement("col"));
+                            var url = "/movies/details/" + value.movieId;
+                            var message;
+                            if (value.stock<=0)
+                                message = "Out of Stock";
+                            else
+                                message = "In Stock";
+                           
+                            $(savedmoviessection).append($(col).append(createCard(value.name, url, message)));
+
+                        });
+                }).fail(function (error) {
+
+                });
+
+
+
+
+
                 //notification
                 $("#notification").css("visibility", "hidden");
                 //collapse

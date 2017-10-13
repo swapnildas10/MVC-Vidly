@@ -23,15 +23,16 @@ namespace Vidly.Controllers
         {
             var uid = HttpContext.User.Identity.GetUserId();
             bool cartChanged = false;
-            var list = _context.ShoppingCarts.Include(s => s.Movie)
+            var list = _context.ShoppingCarts.Include(u => u.Movie)
                 .Where(u => u.User == uid);
             var results = list.ToList();
+            var savedMovies = _context.SavedMovies.Include(u=>u.Movie).Where(u => u.User == uid);
             if (list.Where(m => m.Movie.NumberAvailable == 0).ToList().Any())
             {
                 cartChanged = true;
             }
                 List<UserShoppingCartViewModel> rentals = new List<UserShoppingCartViewModel>();
-            List<SavedMovie> savedmovies = new List<SavedMovie>();
+            
             foreach (ShoppingCart shoppingCart in results)
             {
                 if (shoppingCart.Movie.NumberAvailable > 0)
@@ -44,34 +45,26 @@ namespace Vidly.Controllers
                 }
                 else
                 {
-                    _context.SavedMovies.Add(new SavedMovie
+                     
+                    if (!savedMovies.Where(m=>m.Movie.Id==shoppingCart.Movie.Id).ToList().Any())
                     {
-                        Movie = shoppingCart.Movie,
-                        User = uid
-                    });
+                        _context.SavedMovies.Add(new SavedMovie
+                        {
+                            Movie = shoppingCart.Movie,
+                            User = uid
+                        });
+                        _context.ShoppingCarts.Remove(shoppingCart);
+                    }
+                   
+                     
+                    
                 }
                
             }
+            ViewBag.cartChanged = cartChanged;
             _context.SaveChanges();
             return View("Index",rentals);
         }
-
-        //public ActionResult AddToCart(int id)
-        //{
-        //    var uid = HttpContext.User.Identity.GetUserId();
-        //    var movie = _context.Movies.Single(m => m.Id == id);
-
-        //    ShoppingCart cart = new ShoppingCart
-        //    {
-        //        Movie = movie,
-        //        User = uid
-
-        //    };
-
-        //    _context.ShoppingCarts.Add(cart);
-        //    _context.SaveChanges();
-        //    return new PartialViewResult();
-        //}
 
         public ActionResult CheckOut()
         {
