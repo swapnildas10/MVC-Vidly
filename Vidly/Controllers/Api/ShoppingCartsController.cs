@@ -32,7 +32,7 @@ namespace Vidly.Controllers.Api
             var cartitem = _context.ShoppingCarts.Include(s=>s.Movie).Where(s => s.User == uid);
             if (cartitem.Any(c => c.Movie.Id == id))
                 return Content(HttpStatusCode.Forbidden, "Already present in your cart");
-            if (movies.NumberAvailable ==0)
+            if (movies.NumberAvailable <=0)
                 return Content(HttpStatusCode.Forbidden,"Out of Stock");
             var movie = _context.Movies.Single(m => m.Id == id);
             ShoppingCart cart = new ShoppingCart
@@ -63,44 +63,43 @@ namespace Vidly.Controllers.Api
            
             return Ok(total);
         }
-        [System.Web.Http.HttpGet]
-         [System.Web.Http.Route("api/savedmovies")]
-        public IHttpActionResult GetSavedItems()
-        {
-            var uid = HttpContext.Current.User.Identity.GetUserId();
-            var saveditems = _context.SavedMovies.Include(m => m.Movie).Where(s => s.User == uid).ToList();
-            if(saveditems.Count<=0)
-            return NotFound();
-            List<SavedMoviesViewModel> savedMovies = new List<SavedMoviesViewModel>();
-             foreach (SavedMovie savedMovie in saveditems)
-            {
-               savedMovies.Add(new SavedMoviesViewModel
-               {
-                   MovieId = savedMovie.Movie.Id,
-                   Name = savedMovie.Movie.Name,
-                   Stock = savedMovie.Movie.NumberAvailable
-               });
-            }
-             
-            return Ok(savedMovies);
-        }
-        [System.Web.Http.HttpPut]
-        public IHttpActionResult SaveMovie(int id)
-        {
-            var movie = _context.Movies.Single(m => m.Id == id);
-            var uid = HttpContext.Current.User.Identity.GetUserId();
-            var savedMovies = _context.SavedMovies.Include(m => m.Movie).Where(m => m.User == uid);
-            if (savedMovies.Where(m => m.Movie.Id == id).ToList().Any())
-            return Content(HttpStatusCode.Forbidden, "Duplicate Entry");
 
-            _context.SavedMovies.Add(new SavedMovie
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/mycart")]
+        public IHttpActionResult GetItems()
+        {
+            var uid = HttpContext.Current.User.Identity.GetUserId();
+            //how to aggregate 
+            var items = _context.ShoppingCarts.Include(m => m.Movie).Where(s => s.User == uid).ToList();
+            if (items.Count == 0)
+                return NotFound();
+             List<UserShoppingCartViewModel> userShoppingCartView = new List<UserShoppingCartViewModel>();
+            foreach (ShoppingCart cart in items)
             {
-                Movie = movie,
-                User = uid
-            });
-            _context.SaveChanges();
-            return Ok("Saved for Later");
+                userShoppingCartView.Add(new UserShoppingCartViewModel
+                {
+                    Movie = cart.Movie
+                });
+            }
+            return Ok(userShoppingCartView);
         }
+
+        [System.Web.Http.HttpGet]
+         
+        public IHttpActionResult GetItemforShoppingCart(int id)
+        {
+            var uid = HttpContext.Current.User.Identity.GetUserId();
+            //how to aggregate 
+            var item = _context.ShoppingCarts.Include(m => m.Movie).Single(s => s.User == uid && s.Movie.Id==id);
+            
+            UserShoppingCartViewModel userShoppingCartViewModel = new UserShoppingCartViewModel
+            {
+                Movie = item.Movie
+            };
+            return Ok(userShoppingCartViewModel);
+        }
+
         [System.Web.Http.HttpDelete]
         public IHttpActionResult DeleteItemfromShoppingCart(int id)
         {

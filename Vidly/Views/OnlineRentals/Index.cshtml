@@ -1,0 +1,272 @@
+﻿@model Vidly.ViewModels.OnlineRentalVIewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <link rel="stylesheet" href="~/Content/onlinerentals.css" type="text/css" />
+}
+<div class="container-fluid">
+    
+    <div id="currentrentalsection" class="row">
+ 
+        
+
+    </div>
+    <div class="row">
+        <div   class="light clock">
+            <div class="display">
+                <div class="weekdays"></div>
+                <div class="ampm"></div>
+                <div class="alarm"></div>
+                <div class="digits"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    </div>
+     
+    
+
+</div>
+
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/lib")
+    <script>
+        function createCard(name, linkid, dateadded, movieid) {
+            var deleteicon = $((document).createElement("i")).addClass("ion-close-round");
+            var infoicon = $((document).createElement("i")).addClass("ion-ios-information");
+            var carticon = $((document).createElement("i")).addClass("ion-ios-undo");
+            var row = $((document).createElement("div")).addClass("row justify-content-center");
+            var link = $($((document).createElement("a")).attr('href', linkid)).text(name);
+            var del = $($((document).createElement("a")).html(deleteicon)).addClass("card-link col").click(function() {
+                // deleteSavedItem(movieid);
+            });
+            var info = $($((document).createElement("a")).attr('href', linkid)).addClass("card-link col")
+                .html(infoicon);
+            var cart = $($((document).createElement("a"))).addClass("card-link col")
+                .html(carticon).click(function() {
+                       returnRentedMovie(movieid);
+                });;
+
+
+            $(link).addClass("mb-2");
+            var card = $($((document).createElement("div")).addClass("card  card_" + movieid))
+                .attr("data-id", name);
+
+            //....and whatever else you need to do
+
+            // $(card).css('max-width', '100rem');
+            $(card).css("display", "block");
+
+
+            var icons = $(row).append(info).append(cart).append(del);
+            var cardBody = $((document).createElement("div")).addClass("card-body");
+            var linkcardBody = $((document).createElement("div")).addClass("card-footer").append(icons);
+            var cardTitle = $((document).createElement("h3")).addClass("card-header bg-transparent");
+            var cardText = $((document).createElement("p")).addClass("card-text");
+            $(cardTitle).html(link);
+            $(cardText).html(dateadded);
+            $(cardBody).append(cardTitle);
+            $(cardBody).append(cardText);
+            $(cardBody).append(linkcardBody);
+            $(card).append(cardBody);
+
+            return card;
+        }
+
+        function getsavedCards() {
+            var def = new jQuery.Deferred();
+            $.ajax({
+                url: "/api/mycurrentrentals",
+                method: "GET"
+            }).done(function(success) {
+
+                $.each(success,
+                    function(key, value) {
+                        //console.log(value);
+                        var currentrentalsection = $("#currentrentalsection");
+                        var col = $((document).createElement("div"))
+                            .addClass("col-xs-12 col-sm-4 col-md-4 col-lg-3");
+                        var url = "/movies/details/" + value.movie.id;
+                        var span = $((document).createElement("div"));
+                        var row = $((document).createElement("div")).addClass("col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12");
+                        var id = value.movie.id;
+                        var clock1 = $((document).createElement("div")).addClass("light clock clock_" + id);
+                        var display = $((document).createElement("div")).addClass("display");
+                        var weekdays = $((document).createElement("div")).addClass("weekdays");
+                        var ampm = $((document).createElement("div")).addClass("ampm");
+                        var hrs = $((document).createElement("div")).addClass("hrs").text("hours");
+                        var min = $((document).createElement("div")).addClass("mins").text("minutes");
+                        var days = $((document).createElement("div")).addClass("days").text("days");
+                        var secs = $((document).createElement("div")).addClass("secs").text("secs");
+                        var alarm = $((document).createElement("div")).addClass("alarm");
+                        var digits = $((document).createElement("div")).addClass("digits");
+                        var insideClock = $(display).append(weekdays).append(ampm).append(alarm).append(digits).append(hrs).append(min).append(days).append(secs);
+                        var mainclock = $(clock1).append(insideClock);
+                        $(span).append(mainclock);
+
+
+                        //  name, linkid, dateadded, movieidvalue.dateRented
+                        $(currentrentalsection)
+                            .append($(row).append(createCard(value.movie.name, url, span, value.movie.id)));
+                        clock(value.movie.id, value.dateRented);
+                    });
+                // toggleoutofstockIcons();
+                //  clock(id);
+            });
+
+            //notification
+            $("#notification").css("visibility", "hidden");
+            //collapse
+            $("#collapsebutton").click(function() {
+
+                $("#collapsible").fadeToggle();
+            });
+
+
+            //payment form
+
+        };
+
+        function clock(id,initialdate) {
+            // Cache some selectors
+
+            var clock = $('.clock_' + id),
+                alarm = clock.find('.alarm'),
+                ampm = clock.find('.ampm');
+
+            // Map digits to their names (this will be an array)
+            var digit_to_name = 'zero one two three four five six seven eight nine'.split(' ');
+
+            // This object will hold the digit elements
+            var digits = {};
+
+            // Positions for the hours, minutes, and seconds
+            var positions = [
+              'd1','d2',':',  'h1', 'h2', ':', 'm1', 'm2', ':', 's1', 's2'
+            ];
+
+            // Generate the digits with the needed markup,
+            // and add them to the clock
+
+            var digit_holder = clock.find('.digits');
+
+            $.each(positions,
+                function() {
+
+                    if (this == ':') {
+                        digit_holder.append('<div class="dots">');
+                    } else {
+
+                        var pos = $('<div>');
+
+                        for (var i = 1; i < 8; i++) {
+                            pos.append('<span class="d' + i + '">');
+                        }
+
+                        // Set the digits as key:value pairs in the digits object
+                        digits[this] = pos;
+
+                        // Add the digit elements to the page
+                        digit_holder.append(pos);
+                    }
+
+                });
+
+            // Add the weekday names
+
+            var weekday_names = 'MON TUE WED THU FRI SAT SUN'.split(' '),
+                weekday_holder = clock.find('.weekdays');
+
+            $.each(weekday_names,
+                function() {
+                    weekday_holder.append('<span>' + this + '</span>');
+                });
+
+            var weekdays = clock.find('.weekdays span');
+
+            var dateRented = moment(initialdate).format("hhmmssdA");
+
+           // Run a timer every second and update the clock
+         //console.log(output + " : " + initialdate);
+           // console.log(s);
+         
+            (function update_time() {
+
+                // Use moment.js to output the current time as a string
+                // hh is for the hours in 12-hour format,
+                // mm - minutes, ss-seconds (all with leading zeroes),
+                // d is for day of week and A is for AM/PM
+                var output =  moment(moment(), "YYYY-MM-DDTHH:mm:ss.SSS")
+                    .diff(moment(initialdate, "YYYY-MM-DDTHH:mm:ss.SSS"));
+                 
+                var d = moment.duration(output);
+                var s = Math.ceil(d.days())  + moment.utc(output).format("hhmmss");
+              //  console.log(Math.floor(d.days()) + Math.floor(d.hours()).toString());
+                if (0 < Math.ceil(d.days()) < 10)
+                    s = "0" + s;
+                if (Math.ceil(d.days()) === 0)
+                    s = "00" + s;
+                var now = moment().format("hhmmssdA");
+                var calculated = moment(d).format("DDhhmmss");
+               // console.log(Math.ceil(moment.utc(output).format("hhmm")));
+                digits.d1.attr('class', digit_to_name[s[0]]);
+                digits.d2.attr('class', digit_to_name[s[1]]);
+                digits.h1.attr('class', digit_to_name[s[2]]);
+                digits.h2.attr('class', digit_to_name[s[3]]);
+                digits.m1.attr('class', digit_to_name[s[4]]);
+                digits.m2.attr('class', digit_to_name[s[5]]);
+                digits.s1.attr('class', digit_to_name[s[6]]);
+                digits.s2.attr('class', digit_to_name[s[7]]);
+
+                // The library returns Sunday as the first day of the week.
+                // Stupid, I know. Lets shift all the days one position down, 
+                // and make Sunday last
+
+                var dow = now[6];
+                dow--;
+
+                // Sunday!
+                if (dow < 0) {
+                    // Make it last
+                    dow = 6;
+                }
+
+                // Mark the active day of the week
+                weekdays.removeClass('active').eq(dow).addClass('active');
+
+                // Set the am/pm text:
+                ampm.text("Hr");
+
+                // Schedule this function to be run again in 1 sec
+                setTimeout(update_time, 1000);
+
+            })();
+
+            // Switch the theme
+
+            $('a.button').click(function() {
+                clock.toggleClass('light dark');
+            });
+
+
+        }
+
+        function returnRentedMovie(id) {
+            
+        }
+        $(document).ready(function() {
+
+            getsavedCards();
+
+            //  setTimeout(function () { clock(); },5000);
+
+        });
+    </script>
+
+} 
+

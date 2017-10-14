@@ -259,9 +259,12 @@
             var bookmark = $("#addtosave");
             $(bookmark).click(function() {
                 $.ajax({
-                    url: "/api/shoppingcarts",
+                    url: "/api/savedmovies/"+@Model.Id,
                     method: "PUT"
-                    
+                }).done(function(success) {
+                    toastr.success(success);
+                }).fail(function(error) {
+                    toastr.error(error.responseJSON);
                 });
             });
 
@@ -627,13 +630,13 @@
                     method: "POST",
                     contentType: "application/JSON"
                 }).success(function (success) {
-                     
+                    $("#addtocart i").parent().parent().animateCss("jello");
                    // <a class="nav-l"><span class="badge badge-secondary">4</span></a>
                  // var link=  $((document).createElement("a")).addClass("nav-link");
                     $("#notification").css("visibility", "visible");
                     toastr.success("Added");
                     }).fail(function (error) {
-                         
+                        $("#addtocart i").parent().parent().animateCss("shake");
                     toastr.error(error.responseJSON);
                 });
         });

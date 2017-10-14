@@ -3,8 +3,9 @@
 }
 
 .card {
-    margin:  0;
+    margin: 0;
     background-color: white;
+     
 }
 
 .card-summary {
@@ -36,13 +37,31 @@
 .ion-close-round:hover {
     color: darkred;
 }
-.cart {
-    background-color: white;
-    padding: 0 2%;
-    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+.ion-bookmark {
+    font-size: 200%;
+    color: grey;
+    cursor: pointer;
 }
+.ion-bookmark:hover {
+    color: darkgreen;
+    transition: color 0.4s;
+}
+.ion-android-cart {
+    font-size: 170%;
+    color: lightblue;
+    cursor: pointer;
+}
+.ion-android-cart:hover {
+        color: steelblue;
+        transition: color 0.4s;
+ }
+    .cart {
+        background-color: white;
+        padding: 0 2%;
+        -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    }
     .cart .card {
         border: none;
         border-bottom: 1px solid black;
@@ -69,3 +88,74 @@
             bottom: 20%;
             position: absolute;
         }
+
+        #savedmoviessection .card {
+            margin: 5% 0;
+            -webkit-box-shadow: 10px 10px 58px 0px rgba(0,0,0,0.47);
+            -moz-box-shadow: 10px 10px 58px 0px rgba(0,0,0,0.47);
+            box-shadow: 10px 10px 58px 0px rgba(0,0,0,0.47);
+            -webkit-transition: all .5s ease-in-out;
+            -moz-transition: all .5s ease-in-out;
+            -o-transition: all .5s ease-in-out;
+            transition: all .5s ease-in-out;
+        }
+ #savedmoviessection .card-body {
+     padding: 0;
+   
+        }
+#savedmoviessection p {
+    text-align: center;
+    margin: 15% 0;
+}
+#savedmoviessection .card-footer{
+    text-align: center;
+    padding: 0;
+}
+
+#savedmoviessection .card-header {
+    font-size: 100%;
+    text-align: center;
+}
+#savedmoviessection .badge { font-size: 100%; }
+#savedmoviessection .outofstocklink {
+    color: white;
+}
+
+#savedmoviessection .card-header>a {
+    text-decoration: none;
+
+}
+#savedmoviessection .card-header>a:hover {
+    color: darkmagenta;
+    transition: color 0.4s;
+
+}
+
+.card-cartnotification {
+    border: 2px solid red;
+    
+} 
+div[class*="card_"] {
+    -moz-animation-iteration-count: 10;
+    -webkit-animation-iteration-count: 10;
+    animation-iteration-count: 10;
+}
+.card-error {
+    -moz-animation-iteration-count: 1;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+}
+
+.card-success {
+    -moz-animation-iteration-count: 1;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+}
+
+.card-hide {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}

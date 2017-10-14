@@ -58,7 +58,17 @@
         var result = $(element).append(notification);
       
     }
-    
+    $.fn.extend({
+        animateCss: function (animationName , callback) {
+            var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+            this.addClass('animated ' + animationName).one(animationEnd, function() {
+                $(this).removeClass('animated ' + animationName);
+                if(callback)
+                callback();
+            });
+            return this;
+        }
+    });
     var navcart = $("#nav-cart ");
     createNotificationIcon(navcart);
     $(document).ready(function() {
