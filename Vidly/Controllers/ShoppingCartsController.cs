@@ -27,7 +27,7 @@ namespace Vidly.Controllers
                 .Where(u => u.User == uid);
             var results = list.ToList();
             var savedMovies = _context.SavedMovies.Include(u=>u.Movie).Where(u => u.User == uid);
-            if (list.Where(m => m.Movie.NumberAvailable == 0).ToList().Any())
+            if (list.Where(m => m.Movie.NumberAvailable <= 0).ToList().Any())
             {
                 cartChanged = true;
             }
@@ -55,9 +55,9 @@ namespace Vidly.Controllers
                         });
                         _context.ShoppingCarts.Remove(shoppingCart);
                     }
-                   
-                     
-                    
+                    _context.ShoppingCarts.Remove(shoppingCart);
+
+
                 }
                
             }

@@ -11,199 +11,152 @@
 <div class="jumbotron-fluid">
     <div class="row"><h2>Your Shopping Cart</h2>
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-xl-8 col-xs-12 col-md-12">
+<div class="row">
+    <div class="col-sm-12 col-xl-8 col-xs-12 col-md-12">
             
-            <div class="mt-3 row cart">
+        <div id="cart" class="mt-3 row cart">
                
-                    @foreach (UserShoppingCartViewModel item in @Model)
-                    {
-
-                        <div id="@item.Movie.Id" class="card" style="min-width: 100%;">
-                             
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-10 col-sm-10 ">
-                                        <h4 style="text-align: left;" class="card-title">@item.Movie.Name</h4>
-                               
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 align-content-end">
-                                        @if (@item.Movie.Stock > 0)
-                                        {
-                                            <span class="badge badge-success">Available</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge badge-danger">Out of Stock</span>
-                                        }
-
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-10">
-                                        
-                                        <p class="card-text">@item.Movie.DateAdded</p>
-                                    </div>
-                                    <div class="col-sm-12 col-md-2">
-                                        <div class="row">
-                                            <div class="col-sm-3 col-xs-3 col-md-6 col-xl-6">  
-                                                @Html.ActionLink(" ", "Details", "Movies", new {id = @item.Movie.Id}, new {@class = "ion-ios-information"})
-                                            </div>
-                                            <div class="col-xs-3 col-sm-3 col-md-6 col-xl-6">
-                                                <i id="delete" onclick="deleteItem(@item.Movie.Id);" class="ion-close-round"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                
-                              
-                            
-                            </div>
-                        </div>
-
-
-
-                    }
-                </div>
+          
+        </div>
 
               
              
 
-        </div>
-        <div class="col-sm-12 col-xl-4 col-xs-12 col-md-12">
+    </div>
+    <div class="col-sm-12 col-xl-4 col-xs-12 col-md-12">
             
             
-            <div class="card card-summary" style="max-width: 100rem;">
-              <br/>
-                <div class="card-title"><h4>Summary</h4>
-                    <hr/>
-                </div>
-                <div class="card-body">
-                    <div style="background-color: transparent; border: 0;" class="form-control">
-                        @{
-                            var total = 0.00;
-                        }
+        <div class="card card-summary" style="max-width: 100rem;">
+            <br/>
+            <div class="card-title"><h4>Summary</h4>
+                <hr/>
+            </div>
+            <div class="card-body">
+                <div id="summary" style="background-color: transparent; border: 0;" class="form-control">
+                    @{
+                        var total = 0.00;
+                    }
                           
-                                @foreach (UserShoppingCartViewModel item in @Model)
-                                {
+                    @foreach (UserShoppingCartViewModel item in @Model)
+                    {
                                     
                                     
-                                        total = total + Double.Parse(@item.Movie.Cost.ToString());
+                        total = total + Double.Parse(@item.Movie.Cost.ToString());
                                     
                                   
                                        
                                     
-                                <div class="row @item.Movie.Id">
-                                        <div class="col-sm-8">
-                                            @item.Movie.Name
-                                        </div>
-                                        <div class="col-sm-4">
-                                        @item.Movie.Cost
-                                        </div>
-                                    </div>
+                        @*<div class="row summary_@item.Movie.Id">
+                            <div class="col-sm-8">
+                                @item.Movie.Name
+                            </div>
+                            <div class="col-sm-4">
+                                @item.Movie.Cost
+                            </div>
+                        </div>*@
                                     
-                                }
+                    }
                           
                            
                               
                        
                         
-                    </div>
-                    <hr/>
-
                 </div>
-                <div class="card-body">
-                    <div class="row justify-content-center">
-                        <div style="position: relative" class="row">
-                            <span id="totalcost">@total</span><span style="font-size: 80%">/day</span>
-                        </div>
+                <hr/>
+
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div style="position: relative" class="row">
+                        <span id="totalcost">@total</span><span style="font-size: 80%">/day</span>
+                    </div>
                         
-                    </div>
                 </div>
+            </div>
 
-                <div class="card-body">
-                    <hr/>
-                    <h4 class="card-title">Payment</h4>
-                    <div class="card-text">
-                        <form id="simplify-payment-form" action="" method="POST">
-                            <div class="form-group">
-
-
-                                <input placeholder="Credit Card Number" class="form-control" id="cc-number" type="text" maxlength="20" autocomplete="off" value="" autofocus/>
-
-                            </div>
-
-                            <div class="form-group">
-
-                                <div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <select class="form-control custom-select" id="cc-exp-month">
-                                                <option value="01">Jan</option>
-                                                <option value="02">Feb</option>
-                                                <option value="03">Mar</option>
-                                                <option value="04">Apr</option>
-                                                <option value="05">May</option>
-                                                <option value="06">Jun</option>
-                                                <option value="07">Jul</option>
-                                                <option value="08">Aug</option>
-                                                <option value="09">Sep</option>
-                                                <option value="10">Oct</option>
-                                                <option value="11">Nov</option>
-                                                <option value="12">Dec</option>
-                                            </select>
-                                        </div>
-                                        <div class="col">
-
-                                            <select class="form-control custom-select" id="cc-exp-year">
-                                                <option value="13">2013</option>
-                                                <option value="14">2014</option>
-                                                <option value="15">2015</option>
-                                                <option value="16">2016</option>
-                                                <option value="17">2017</option>
-                                                <option value="18">2018</option>
-                                                <option value="19">2019</option>
-                                                <option value="20">2020</option>
-                                                <option value="21">2021</option>
-                                                <option value="22">2022</option>
-                                            </select>
-                                        </div>
+            <div class="card-body">
+                <hr/>
+                <h4 class="card-title">Payment</h4>
+                <div class="card-text">
+                    <form id="simplify-payment-form" action="" method="POST">
+                        <div class="form-group">
 
 
+                            <input placeholder="Credit Card Number" class="form-control" id="cc-number" type="text" maxlength="20" autocomplete="off" value="" autofocus/>
 
-                                        <div class="col">
-                                            <input placeholder="CVC" class="form-control" id="cc-cvc" type="text" maxlength="4" autocomplete="off" value=""/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
+                        </div>
+
+                        <div class="form-group">
+
+                            <div>
                                 <div class="row">
-                                    <div class="col"> <input class=" btn   form-control   btn-brown" id="process-payment-btn" type="submit" value="Process Payment"/>
+                                    <div class="col">
+                                        <select class="form-control custom-select" id="cc-exp-month">
+                                            <option value="01">Jan</option>
+                                            <option value="02">Feb</option>
+                                            <option value="03">Mar</option>
+                                            <option value="04">Apr</option>
+                                            <option value="05">May</option>
+                                            <option value="06">Jun</option>
+                                            <option value="07">Jul</option>
+                                            <option value="08">Aug</option>
+                                            <option value="09">Sep</option>
+                                            <option value="10">Oct</option>
+                                            <option value="11">Nov</option>
+                                            <option value="12">Dec</option>
+                                        </select>
                                     </div>
                                     <div class="col">
-                                        <div id="submit"></div>
-                                        @Ajax.ActionLink(
-                                            "Checkout",
-                                            "Checkout",
-                                            "ShoppingCarts",
-                                            new AjaxOptions {UpdateTargetId = "submit"},
-                                            new {@class = "btn btn-dark"}
-                                            )
+
+                                        <select class="form-control custom-select" id="cc-exp-year">
+                                            <option value="13">2013</option>
+                                            <option value="14">2014</option>
+                                            <option value="15">2015</option>
+                                            <option value="16">2016</option>
+                                            <option value="17">2017</option>
+                                            <option value="18">2018</option>
+                                            <option value="19">2019</option>
+                                            <option value="20">2020</option>
+                                            <option value="21">2021</option>
+                                            <option value="22">2022</option>
+                                        </select>
                                     </div>
 
+
+
+                                    <div class="col">
+                                        <input placeholder="CVC" class="form-control" id="cc-cvc" type="text" maxlength="4" autocomplete="off" value=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col"> <input class=" btn   form-control   btn-brown" id="process-payment-btn" type="submit" value="Process Payment"/>
+                                </div>
+                                <div class="col">
+                                    <div id="submit"></div>
+                                    @Ajax.ActionLink(
+                                        "Checkout",
+                                        "Checkout",
+                                        "ShoppingCarts",
+                                        new AjaxOptions {UpdateTargetId = "submit"},
+                                        new {@class = "btn btn-dark"}
+                                        )
                                 </div>
 
                             </div>
-                        </form>
 
-                    </div>
+                        </div>
+                    </form>
 
                 </div>
+
             </div>
         </div>
     </div>
+</div>
+    <hr/>
     <div class="row">
         <h3>Saved Movies</h3>
 
@@ -220,83 +173,131 @@
 
 @section scripts
 {@Scripts.Render("~/bundles/jqueryval")
-
-
-
+@Scripts.Render("~/bundles/lib")
     <script>
+        
 
 
+        //card for shopping items
+        function createShoppingCard(moviename, movieid, availability) {
+          var card=  $((document).createElement("div")).attr("id", "cart_" + movieid).addClass("card").css("min-width", "100%");
+          var cardbody = $((document).createElement("div")).addClass("card-body");
+          var firstrow = $((document).createElement("div")).addClass("row");
+          var innerfirstrow = $((document).createElement("div")).addClass("row");
+          var secondrow = $((document).createElement("div")).addClass("row justify-content-end");
+            var firstcol = $((document).createElement("div")).addClass("col-md-12 col-sm-12");
+            var secondcol = $((document).createElement("div")).addClass("col-md-3 col-sm-12");
+            var title = $((document).createElement("h4")).addClass("card-title").text(moviename);
+            var innersecondrow = $((document).createElement("div")).addClass("row justify-content-end");
+            var innerfirstcol = $((document).createElement("div")).addClass("col-4 col-xs-3 col-md-4 col-xl-4 my-auto").css("text-align","center");
+            var innerseccol = $((document).createElement("div")).addClass("col-4 col-xs-3 col-md-4 col-xl-4 my-auto").css("text-align", "center");
+            var innerthirdcol = $((document).createElement("div")).addClass("col-4 col-xs-3 col-md-4 col-xl-4 my-auto").css("text-align", "center");
+            var iconclose = $((document).createElement("i")).addClass("ion-close-round").attr("id", "delete").click(
+                function() {
+                    deleteItem(movieid);
+                });
+            var iconbookmark = $((document).createElement("i")).addClass("ion-bookmark").attr("id", "delete").click(
+                function() {
+                    saveforLater(movieid);
+                });
+            var iconinfo = $((document).createElement("a")).addClass("ion-ios-information").attr("id", "delete")
+                .attr("href", "/movies/details/" + movieid);
+            var info = $(innerfirstcol).append(iconinfo);
+            var bookmark = $(innerseccol).append(iconbookmark);
+            var close = $(innerthirdcol).append(iconclose);
+            var firstsection = $(firstrow).append($(innerfirstrow).append($(firstcol).append(title)));
+          var secondsection=  $(secondrow).append($(secondcol).append($(innersecondrow).append(info).append(bookmark).append(close)))
+            var wholecard = $(card).append($(cardbody).append(firstsection).append(secondsection));
+            return wholecard;
+        }
 
-        /*
-
-        <div class="card-deck">
-  <div class="card">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-body">
-      <h4 class="card-title">Card title</h4>
-      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-    </div>
-  </div>
-  <div class="card">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-body">
-      <h4 class="card-title">Card title</h4>
-      <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-    </div>
-  </div>
-  <div class="card">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-body">
-      <h4 class="card-title">Card title</h4>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-    </div>
-  </div>
-</div>
-
-
-        */
-
-
-
-
-
-
-
-        function createCard(name, linkid, stock) {
+        //card for saved items
+        function createCard(name, linkid, stock, movieid) {
+            var deleteicon = $((document).createElement("i")).addClass("ion-close-round");
+            var infoicon = $((document).createElement("i")).addClass("ion-ios-information");
+            var carticon = $((document).createElement("i")).addClass("ion-android-cart");
+            var row = $((document).createElement("div")).addClass("row justify-content-center");
             var link = $($((document).createElement("a")).attr('href', linkid)).text(name);
-            $(link).addClass("mb-2");
-            var card = $($((document).createElement("div")).addClass("card")).attr("data-id", name);
+            var del = $($((document).createElement("a")).html(deleteicon)).addClass("card-link col").click(function() {
+                deleteSavedItem(movieid);
+            });
+            var info = $($((document).createElement("a")).attr('href', linkid)).addClass("card-link col")
+                .html(infoicon);
+            var cart = $($((document).createElement("a"))).addClass("card-link col")
+                .html(carticon).click(function() {
+                    movetoCart(movieid);
+                });;
 
+
+            $(link).addClass("mb-2");
+            var card = $($((document).createElement("div")).addClass("card  card_" + movieid))
+                .attr("data-id", name);
+               
+                //....and whatever else you need to do
+            
             $(card).css('max-width', '100rem');
-            $(card).css('margin', '0 10%');
-             
-             
-            var cardBlock = $((document).createElement("div")).addClass("card-block");
-            var cardTitle = $((document).createElement("h3")).addClass("card-title mt-2");
+            $(card).css("display", "block");
+
+
+            var icons = $(row).append(info).append(cart).append(del);
+            var cardBody = $((document).createElement("div")).addClass("card-body");
+            var linkcardBody = $((document).createElement("div")).addClass("card-footer").append(icons);
+            var cardTitle = $((document).createElement("h3")).addClass("card-header bg-transparent");
             var cardText = $((document).createElement("p")).addClass("card-text");
             $(cardTitle).html(link);
             $(cardText).html(stock);
-            $(cardBlock).append(cardTitle);
-            $(cardBlock).append(cardText);
-            $(card).append(cardBlock);
-            
+            $(cardBody).append(cardTitle);
+            $(cardBody).append(cardText);
+            $(cardBody).append(linkcardBody);
+            $(card).append(cardBody);
+           
             return card;
         }
 
-        //AJAX call to Delete item
+        //AJAX call to Delete Movie fron Saved List
+        function deleteSavedItem(id) {
+            $.ajax({
+                url: "/api/savedmovies/" + id,
+                method: "DELETE"
+            }).done(function(success) {
+
+                $("#savedmoviessection .card_" + id).removeClass("card_"+id).addClass("temp").animateCss("flipOutY",
+                    function() {
+                        $(".temp").parent().remove();
+                    });
+
+
+            }).fail(function(error) {
+
+            });
+        }
+
+       
+        //create card for summary
+        function createsummaryCard(id , moviename , percost) {
+            var row = $((document).createElement("div")).addClass("row summary_" + id);
+            var col8 = $((document).createElement("div")).addClass("col-sm-8").text(moviename);
+            var col4 = $((document).createElement("div")).addClass("col-sm-4").text(percost);
+         var summary=   $(row).append(col8).append(col4);
+            return summary;
+        }
+        //AJAX call to Delete item from shopping list
         function deleteItem(id) {
             $.ajax({
                 url: "/api/shoppingcarts/" + id,
                 method: "DELETE"
             }).done(function (success) {
-                $("#" + id).fadeOut();
-                $("." + id).fadeOut();
+
+                $("#cart_" + id).removeClass("card_" + id).addClass("card-success").animateCss("zoomOut", function () {
+               
+                   $("#cart_" + id).remove();
+                });
+                $(".summary_" + id).fadeOut(0, function () {
+                    $(this).remove();
+                });
                 updateSummary();
 
-            }).fail(function (error) {
+            }).fail(function(error) {
 
             });
         };
@@ -308,69 +309,276 @@
             $.ajax({
                 url: "/api/shoppingcarts",
                 method: "GET"
-            }).done(function (success) {
-
+            }).done(function(success) {
 
 
                 $(totalcost).text(success);
-            }).fail(function (error) {
+            }).fail(function(error) {
                 $(totalcost).val(0.00);
             });
 
         };
 
+        //transfer from cart to save for later
+        function saveforLater(id) {
+            $.ajax({
+                url: "/api/savedmovies/" + id,
+                method: "PUT",
+                contentType: "application/JSON"
+            }).done(function (success) {
+                   $.when(deleteItem(id)).done(function () {
+                        $.when(getsavedCard(id)).done(function() {
+                        
+                        
+                       
+                        });
+                  
+                   
+
+                    });
+                
+                toastr.success(success);
+                
+
+                }).fail(function (error) {
+                $("#cart_"+id).addClass("card-error").animateCss("shake",
+                    function() {
+                        $("#cart_" + id).removeClass("card-error");
+                    }).hover(function() {
+                    $(this).removeClass("animated bounce");
+                    $(this).removeClass("card-error");
+                  //  $(this).animate({ borderColor: '#fff' }, 300, function() {});
+                });
+                toastr.error(error.responseJSON);
+            });
+        }
+
+        function getsavedCard(id) {
+            $.ajax({
+                url: "/api/savedmovies/" + id,
+                method: "GET"
+            }).done(function(success) {
+                
+                var savedmoviessection = $("#savedmoviessection");
+                var col = $((document).createElement("div"))
+                    .addClass("col-xs-12 col-sm-4 col-md-4 col-lg-3");
+                var url = "/movies/details/" + success.movieId;
+                var span = $((document).createElement("div")).addClass("badge");
+
+
+                var message;
+                if (success.stock <= 0) {
+                    message = "Out of Stock";
+                    $(span).text(message).addClass("badge-danger");
+                } else {
+                    message = "In Stock";
+                    $(span).text(message).addClass("badge-success");
+
+                }
+               
+                var newCard = $(createCard(success.name, url, span, success.movieId));
+                
+                $(savedmoviessection)
+                    .append($(col).append(newCard));
+                $(".card").last().addClass("card-cartnotification");
+                $(".card-cartnotification").last().animateCss("bounce",
+                    function() {
+                        $(".card-cartnotification").animate({ borderColor: '#fff' }, 300, function() {});
+                    }).hover(function() {
+                    $(this).removeClass("animated bounce");
+                    $(this).animate({ borderColor: '#fff' }, 300, function() {});
+                });
+
+            });
+        };
+
+        function getshoppingItems() {
+            $.ajax({
+                url: "/api/mycart",
+                method:"GET"
+
+            }).done(function (success) {
+                var cart = $("#cart");
+                var summary = $("#summary");
+                $.each(success,function(key, value) {
+                   
+                    cart.append(createShoppingCard(value.movie.name, value.movie.id, null));
+                    $(summary).append(createsummaryCard(value.movie.id,value.movie.name,value.movie.cost));
+                });
+                console.log(success);
+            }).fail(function(error) {
+                
+            });
+        }
+
+        //out of stock saved movies custom display
+        function toggleoutofstockIcons() {
+            var outofstockcard = $("#savedmoviessection").find(".badge-danger").parent().parent()
+                .parent()
+                .css("background-color", "grey");
+            $(outofstockcard).find(".card-header a,.card-footer i").addClass("outofstocklink")
+                .hover(
+                    function() {
+                        $(this).toggleClass("outofstocklink");
+
+                    });
+        }
+
+        function getsavedCards() {
+            $.ajax({
+                url: "/api/savedmovies",
+                method: "GET"
+            }).done(function(success) {
+
+                $.each(success,
+                    function(key, value) {
+                        var savedmoviessection = $("#savedmoviessection");
+                        var col = $((document).createElement("div"))
+                            .addClass("col-xs-12 col-sm-4 col-md-4 col-lg-3");
+                        var url = "/movies/details/" + value.movieId;
+                        var span = $((document).createElement("div")).addClass("badge");
+
+
+                        var message;
+                        if (value.stock <= 0) {
+                            message = "Out of Stock";
+                            $(span).text(message).addClass("badge-danger");
+                        } else {
+                            message = "In Stock";
+                            $(span).text(message).addClass("badge-success");
+
+                        }
+
+
+                        $(savedmoviessection)
+                            .append($(col).append(createCard(value.name, url, span, value.movieId)));
+
+                    });
+                toggleoutofstockIcons();
+            });
+
+            //notification
+            $("#notification").css("visibility", "hidden");
+            //collapse
+            $("#collapsebutton").click(function() {
+
+                $("#collapsible").fadeToggle();
+            });
+
+
+            //payment form
+
+        };
+        //move from saved list to cart
+
+        function getcartItem(id) {
+            $.ajax({
+                url: "/api/shoppingcarts/" + id,
+                method:"GET"
+            }).done(function(success) {
+                
+            }).fail(function(error) {
+                
+            });
+        }
+
+        function movetoCart(id) {
+             
+            $.ajax({
+                url: "/api/shoppingcarts/"+id,
+                method: "POST"
+            }).done(function (success) {
+                var cart = $("#cart");
+                var summary = $("#summary");
+                
+                $.when(deleteSavedItem(id)).done(function () {
+                 
+                        $.ajax({
+                            url: "/api/shoppingcarts/" + id,
+                            method: "GET"
+                        }).done(function (getsuccess) {
+ 
+                            var newMovie = $(createShoppingCard(
+                                getsuccess.movie.name,
+                                getsuccess.movie.id,
+                                null));
+                            
+                            $(cart).append(newMovie);
+                            $(summary).append(createsummaryCard(getsuccess.movie.id, getsuccess.movie.name, getsuccess.movie.cost));
+                            
+                            updateSummary();
+                            
+                            toastr.success("Added to Cart");
+                        }).fail(function(geterror) {
+
+                        });
+
+
+                        $(cart).append();
+                     
+                     
+                  
+                });
+                   
+                }).fail(function (error) {
+                $(".card_" + id).addClass("card-error").removeClass("card_"+id);
+                $(".card-error").animateCss("shake",function() {
+                    $(".card-error").removeClass("card-error").addClass("card_"+id);
+                });
+                toastr.error(error.responseJSON);
+            });
+            
+        }
         $(document).ready(
-
-
-            function () {
+            function() {
                 //notify of shopping card updated
                 //What you have should work, assuming that the value from the ViewBag is of a type which javascript can understand.
-
-               // Note however, that your first example most likely did not work because boolean values are lowercase in javascript and uppercase in C#. With that in mind, try this:
+                getshoppingItems();
+                // Note however, that your first example most likely did not work because boolean values are lowercase in javascript and uppercase in C#. With that in mind, try this:
                 var changed = @ViewBag.cartChanged.ToString().ToLower();
                 if (changed)
                     toastr.info("Recent changes in your cart");
-                
+
                 //add saved cards
-                $.ajax({
-                    url: "/api/savedmovies",
-                    method: "GET"
-                }).done(function (success) {
-                     
-                    $.each(success,
-                        function (key, value) {
-                            var savedmoviessection = $("#savedmoviessection");
-                            var col = $((document).createElement("col"));
-                            var url = "/movies/details/" + value.movieId;
-                            var message;
-                            if (value.stock<=0)
-                                message = "Out of Stock";
-                            else
-                                message = "In Stock";
-                           
-                            $(savedmoviessection).append($(col).append(createCard(value.name, url, message)));
+                getsavedCards();
+                    
+                        
 
-                        });
-                }).fail(function (error) {
+                function simplifyResponseHandler(data) {
+                    var $paymentForm = $("#simplify-payment-form");
+                    // Remove all previous errors
+                    $(".error").remove();
+                    // Check for errors
+                    if (data.error) {
+                        // Show any validation errors
+                        if (data.error.code == "validation") {
+                            var fieldErrors = data.error.fieldErrors,
+                                fieldErrorsLength = fieldErrors.length,
+                                errorList = "";
+                            for (var i = 0; i < fieldErrorsLength; i++) {
+                                errorList += "<div class='error'>Field: '" +
+                                    fieldErrors[i].field +
+                                    "' is invalid - " +
+                                    fieldErrors[i].message +
+                                    "</div>";
+                            }
+                            // Display the errors
+                            $paymentForm.after(errorList);
+                        }
+                        // Re-enable the submit button
+                        $("#process-payment-btn").removeAttr("disabled");
+                    } else {
+                        // The token contains id, last4, and card type
+                        var token = data["id"];
+                        // Insert the token into the form so it gets submitted to the server
+                        $paymentForm.append("<input type='hidden' name='simplifyToken' value='" + token + "' />");
+                        // Submit the form to the server
+                        $paymentForm.get(0).submit();
+                    }
+                }
 
-                });
-
-
-
-
-
-                //notification
-                $("#notification").css("visibility", "hidden");
-                //collapse
-                $("#collapsebutton").click(function() {
-
-                    $("#collapsible").fadeToggle();
-                });
-
-
-                //payment form
                 $("#simplify-payment-form").on("submit",
-                    function() {
+                    function () {
                         // Disable the submit button
                         $("#process-payment-btn").attr("disabled", "disabled");
                         // Generate a card token & handle the response
@@ -388,42 +596,8 @@
                         return false;
                     });
 
-            }
-        );
-
-        function simplifyResponseHandler(data) {
-            var $paymentForm = $("#simplify-payment-form");
-            // Remove all previous errors
-            $(".error").remove();
-            // Check for errors
-            if (data.error) {
-                // Show any validation errors
-                if (data.error.code == "validation") {
-                    var fieldErrors = data.error.fieldErrors,
-                        fieldErrorsLength = fieldErrors.length,
-                        errorList = "";
-                    for (var i = 0; i < fieldErrorsLength; i++) {
-                        errorList += "<div class='error'>Field: '" +
-                            fieldErrors[i].field +
-                            "' is invalid - " +
-                            fieldErrors[i].message +
-                            "</div>";
-                    }
-                    // Display the errors
-                    $paymentForm.after(errorList);
-                }
-                // Re-enable the submit button
-                $("#process-payment-btn").removeAttr("disabled");
-            } else {
-                // The token contains id, last4, and card type
-                var token = data["id"];
-                // Insert the token into the form so it gets submitted to the server
-                $paymentForm.append("<input type='hidden' name='simplifyToken' value='" + token + "' />");
-                // Submit the form to the server
-                $paymentForm.get(0).submit();
-            }
-        }
+            });
     </script>
 }
 
- 
+

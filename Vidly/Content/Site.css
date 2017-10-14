@@ -17,6 +17,10 @@ html {
 nav {
     background-color: rgba(52,58,64,0.91);
 }
+
+#toast-container {
+    text-align: center;
+}
 .video-container {
     
     position: relative;
@@ -231,3 +235,4 @@ td {
     font-size: 60%;
     position: absolute;
 }
+
