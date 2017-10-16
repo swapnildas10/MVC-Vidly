@@ -40,6 +40,54 @@ namespace Vidly.Controllers.Api
             }       
             return Ok(onlineRentalVIewModel);
         }
+        [Route("api/mycurrentrental/{id}")]
+        [HttpGet]
+        public IHttpActionResult GetCurrentRental(int id)
+        {
+            var uid = HttpContext.Current.User.Identity.GetUserId();
+            var currentRental = _context.OnlineRentals.Include(m => m.Movie).Single(m => m.User == uid &&m.Movie.Id==id && m.DateReturned == null);
+         
+            OnlineRentalVIewModel onlineRentalVIewModel = new OnlineRentalVIewModel
+            {      DateReturned = DateTime.Now,
+                DateRented = currentRental.DateRented,
+                Movie = currentRental.Movie
+            };
+
+             
+            return Ok(onlineRentalVIewModel);
+        }
+        [HttpPost]
+        public IHttpActionResult ReturnCurrentRental(OnlineRentalVIewModel onlineRentalVIewModel)
+        {
+            var uid = HttpContext.Current.User.Identity.GetUserId();
+            var currentRental = _context.OnlineRentals.Include(m => m.Movie).Single(m => m.User == uid && m.Movie.Id == onlineRentalVIewModel.Movie.Id && m.DateReturned == null);
+
+            currentRental.DateReturned = onlineRentalVIewModel.DateReturned;
+            _context.SaveChanges();
+
+
+            return Ok();
+        }
+        [HttpPost]
+        public IHttpActionResult ReturnCurrentRentals(List<OnlineRentalVIewModel> onlineRentalVIewModels)
+        {
+            var uid = HttpContext.Current.User.Identity.GetUserId();
+            var currentRental = _context.OnlineRentals.Include(m => m.Movie).Where(m => m.User == uid  && m.DateReturned == null) ;
+            foreach (OnlineRentalVIewModel onlineRentalVIewModel in onlineRentalVIewModels)
+            {
+               if(currentRental.Any(m => m.Id == onlineRentalVIewModel.Movie.Id))
+               {
+                   var movie =currentRental.Single(r => r.Movie.Id == onlineRentalVIewModel.Movie.Id);
+                   movie.DateReturned = onlineRentalVIewModel.DateReturned;
+
+               }
+            }
+            
+            _context.SaveChanges();
+
+
+            return Ok();
+        }
 
         [HttpGet]
         [Route("api/mypastrentals")]

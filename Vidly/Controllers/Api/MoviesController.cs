@@ -30,7 +30,7 @@ namespace Vidly.Controllers.Api
             if(!String.IsNullOrWhiteSpace(query))
                 moviesQuery = moviesQuery.Where(m => m.Name.Contains(query));
             if (page.HasValue)
-                moviesQuery = moviesQuery.OrderBy(m=>m.Name).Skip((10 * (page.Value - 1))).Take((10));//deferred execution here
+                moviesQuery = moviesQuery.OrderBy(m=>m.Name).Skip((12 * (page.Value - 1))).Take((12));//deferred execution here
 
             var movieDtos = moviesQuery.Include(c=>c.Genre).ToList().Select(Mapper.Map<Movie,MovieDto>);
             return Ok(movieDtos);
@@ -53,7 +53,7 @@ namespace Vidly.Controllers.Api
         public IHttpActionResult GetPages()
         {
             var count = _context.Movies.Count();
-            float pages = (float)count / 10;
+            float pages = (float)count / 12;
             return Ok(Math.Ceiling(pages));
         }
 

@@ -179,10 +179,12 @@ i {
 .ion-android-bookmark {
     font-size: 200%;
     color: lightblue;
+    cursor:pointer;
 }
 .ion-android-bookmark:hover {
     color: darkgreen;
     transition: color .4s;
+    cursor:pointer;
 }
 
 .ion-heart {
