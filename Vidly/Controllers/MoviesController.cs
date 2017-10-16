@@ -109,6 +109,7 @@ namespace Vidly.Controllers
             {
                 movie.DateAdded = DateTime.Now;
                 movie.NumberAvailable = movie.Stock;
+               
                 _context.Movies.Add(movie);
             }
                
@@ -119,6 +120,7 @@ namespace Vidly.Controllers
                 movieInDb.ReleaseDate = movie.ReleaseDate;
                 movieInDb.GenreId = movie.GenreId;
                 movieInDb.Stock = movie.Stock;
+                movieInDb.Cost = movie.Cost;
             }
             try
             {

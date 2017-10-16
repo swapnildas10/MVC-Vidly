@@ -243,7 +243,7 @@
 
         function onPlayerStateChange(event) {
             if (event.data == YT.PlayerState.PLAYING && !done) {
-                setTimeout(stopVideo, 6000);
+                stopVideo();
                 done = true;
             }
         }
@@ -252,22 +252,67 @@
             player.stopVideo();
         }
 
+        function markedSave(id) {
+            var bookmarkicon = $("#addtosave i");
+            var bookmark = $("#addtosave");
+            $.ajax({
+                url: "/api/savedmovies/"+id,
+                method: "GET"
+            }).done(function(success) {
+                $(bookmark).off().click(function() {
+                    removefromSave(id);
+                });
+                $(bookmarkicon).css("color", "darkgreen");
+            }).fail(function(error) {
 
+            });
+        }
+        function removefromSave(id) {
+            var bookmarkicon = $("#addtosave i");
+            var bookmark = $("#addtosave");
+            $.ajax({
+                url: "/api/savedmovies/"+id,
+                method: "DELETE"
+            }).done(function(success) {
+                toastr.success(success);
+                $(bookmarkicon).css("color", "");
+                $(bookmark).off().click(function () {
+                    addtoSave(id);
+                });
+            }).fail(function(error) {
+
+            });
+        }
+
+        function addtoSave(id) {
+            var bookmark = $("#addtosave");
+
+                $.ajax({
+                    url: "/api/savedmovies/"+id,
+                    method: "PUT"
+                }).done(function (success) {
+                    $(bookmark).find("i").css("color","darkgreen");
+                    toastr.success(success);
+                    $(bookmark).off().click(function() {
+                        removefromSave(id);
+                    });
+                }).fail(function(error) {
+                    toastr.error(error.responseJSON);
+                });
+
+
+        }
         $(document).ready(function () {
+
+            //makr save if existing in saved list
+            markedSave(@Model.Id);
 
             //add to saved section
             var bookmark = $("#addtosave");
             $(bookmark).click(function() {
-                $.ajax({
-                    url: "/api/savedmovies/"+@Model.Id,
-                    method: "PUT"
-                }).done(function(success) {
-                    toastr.success(success);
-                }).fail(function(error) {
-                    toastr.error(error.responseJSON);
-                });
+                addtoSave(@Model.Id);
             });
-
+           // addtoSave(@Model.Id);
 
 
 
@@ -286,7 +331,7 @@
                 $.each(success,
                     function(key, value) {
 
-                     
+
                         if (key.toString() === 'tagline')
                             $('#tagline q').text(value);
                         var list = document.createElement("li");
@@ -377,7 +422,7 @@
 
 
                                     production.append(list);
-                                 
+
                                 });
                         }
 
@@ -393,7 +438,7 @@
                 method: "GET",
                 contentType: "application/JSON"
             }).done(function(success) {
-                
+
                 var castProfile = $(".cast-profile");
                 var divCarousel = $((document).createElement("div"))
                     .addClass("carousel-item active");
@@ -415,7 +460,7 @@
 
 
                     function createCard(imagesrc, name, character) {
-                        
+
                         var card = $((document).createElement("div")).addClass("card card-actor");
                         var image = $((document).createElement("img"))
                             .addClass("card-img-top img-responsive")
@@ -435,11 +480,11 @@
                         if (key === 'cast') {
                             $.each(value,
                                 function (subkey, subvalue) {
-                                    
-                                    
+
+
                                     if (subkey < 12) {
                                         if (subkey < 6) {
-                                             
+
                                             var divCol = $((document).createElement("div")).addClass("col col-sm-2");
                                             $(divCol).append(createCard('https://image.tmdb.org/t/p/w342' + subvalue.profile_Path, subvalue.name,subvalue.character));
                                             $(carddeck).append(divCol);
@@ -451,7 +496,7 @@
                         $(carddeck3).append(divCol3);
  }
             }
-             
+
 
 
         });
@@ -467,7 +512,7 @@
                 var list = $((document).createElement("div"))
                     .addClass("list-group-item flex-column align-items-start");
                 list.append(div);
-                (div).append($((document).createElement("h5")).addClass("mb-1").text(title)); //text value put    
+                (div).append($((document).createElement("h5")).addClass("mb-1").text(title)); //text value put
 
 
                 return list;
@@ -487,7 +532,7 @@
 
                     if (subvalue.job === 'Writer') {
                         writers.push(subvalue.name);
-                    
+
                     }
                 });
             var plist = initlist("Producers");
@@ -503,7 +548,7 @@
 
                         var para = $((document).createElement("p")).addClass("mb-1");
                         $(para).text(value);
-                       
+
                         list.append(para);
 
 
@@ -623,7 +668,7 @@
             },
             2000);
         $("#addtocart").click(function (event) {
- 
+
             var id = $("#addtocart").data("id");
                 $.ajax({
                     url: "/api/ShoppingCarts/"+id,

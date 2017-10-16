@@ -159,7 +159,7 @@
                         }).done(function (output) {
                             var column = $($((document).createElement("div")).addClass("col-xs-12 col-md-6 col-sm-6 col-lg-4 col-xl-3 mb-2 moviecard").css('text-align','center')).attr('data-name',value.name);
                             $(cards).append(column);
-                            $(column).append(createCard("https://image.tmdb.org/t/p/original"+output.posterPath, value.name, "/movies/details/" + value.id  ));
+                            $(column).append(createCard("https://image.tmdb.org/t/p/w342"+output.posterPath, value.name, "/movies/details/" + value.id  ));
                         }).fail(function(error) {
                             console.log(error);
                         });

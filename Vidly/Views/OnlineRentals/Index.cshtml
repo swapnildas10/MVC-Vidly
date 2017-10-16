@@ -7,22 +7,16 @@
     <link rel="stylesheet" href="~/Content/onlinerentals.css" type="text/css" />
 }
 <div class="container-fluid">
-    
+    <div class="row">
+        <h2>My Rentals</h2>
+    </div>
+    <hr />
     <div id="currentrentalsection" class="row">
  
         
 
     </div>
-    <div class="row">
-        <div   class="light clock">
-            <div class="display">
-                <div class="weekdays"></div>
-                <div class="ampm"></div>
-                <div class="alarm"></div>
-                <div class="digits"></div>
-            </div>
-        </div>
-    </div>
+    
     <div class="row">
     </div>
      
@@ -33,23 +27,55 @@
 
 
 @section scripts
-{
+{@Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/lib")
+
     <script>
-        function createCard(name, linkid, dateadded, movieid) {
-            var deleteicon = $((document).createElement("i")).addClass("ion-close-round");
+        function createCard(name, linkid, imageurl, dateadded, movieid) {
+            var rentalicon = $((document).createElement("i")).addClass("ion-arrow-expand");
             var infoicon = $((document).createElement("i")).addClass("ion-ios-information");
             var carticon = $((document).createElement("i")).addClass("ion-ios-undo");
+            var image = $($((document).createElement("img"))
+                .addClass("card-img-top img-responsive ")
+                .attr({ 'src': imageurl, 'alt': 'Photo' })).css('border-top-left-radius', '.50rem');
+
             var row = $((document).createElement("div")).addClass("row justify-content-center");
             var link = $($((document).createElement("a")).attr('href', linkid)).text(name);
-            var del = $($((document).createElement("a")).html(deleteicon)).addClass("card-link col").click(function() {
-                // deleteSavedItem(movieid);
-            });
+            var moviedetails;
+            var del = $($((document).createElement("a")).html(rentalicon)).addClass("card-link col rental_" + movieid)
+                .click(function() {
+
+                }).mouseenter(function(e) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                  
+
+                    $.ajax({
+                        url: "/api/mycurrentrental/" + movieid,
+                        method: "GET"
+
+                    }).done(function(success) {
+                        moviedetails = success;
+                       
+                        appendrentaldetail(movieid, success.dateRented, success.movie.cost);
+                    
+                    });
+                }).mouseleave(function(e) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    removerentaldetail(movieid, moviedetails.dateRented, moviedetails.movie.cost);
+                });
             var info = $($((document).createElement("a")).attr('href', linkid)).addClass("card-link col")
-                .html(infoicon);
+                .html(infoicon).hover(function(e) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                });
             var cart = $($((document).createElement("a"))).addClass("card-link col")
                 .html(carticon).click(function() {
-                       returnRentedMovie(movieid);
+                    returnRentedMovie(movieid);
+                }).hover(function(e) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
                 });;
 
 
@@ -65,14 +91,21 @@
 
             var icons = $(row).append(info).append(cart).append(del);
             var cardBody = $((document).createElement("div")).addClass("card-body");
+            var hovereffect = $((document).createElement("div")).addClass("card-hover");
+            var linkcard = $((document).createElement("a")).addClass("card-text");
             var linkcardBody = $((document).createElement("div")).addClass("card-footer").append(icons);
             var cardTitle = $((document).createElement("h3")).addClass("card-header bg-transparent");
             var cardText = $((document).createElement("p")).addClass("card-text");
             $(cardTitle).html(link);
             $(cardText).html(dateadded);
             $(cardBody).append(cardTitle);
-            $(cardBody).append(cardText);
+            $(linkcard).append(image);
+            $(linkcard).append(hovereffect);
+            $(cardBody).append(linkcard);
+            //  $(cardBody).append(hovereffect);
+            // $(cardBody).append(cardText);
             $(cardBody).append(linkcardBody);
+
             $(card).append(cardBody);
 
             return card;
@@ -87,13 +120,14 @@
 
                 $.each(success,
                     function(key, value) {
-                        //console.log(value);
+                        // console.log(value);
                         var currentrentalsection = $("#currentrentalsection");
                         var col = $((document).createElement("div"))
                             .addClass("col-xs-12 col-sm-4 col-md-4 col-lg-3");
                         var url = "/movies/details/" + value.movie.id;
-                        var span = $((document).createElement("div"));
-                        var row = $((document).createElement("div")).addClass("col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12");
+                        var span = $((document).createElement("div")).addClass("row");
+                        var row = $((document).createElement("div"))
+                            .addClass("col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12");
                         var id = value.movie.id;
                         var clock1 = $((document).createElement("div")).addClass("light clock clock_" + id);
                         var display = $((document).createElement("div")).addClass("display");
@@ -102,18 +136,44 @@
                         var hrs = $((document).createElement("div")).addClass("hrs").text("hours");
                         var min = $((document).createElement("div")).addClass("mins").text("minutes");
                         var days = $((document).createElement("div")).addClass("days").text("days");
-                        var secs = $((document).createElement("div")).addClass("secs").text("secs");
-                        var alarm = $((document).createElement("div")).addClass("alarm");
+                        //   var secs = $((document).createElement("div")).addClass("secs").text("secs");
+                        //  var alarm = $((document).createElement("div")).addClass("alarm");
                         var digits = $((document).createElement("div")).addClass("digits");
-                        var insideClock = $(display).append(weekdays).append(ampm).append(alarm).append(digits).append(hrs).append(min).append(days).append(secs);
+                        var insideClock = $(display).append(weekdays).append(digits).append(days).append(hrs);
                         var mainclock = $(clock1).append(insideClock);
-                        $(span).append(mainclock);
+                        //  $(span).append(mainclock);
+                        //value.movie.movieDb
 
+                        $.ajax({
+                            url: "/api/moviedetails/details/" + value.movie.movieDb,
+                            method: "GET"
 
-                        //  name, linkid, dateadded, movieidvalue.dateRented
-                        $(currentrentalsection)
-                            .append($(row).append(createCard(value.movie.name, url, span, value.movie.id)));
-                        clock(value.movie.id, value.dateRented);
+                        }).done(function(output) {
+                            var column = $($((document).createElement("img"))).addClass("card-img-top img-responsive")
+                                .attr('data-name', value.name).attr("src",
+                                    "https://image.tmdb.org/t/p/w342" + output.posterPath);
+                            //  name, linkid, dateadded, movieidvalue.dateRented
+                            var imgurl = "https://image.tmdb.org/t/p/w342" + output.posterPath;
+                            $(currentrentalsection)
+                                .append($(row).append(createCard(value.movie.name,
+                                    url,
+                                    imgurl,
+                                    value.dateRented,
+                                    value.movie.id)));
+
+                            $(span).append(column);
+                            $(".card_" + value.movie.id + " a").mouseenter(function() {
+                                appendPlay(value.movie.id);
+                            });
+                            $(".card_" + id + " a").mouseleave(function() {
+
+                                removePlay(value.movie.id);
+                            });
+
+                        }).fail(function(error) {
+                            //  console.log(error);
+                        });
+                        //  clock(value.movie.id, value.dateRented);
                     });
                 // toggleoutofstockIcons();
                 //  clock(id);
@@ -132,7 +192,7 @@
 
         };
 
-        function clock(id,initialdate) {
+        function clock(id, initialdate) {
             // Cache some selectors
 
             var clock = $('.clock_' + id),
@@ -147,7 +207,7 @@
 
             // Positions for the hours, minutes, and seconds
             var positions = [
-              'd1','d2',':',  'h1', 'h2', ':', 'm1', 'm2', ':', 's1', 's2'
+                'd1', 'd2', ':', 'h1', 'h2'
             ];
 
             // Generate the digits with the needed markup,
@@ -191,37 +251,37 @@
 
             var dateRented = moment(initialdate).format("hhmmssdA");
 
-           // Run a timer every second and update the clock
-         //console.log(output + " : " + initialdate);
-           // console.log(s);
-         
+            // Run a timer every second and update the clock
+            //console.log(output + " : " + initialdate);
+            // console.log(s);
+
             (function update_time() {
 
                 // Use moment.js to output the current time as a string
                 // hh is for the hours in 12-hour format,
                 // mm - minutes, ss-seconds (all with leading zeroes),
                 // d is for day of week and A is for AM/PM
-                var output =  moment(moment(), "YYYY-MM-DDTHH:mm:ss.SSS")
+                var output = moment(moment(), "YYYY-MM-DDTHH:mm:ss.SSS")
                     .diff(moment(initialdate, "YYYY-MM-DDTHH:mm:ss.SSS"));
-                 
+
                 var d = moment.duration(output);
-                var s = Math.ceil(d.days())  + moment.utc(output).format("hhmmss");
-              //  console.log(Math.floor(d.days()) + Math.floor(d.hours()).toString());
+                var s = Math.ceil(d.days()) + moment.utc(output).format("hhmmss");
+                //  console.log(Math.floor(d.days()) + Math.floor(d.hours()).toString());
                 if (0 < Math.ceil(d.days()) < 10)
                     s = "0" + s;
                 if (Math.ceil(d.days()) === 0)
                     s = "00" + s;
                 var now = moment().format("hhmmssdA");
                 var calculated = moment(d).format("DDhhmmss");
-               // console.log(Math.ceil(moment.utc(output).format("hhmm")));
+                // console.log(Math.ceil(moment.utc(output).format("hhmm")));
                 digits.d1.attr('class', digit_to_name[s[0]]);
                 digits.d2.attr('class', digit_to_name[s[1]]);
                 digits.h1.attr('class', digit_to_name[s[2]]);
                 digits.h2.attr('class', digit_to_name[s[3]]);
-                digits.m1.attr('class', digit_to_name[s[4]]);
-                digits.m2.attr('class', digit_to_name[s[5]]);
-                digits.s1.attr('class', digit_to_name[s[6]]);
-                digits.s2.attr('class', digit_to_name[s[7]]);
+                //   digits.m1.attr('class', digit_to_name[s[4]]);
+                //   digits.m2.attr('class', digit_to_name[s[5]]);
+                //   digits.s1.attr('class', digit_to_name[s[6]]);
+                //   digits.s2.attr('class', digit_to_name[s[7]]);
 
                 // The library returns Sunday as the first day of the week.
                 // Stupid, I know. Lets shift all the days one position down, 
@@ -256,14 +316,82 @@
 
         }
 
-        function returnRentedMovie(id) {
-            
+        function appendrentaldetail(id, dateRented, cost) {
+            var hclass = $(".card_" + id + " .card-hover");
+            $(".card_" + id + " .card-hover").addClass("active row mx-auto my auto justify-content-center");
+            var output = moment(moment(), "YYYY-MM-DDTHH:mm:ss.SSS")
+                .diff(moment(dateRented, "YYYY-MM-DDTHH:mm:ss.SSS"));
+            var d = moment.duration(output);
+            var days = Math.ceil(d.days());
+            var date = $((document).createElement("div")).addClass("col-12 rented-date")
+                .text("Date Rented: " + moment(dateRented, "YYYY-MM-DDTHH:mm:ss.SSS").format("MMM-DD-YYYY"));
+            var time = $((document).createElement("div")).addClass("col-12 rented-time")
+                .text("Time Rented: "+moment(dateRented, "YYYY-MM-DDTHH:mm:ss.SSS").format("hh:mmA"));
+            var totalCost = $((document).createElement("div")).addClass("col-12 rented-cost").text("Cost till date: $"+cost * days);
+            var perCost = $((document).createElement("div")).addClass("col-12 rented-percost").text("Cost per day: $"+cost);
+            var daysRented = $((document).createElement("div")).addClass("col-12 rented-days").text("Days Rented: "+days);
+            var row = $((document).createElement("div")).addClass("row  mx-auto my auto justify-content-center")
+                .attr("id", "detail_row_" + id)
+                .append(date).append(time).append(daysRented).append(perCost).append(totalCost);
+            $(hclass).append(row);
+
         }
+
+        function removerentaldetail(id) {
+            var hclass = $(".card_" + id + " .card-hover");
+            $(".card_" + id + " .card-hover").removeClass("active");
+            $(hclass).find("#detail_row_" + id).remove();
+        }
+
+        function appendPlay(id) {
+            var hclass = $(".card_" + id + " .card-hover");
+            $(".card_" + id + " .card-hover").addClass("active row mx-auto my auto justify-content-center");
+
+            var icon = $((document).createElement("span")).addClass("ion-play mx-auto my-auto px-auto py-auto");
+            var row = $((document).createElement("div")).addClass("row  mx-auto my auto justify-content-center")
+                .attr("id", "row_" + id)
+                .append(icon);
+            $(hclass).append(row);
+
+
+        }
+
+        function returnRentedMovie(id) {}
+
+        function removePlay(id) {
+
+            var hclass = $(".card_" + id + " .card-hover");
+            $(".card_" + id + " .card-hover").removeClass("active");
+            $(hclass).find("#row_" + id).detach();
+            //  $(hclass).find("span").remove();
+
+        }
+
+
+        function getRentalDetails(id) {
+            $.ajax({
+                url: "/api/mycurrentrental/" + id,
+                method: "GET"
+
+            }).done(function(success) {
+                $(".card_" + id + " .rental_" + id).mouseenter(function() {
+                    console.log("hehe");
+                    appendrentaldetail(id, success.dateRented, success.movie.cost);
+                });
+                $(".card_" + id + " .rental_" + id).mouseleave(function() {
+                    console.log("hehe");
+                    removerentaldetail(id, success.dateRented, success.movie.cost);
+                });
+
+            }).fail(function(error) {
+
+            });
+        }
+
         $(document).ready(function() {
 
             getsavedCards();
 
-            //  setTimeout(function () { clock(); },5000);
 
         });
     </script>
