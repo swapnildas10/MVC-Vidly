@@ -91,6 +91,9 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -99,6 +102,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
@@ -228,6 +234,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\CustomersController.cs" />
+    <Compile Include="Controllers\Api\FavoriteMoviesController.cs" />
     <Compile Include="Controllers\Api\Filter\BasicAuthenticationAttribute.cs" />
     <Compile Include="Controllers\Api\Filter\CanManageRole.cs" />
     <Compile Include="Controllers\Api\Filter\ForceHttpsAttribute.cs" />
@@ -241,6 +248,7 @@
     <Compile Include="Controllers\Api\ShoppingCartsController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\FavoritesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
@@ -617,6 +625,26 @@
     <Compile Include="Migrations\201710130308411_addedSavedMovieModel.Designer.cs">
       <DependentUpon>201710130308411_addedSavedMovieModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710172204334_addedFavoriteMoviesModel.cs" />
+    <Compile Include="Migrations\201710172204334_addedFavoriteMoviesModel.Designer.cs">
+      <DependentUpon>201710172204334_addedFavoriteMoviesModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710172205286_addedFavoriteMoviesModel01.cs" />
+    <Compile Include="Migrations\201710172205286_addedFavoriteMoviesModel01.Designer.cs">
+      <DependentUpon>201710172205286_addedFavoriteMoviesModel01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801260352454_cloneDBTOGoogleCOmputeEngine.cs" />
+    <Compile Include="Migrations\201801260352454_cloneDBTOGoogleCOmputeEngine.Designer.cs">
+      <DependentUpon>201801260352454_cloneDBTOGoogleCOmputeEngine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801270357552_FavoriteMovieIsOwned.cs" />
+    <Compile Include="Migrations\201801270357552_FavoriteMovieIsOwned.Designer.cs">
+      <DependentUpon>201801270357552_FavoriteMovieIsOwned.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802172154122_RemovedIsOwnedValueFromFavoriteMoviesViewModel.cs" />
+    <Compile Include="Migrations\201802172154122_RemovedIsOwnedValueFromFavoriteMoviesViewModel.Designer.cs">
+      <DependentUpon>201802172154122_RemovedIsOwnedValueFromFavoriteMoviesViewModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -624,6 +652,7 @@
     <Compile Include="Models\Cast.cs" />
     <Compile Include="Models\Crew.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\FavoriteMovies.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -649,6 +678,7 @@
     <Compile Include="ViewModels\CustomerFormViewModel.cs" />
     <Compile Include="ViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="ViewModels\ExternalLoginListViewModel.cs" />
+    <Compile Include="ViewModels\FavoriteMoviesVIewModel.cs" />
     <Compile Include="ViewModels\ForgotPasswordViewModel.cs" />
     <Compile Include="ViewModels\ForgotViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -1030,11 +1060,15 @@
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Filesystem.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
+    <None Include="Properties\PublishProfiles\GoogleCloudDeploy.pubxml" />
     <None Include="Properties\PublishProfiles\MVC5-AWS.pubxml" />
     <None Include="Properties\PublishProfiles\MyApp09282017 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\onlinemovie - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\onlinemoviedb - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\onlinemovierental.swapnildas.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\swapnildas.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Vidly20170928014315 - Web Deploy.pubxml" />
@@ -1137,6 +1171,7 @@
     <Content Include="Views\ShoppingCarts\Index.cshtml" />
     <Content Include="Views\ShoppingCarts\CheckOut.cshtml" />
     <Content Include="Views\OnlineRentals\Index.cshtml" />
+    <Content Include="Views\Favorites\MyFavorites.cshtml" />
     <None Include="Web.Testing.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1147,6 +1182,7 @@
     <Folder Include="fonts\" />
     <Folder Include="font\" />
     <Folder Include="img\" />
+    <Folder Include="SimplifyCommerce\" />
     <Folder Include="Views\MovieDetails\" />
   </ItemGroup>
   <ItemGroup>
@@ -1423,6 +1459,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710130308411_addedSavedMovieModel.resx">
       <DependentUpon>201710130308411_addedSavedMovieModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710172204334_addedFavoriteMoviesModel.resx">
+      <DependentUpon>201710172204334_addedFavoriteMoviesModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710172205286_addedFavoriteMoviesModel01.resx">
+      <DependentUpon>201710172205286_addedFavoriteMoviesModel01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801260352454_cloneDBTOGoogleCOmputeEngine.resx">
+      <DependentUpon>201801260352454_cloneDBTOGoogleCOmputeEngine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801270357552_FavoriteMovieIsOwned.resx">
+      <DependentUpon>201801270357552_FavoriteMovieIsOwned.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802172154122_RemovedIsOwnedValueFromFavoriteMoviesViewModel.resx">
+      <DependentUpon>201802172154122_RemovedIsOwnedValueFromFavoriteMoviesViewModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

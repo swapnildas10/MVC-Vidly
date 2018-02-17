@@ -7,9 +7,11 @@ using Vidly.Models;
 using Vidly.ViewModels;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Web.Http.Cors;
 
 namespace Vidly.Controllers
 {
+   
     public class MoviesController : Controller
     {
         private ApplicationDbContext _context;

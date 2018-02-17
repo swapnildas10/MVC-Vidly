@@ -16,9 +16,6 @@
         
 
     </div>
-    
-    <div class="row">
-    </div>
      
     
 
@@ -31,50 +28,44 @@
     @Scripts.Render("~/bundles/lib")
 
     <script>
-        function createCard(name, linkid, imageurl, dateadded, movieid) {
-            var rentalicon = $((document).createElement("i")).addClass("ion-arrow-expand");
-            var infoicon = $((document).createElement("i")).addClass("ion-ios-information");
+        function createCard(name, linkid, imageurl, dateadded, movieid,cost) {
+            var rentalicon = $((document).createElement("i")).addClass("ion-ios-information");
+            var infoicon = $((document).createElement("i")).addClass("ion-heart");
             var carticon = $((document).createElement("i")).addClass("ion-ios-undo");
             var image = $($((document).createElement("img"))
                 .addClass("card-img-top img-responsive ")
                 .attr({ 'src': imageurl, 'alt': 'Photo' })).css('border-top-left-radius', '.50rem');
 
             var row = $((document).createElement("div")).addClass("row justify-content-center");
-            var link = $($((document).createElement("a")).attr('href', linkid)).text(name);
-            var moviedetails;
+            var link = $($((document).createElement("a")).attr('href', linkid)).text(name).hover(function(e) {
+                e.stopImmediatePropagation();
+            });
+           
             var del = $($((document).createElement("a")).html(rentalicon)).addClass("card-link col rental_" + movieid)
-                .click(function() {
+               .mouseenter(function(e) {
 
-                }).mouseenter(function(e) {
-                    e.stopPropagation();
                     e.stopImmediatePropagation();
-                  
-
-                    $.ajax({
-                        url: "/api/mycurrentrental/" + movieid,
-                        method: "GET"
-
-                    }).done(function(success) {
-                        moviedetails = success;
-                       
-                        appendrentaldetail(movieid, success.dateRented, success.movie.cost);
-                    
-                    });
+                    appendrentaldetail(movieid, dateadded,cost);
                 }).mouseleave(function(e) {
-                    e.stopPropagation();
+
                     e.stopImmediatePropagation();
-                    removerentaldetail(movieid, moviedetails.dateRented, moviedetails.movie.cost);
+                    removerentaldetail(movieid,dateadded,cost);
                 });
-            var info = $($((document).createElement("a")).attr('href', linkid)).addClass("card-link col")
+            var info = $($((document).createElement("a"))).addClass("card-link col").attr("id", "addtosave_" + movieid)
                 .html(infoicon).hover(function(e) {
                     e.stopPropagation();
                     e.stopImmediatePropagation();
+                }).click(function(e) {
+                    e.stopImmediatePropagation();
+                    //////////////////////
+                    addtoSave(movieid);
+                    return false;
                 });
             var cart = $($((document).createElement("a"))).addClass("card-link col")
                 .html(carticon).click(function() {
                     returnRentedMovie(movieid);
                 }).hover(function(e) {
-                    e.stopPropagation();
+
                     e.stopImmediatePropagation();
                 });;
 
@@ -83,9 +74,7 @@
             var card = $($((document).createElement("div")).addClass("card  card_" + movieid))
                 .attr("data-id", name);
 
-            //....and whatever else you need to do
-
-            // $(card).css('max-width', '100rem');
+          
             $(card).css("display", "block");
 
 
@@ -102,15 +91,62 @@
             $(linkcard).append(image);
             $(linkcard).append(hovereffect);
             $(cardBody).append(linkcard);
-            //  $(cardBody).append(hovereffect);
-            // $(cardBody).append(cardText);
+       
             $(cardBody).append(linkcardBody);
 
             $(card).append(cardBody);
-
+          
             return card;
         }
+        function markedSave(id) {
+            var bookmarkicon = $("#addtosave_" + id+" i");
+            var bookmark = $("#addtosave_" + id);
+            $.ajax({
+                url: "/api/FavoriteMovies/"+id,
+                method: "GET"
+            }).done(function(success) {
+                $(bookmark).off().click(function() {
+                    removefromSave(id);
+                });
+                $(bookmarkicon).css("color", "darkred");
+            }).fail(function(error) {
 
+            });
+        }
+        function removefromSave(id) {
+            var bookmarkicon = $("#addtosave_"+id+" i");
+            var bookmark = $("#addtosave_"+id);
+            $.ajax({
+                url: "/api/FavoriteMovies/"+id,
+                method: "DELETE"
+            }).done(function(success) {
+                toastr.success(success);
+                $(bookmarkicon).css("color", "");
+                $(bookmark).off().click(function () {
+                    addtoSave(id);
+                });
+            }).fail(function(error) {
+
+            });
+        }
+          function addtoSave(id) {
+              var bookmark = $("#addtosave_" + id);
+
+                $.ajax({
+                    url: "/api/FavoriteMovies/"+id,
+                    method: "PUT"
+                }).done(function (success) {
+                    $(bookmark).find("i").css("color","darkred");
+                    toastr.success(success);
+                    $(bookmark).off().click(function() {
+                        removefromSave(id);
+                    });
+                }).fail(function(error) {
+                    toastr.error(error.responseJSON);
+                });
+
+
+        }
         function getsavedCards() {
             var def = new jQuery.Deferred();
             $.ajax({
@@ -159,7 +195,7 @@
                                     url,
                                     imgurl,
                                     value.dateRented,
-                                    value.movie.id)));
+                                    value.movie.id,value.movie.cost)));
 
                             $(span).append(column);
                             $(".card_" + value.movie.id + " a").mouseenter(function() {
@@ -169,7 +205,7 @@
 
                                 removePlay(value.movie.id);
                             });
-
+                            markedSave(value.movie.id);
                         }).fail(function(error) {
                             //  console.log(error);
                         });
@@ -179,8 +215,7 @@
                 //  clock(id);
             });
 
-            //notification
-            $("#notification").css("visibility", "hidden");
+           
             //collapse
             $("#collapsebutton").click(function() {
 
@@ -284,7 +319,7 @@
                 //   digits.s2.attr('class', digit_to_name[s[7]]);
 
                 // The library returns Sunday as the first day of the week.
-                // Stupid, I know. Lets shift all the days one position down, 
+                // Stupid, I know. Lets shift all the days one position down,
                 // and make Sunday last
 
                 var dow = now[6];
@@ -322,7 +357,7 @@
             var output = moment(moment(), "YYYY-MM-DDTHH:mm:ss.SSS")
                 .diff(moment(dateRented, "YYYY-MM-DDTHH:mm:ss.SSS"));
             var d = moment.duration(output);
-            var days = Math.ceil(d.days());
+            var days = Math.ceil(d.days())+1;
             var date = $((document).createElement("div")).addClass("col-12 rented-date")
                 .text("Date Rented: " + moment(dateRented, "YYYY-MM-DDTHH:mm:ss.SSS").format("MMM-DD-YYYY"));
             var time = $((document).createElement("div")).addClass("col-12 rented-time")
@@ -375,11 +410,11 @@
 
             }).done(function(success) {
                 $(".card_" + id + " .rental_" + id).mouseenter(function() {
-                    console.log("hehe");
+                    
                     appendrentaldetail(id, success.dateRented, success.movie.cost);
                 });
                 $(".card_" + id + " .rental_" + id).mouseleave(function() {
-                    console.log("hehe");
+                    
                     removerentaldetail(id, success.dateRented, success.movie.cost);
                 });
 

@@ -52,7 +52,7 @@
     });
     function createNotificationIcon(element) {
         var span = $((document).createElement("span"));
-        $(span).attr("id", "notification").css("visibility","visible");
+        $(span).attr("id", "notification").css("visibility","hidden");
         var icon=  $((document).createElement("i")).addClass("ion-ios-circle-filled");
         var notification = $(span).append(icon);
         var result = $(element).append(notification);

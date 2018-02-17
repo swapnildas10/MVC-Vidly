@@ -183,7 +183,11 @@
                     var list =     $((document).createElement("li")).addClass("page-item");
                     var link = $((document).createElement("a")).addClass("page-link").text(i + 1);
                     $(link).attr('data-linkid', i+1);
-                    $(link).on('click', function() {
+                    $(link).attr('href', '#mainbody');
+                    var pos = $("#mainbody").offset().top;
+
+                    $(link).on('click', function () {
+                        $('body, html').animate({ scrollTop: pos },1000);
                         var parameter = $(this).attr("data-linkid");
                         apicall(parameter);
                         //   console.log(parameter);

@@ -13,6 +13,7 @@ namespace Vidly
     {
         public static void Register(HttpConfiguration config)
         {
+            config.EnableCors();
             //does camecase notation in api from other notation
             var settings = config.Formatters.JsonFormatter.SerializerSettings;
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
