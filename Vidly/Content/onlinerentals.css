@@ -581,3 +581,38 @@ a.button {
 .rented-percost {
     top: 55%;
 }
+.ion-heart, .ion-ios-information, .ion-ios-undo {
+    font-size: 150%;
+}.ion-heart {
+    color: lightcoral;
+}
+.ion-ios-information {
+    color: lightcyan;
+}
+
+.ion-ios-undo {
+    color: lightgrey;
+}
+.ion-heart:hover {
+     transition: color 0.4s;
+    color: darkred;
+}
+.ion-ios-information:hover {
+    color: deepskyblue;
+    transition: color 0.4s;
+    cursor: pointer;
+}
+
+.ion-ios-undo:hover {
+    transition: color 0.4s;
+    color: darkgray;
+    cursor: pointer;
+}
+
+.card-header a {
+    color: teal;
+    text-decoration: none;
+}.card-header a:hover {
+    color: #2d3642;
+     transition: color 0.4s;
+}

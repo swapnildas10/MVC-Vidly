@@ -267,11 +267,42 @@
 
             });
         }
+        function markedFav(id) {
+            var bookmarkicon = $("#addtofavorites i");
+            var bookmark = $("#addtofavorites");
+            $.ajax({
+                url: "/api/FavoriteMovies/"+id,
+                method: "GET"
+            }).done(function(success) {
+                $(bookmark).off().click(function() {
+                    removefromFav(id);
+                });
+                $(bookmarkicon).css("color", "darkred");
+            }).fail(function(error) {
+
+            });
+        }
         function removefromSave(id) {
             var bookmarkicon = $("#addtosave i");
             var bookmark = $("#addtosave");
             $.ajax({
                 url: "/api/savedmovies/"+id,
+                method: "DELETE"
+            }).done(function(success) {
+                toastr.success(success);
+                $(bookmarkicon).css("color", "");
+                $(bookmark).off().click(function () {
+                    addtoSave(id);
+                });
+            }).fail(function(error) {
+
+            });
+        }
+        function removefromFav(id) {
+            var bookmarkicon = $("#addtofavorites i");
+            var bookmark = $("#addtosaddtofavorites");
+            $.ajax({
+                url: "/api/FavoriteMovies/"+id,
                 method: "DELETE"
             }).done(function(success) {
                 toastr.success(success);
@@ -301,6 +332,23 @@
                 });
 
 
+        } function addtoFav(id) {
+            var bookmark = $("#addtofavorites");
+
+                $.ajax({
+                    url: "/api/FavoriteMovies/"+id,
+                    method: "PUT"
+                }).done(function (success) {
+                    $(bookmark).find("i").css("color","darkred");
+                    toastr.success(success);
+                    $(bookmark).off().click(function() {
+                        removefromSave(id);
+                    });
+                }).fail(function(error) {
+                    toastr.error(error.responseJSON);
+                });
+
+
         }
         $(document).ready(function () {
 
@@ -311,6 +359,14 @@
             var bookmark = $("#addtosave");
             $(bookmark).click(function() {
                 addtoSave(@Model.Id);
+            });
+            //makr save if existing in saved list
+            markedFav(@Model.Id);
+
+            //add to fav section
+            var fav = $("#addtofavorites");
+            $(fav).click(function() {
+                addtoFav(@Model.Id);
             });
            // addtoSave(@Model.Id);
 
@@ -679,6 +735,10 @@
                    // <a class="nav-l"><span class="badge badge-secondary">4</span></a>
                  // var link=  $((document).createElement("a")).addClass("nav-link");
                     $("#notification").css("visibility", "visible");
+                    //notification
+                    $("#notification").animateCss("flash", function() {
+                        $("#notification").css("visibility", "hidden");
+                    });
                     toastr.success("Added");
                     }).fail(function (error) {
                         $("#addtocart i").parent().parent().animateCss("shake");

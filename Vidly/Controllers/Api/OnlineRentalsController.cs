@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Vidly.Models;
 using Vidly.ViewModels;
 
+
 namespace Vidly.Controllers.Api
 {
     public class OnlineRentalsController : ApiController

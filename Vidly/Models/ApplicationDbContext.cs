@@ -20,6 +20,7 @@ namespace Vidly.Models
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<OnlineRentals> OnlineRentals{ get; set; }
         public DbSet<SavedMovie> SavedMovies { get; set; }
+        public DbSet<FavoriteMovies> FavoriteMovies { get; set; }
         public ApplicationDbContext()
            //  : base("DefaultConnection", throwIfV1Schema: false)
             : base(Helpers.GetRDSConnection() ?? "DefaultConnection", throwIfV1Schema: false)
