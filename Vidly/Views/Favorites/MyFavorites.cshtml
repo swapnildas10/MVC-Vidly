@@ -134,6 +134,7 @@
                                             value.movie.id, value.movie.cost, output)));
 
                                 }
+                                markedSave(value.movie.id);
                             }).fail(function (error) {
 
                                 console.log(error);
@@ -142,7 +143,7 @@
 
                             $(span).append(column);
                            
-                            markedSave(value.movie.id);
+                           
                             
                         }).fail(function (error) {
                             //  console.log(error);
@@ -174,7 +175,7 @@
                 $(bookmark).off().click(function() {
                     removefromSave(id);
                 });
-                $(bookmarkicon).css("color", "darkred");
+                $(bookmarkicon).css("color", "lightred");
             }).fail(function(error) {
 
             });

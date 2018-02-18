@@ -129,16 +129,18 @@
                 $(card).css('margin', '0');  
                 $(card).css('border-radius','.50rem');
                 var image = $($((document).createElement("img"))
-                    .addClass("card-img-top img-responsive")
+                    .addClass("card-img img-responsive")
                     .attr({ 'src': imagesrc, 'alt': 'Photo' })).css('border-top-left-radius','.50rem');
                 var cardBlock = $((document).createElement("div")).addClass("card-block");
+                var cardImgOverlay = $((document).createElement("div")).addClass("card-img-overlay text-white");
+
                 var cardTitle = $((document).createElement("h3")).addClass("card-title mt-2");
                 var cardText = $((document).createElement("p")).addClass("card-link");
                 $(cardTitle).text(name);
                 $(cardText).html(linkid);
                 $(cardBlock).append(cardTitle);
-                // $(cardBlock).append(cardText);
-                $(card).append(image).append(cardBlock);
+                $(cardImgOverlay).append(cardBlock);
+                $(card).append(image).append(cardImgOverlay);
                 $(link).html(card);
                 return link;
             }

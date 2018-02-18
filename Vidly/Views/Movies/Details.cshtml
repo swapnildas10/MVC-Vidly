@@ -204,7 +204,7 @@
 @section scripts
 {@Scripts.Render("~/Bundles/jqueryval")
     <script>
-        $(window).load(function() {
+        $(window).on('load',function() {
             $("#maskloading").remove();
         });
         var tag = document.createElement('script');
