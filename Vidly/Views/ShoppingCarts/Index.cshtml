@@ -78,12 +78,16 @@
                 <hr/>
                 <h4 class="card-title">Payment</h4>
                 <div class="card-text">
-                    <form id="simplify-payment-form" action="" method="POST">
+                    <form id="simplify-payment-form" action="" method="POST" novalidate>
                         <div class="form-group">
 
 
-                            <input placeholder="Credit Card Number" class="form-control" id="cc-number" type="text" maxlength="20" autocomplete="off" value="" autofocus/>
-
+                            <input placeholder="Credit Card Number" class="form-control" id="cc-number" type="text" 
+       onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="20" autocomplete="off"  autofocus required/>
+                            
+                            <div class="invalid-feedback">
+                               Credit Card number is required
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -91,7 +95,7 @@
                             <div>
                                 <div class="row">
                                     <div class="col">
-                                        <select class="form-control custom-select" id="cc-exp-month">
+                                        <select class="form-control custom-select" id="cc-exp-month" required>
                                             <option value="01">Jan</option>
                                             <option value="02">Feb</option>
                                             <option value="03">Mar</option>
@@ -105,10 +109,14 @@
                                             <option value="11">Nov</option>
                                             <option value="12">Dec</option>
                                         </select>
+                                        
+                                        <div class="invalid-feedback">
+                                            Month is required
+                                        </div>
                                     </div>
                                     <div class="col">
 
-                                        <select class="form-control custom-select" id="cc-exp-year">
+                                        <select class="form-control custom-select" id="cc-exp-year" required>
                                             <option value="13">2013</option>
                                             <option value="14">2014</option>
                                             <option value="15">2015</option>
@@ -120,12 +128,21 @@
                                             <option value="21">2021</option>
                                             <option value="22">2022</option>
                                         </select>
+                                         
+                                        <div class="invalid-feedback">
+                                            Year is required
+                                        </div>
                                     </div>
 
 
 
                                     <div class="col">
-                                        <input placeholder="CVC" class="form-control" id="cc-cvc" type="text" maxlength="4" autocomplete="off" value=""/>
+                                        <input placeholder="CVC" class="form-control" id="cc-cvc" type="text" 
+       onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="4" autocomplete="off"   required/>
+                                         
+                                        <div class="invalid-feedback">
+                                           CVC is required
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -134,17 +151,7 @@
                             <div class="row">
                                 <div class="col"> <input class=" btn   form-control   btn-brown" id="process-payment-btn" type="submit" value="Process Payment"/>
                                 </div>
-                                <div class="col">
-                                    <div id="submit"></div>
-                                    @Ajax.ActionLink(
-                                        "Checkout",
-                                        "Checkout",
-                                        "ShoppingCarts",
-                                        new AjaxOptions {UpdateTargetId = "submit"},
-                                        new {@class = "btn btn-dark"}
-                                        )
-                                </div>
-
+                                 
                             </div>
 
                         </div>
@@ -481,7 +488,61 @@
                 
             });
         }
-
+        function simplifyResponseHandler(data) {
+            var $paymentForm = $("#simplify-payment-form");
+            // Remove all previous errors
+            $(".error").remove();
+            // Check for errors
+            if (data.error) {
+                // Show any validation errors
+                if (data.error.code == "validation") {
+                    var fieldErrors = data.error.fieldErrors,
+                        fieldErrorsLength = fieldErrors.length,
+                        errorList = "";
+                    console.log(data);
+                    var expYear = $("#cc-exp-year");
+                    var expMonth = $("#cc-exp-month");
+                    var ccNumber = $("#cc-number");
+                    var ccCvc = $("#cc-cvc");
+                    for (var i = 0; i < fieldErrorsLength; i++) {
+                        if (fieldErrors[i].code == "expYear.expired") {
+                           
+                            expYear[0].classList.add("is-invalid");
+                           // expYear[0].setCustomValidity(fieldErrors[i].message);
+                       expYear.siblings(".invalid-feedback")[0].innerText= fieldErrors[i].message;
+                        }
+                        if (fieldErrors[i].code == "creditCard.invalid") {
+                            
+                            ccNumber[0].classList.add("is-invalid");
+                            ccNumber.siblings(".invalid-feedback")[0].innerText = fieldErrors[i].message;
+                        }
+                        if (fieldErrors[i].code == "card.cvc.invalid") {
+                           
+                            ccCvc[0].classList.add("is-invalid");
+                            ccCvc.siblings(".invalid-feedback")[0].innerText = fieldErrors[i].message;
+                            console.log(ccCvc);
+                        }
+                        errorList += "<div class='error'>Field: '" +
+                            fieldErrors[i].field +
+                            "' is invalid - " +
+                            fieldErrors[i].message +
+                            "</div>";
+                    }
+                    // Display the errors
+                    $paymentForm.after(errorList);
+                }
+                // Re-enable the submit button
+                $("#process-payment-btn").removeAttr("disabled");
+            } else {
+                // The token contains id, last4, and card type
+                var token = data["id"];
+                // Insert the token into the form so it gets submitted to the server
+                $paymentForm.append("<input type='hidden' name='simplifyToken' value='" + token + "' />");
+                // Submit the form to the server
+                console.log(token);
+               // $paymentForm.get(0).submit();
+            }
+        }
         function movetoCart(id) {
              
             $.ajax({
@@ -530,7 +591,41 @@
             
         }
         $(document).ready(
-            function() {
+            function () {
+                var $paymentForm = $("#simplify-payment-form");
+                $("#cc-exp-year").prop("selectedIndex", -1);
+                $("#cc-exp-month").prop("selectedIndex", -1);
+
+                $paymentForm.on("submit",
+                    function () {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        if ($paymentForm[0].checkValidity() === false) {
+                          
+                            $paymentForm[0].classList.add('was-validated');
+                        }
+                        else {
+
+                           
+                            // Disable the submit button
+                            $("#process-payment-btn").attr("disabled", "disabled");
+                            // Generate a card token & handle the response
+                            SimplifyCommerce.generateToken({
+                                key: "sbpb_ZDk3OGI3ZmMtZWQ4Yi00ZjZlLTg5NGQtNmM4NGU4MzAxMWQ3",
+                                card: {
+                                    number: $("#cc-number").val(),
+                                    cvc: $("#cc-cvc").val(),
+                                    expMonth: $("#cc-exp-month").val(),
+                                    expYear: $("#cc-exp-year").val()
+                                }
+                            },
+                                simplifyResponseHandler);
+                            // Prevent the form from submitting
+                            return false;
+                        }
+                        
+                        
+                    });
                 //notify of shopping card updated
                 //What you have should work, assuming that the value from the ViewBag is of a type which javascript can understand.
                 getshoppingItems();
@@ -542,61 +637,17 @@
                 //add saved cards
                 getsavedCards();
                     
-                        
+                        // selects jQuery object which has other things than form element, extract form element to get 
+                // checkValidity()  of raw HTMl element
 
-                function simplifyResponseHandler(data) {
-                    var $paymentForm = $("#simplify-payment-form");
-                    // Remove all previous errors
-                    $(".error").remove();
-                    // Check for errors
-                    if (data.error) {
-                        // Show any validation errors
-                        if (data.error.code == "validation") {
-                            var fieldErrors = data.error.fieldErrors,
-                                fieldErrorsLength = fieldErrors.length,
-                                errorList = "";
-                            for (var i = 0; i < fieldErrorsLength; i++) {
-                                errorList += "<div class='error'>Field: '" +
-                                    fieldErrors[i].field +
-                                    "' is invalid - " +
-                                    fieldErrors[i].message +
-                                    "</div>";
-                            }
-                            // Display the errors
-                            $paymentForm.after(errorList);
-                        }
-                        // Re-enable the submit button
-                        $("#process-payment-btn").removeAttr("disabled");
-                    } else {
-                        // The token contains id, last4, and card type
-                        var token = data["id"];
-                        // Insert the token into the form so it gets submitted to the server
-                        $paymentForm.append("<input type='hidden' name='simplifyToken' value='" + token + "' />");
-                        // Submit the form to the server
-                        $paymentForm.get(0).submit();
-                    }
-                }
 
-                $("#simplify-payment-form").on("submit",
-                    function () {
-                        // Disable the submit button
-                        $("#process-payment-btn").attr("disabled", "disabled");
-                        // Generate a card token & handle the response
-                        SimplifyCommerce.generateToken({
-                                key: "sbpb_ZDk3OGI3ZmMtZWQ4Yi00ZjZlLTg5NGQtNmM4NGU4MzAxMWQ3",
-                                card: {
-                                    number: $("#cc-number").val(),
-                                    cvc: $("#cc-cvc").val(),
-                                    expMonth: $("#cc-exp-month").val(),
-                                    expYear: $("#cc-exp-year").val()
-                                }
-                            },
-                            simplifyResponseHandler);
-                        // Prevent the form from submitting
-                        return false;
-                    });
+               
+
 
             });
+
+
+        
     </script>
 }
 
