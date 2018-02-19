@@ -46,7 +46,7 @@ namespace Vidly.Controllers.Api
         public IHttpActionResult GetSavedMovie(int id)
         {
             var uid = HttpContext.Current.User.Identity.GetUserId();
-            var saveditem = _context.SavedMovies.Include(m => m.Movie).Single(s => s.User == uid && s.Movie.Id==id);
+            var saveditem = _context.SavedMovies.Include(m => m.Movie).SingleOrDefault(s => s.User == uid && s.Movie.Id==id);
             if (saveditem == null)
                 return NotFound();
             SavedMoviesViewModel savedMoviesViewModel = new SavedMoviesViewModel

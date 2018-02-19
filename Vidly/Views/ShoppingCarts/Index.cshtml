@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @using Vidly.ViewModels
+
 @model  List<Vidly.ViewModels.UserShoppingCartViewModel>
 @section Styles{
     <link rel="stylesheet" href="~/Content/shoppingcart.css" type="text/css" />
@@ -83,7 +84,7 @@
 
 
                             <input placeholder="Credit Card Number" class="form-control" id="cc-number" type="text" 
-       onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="20" autocomplete="off"  autofocus required/>
+                                   onkeypress = "return numericOnlyValidation(this,event)" maxlength="20" autocomplete="off"  autofocus required/>
                             
                             <div class="invalid-feedback">
                                Credit Card number is required
@@ -95,7 +96,8 @@
                             <div>
                                 <div class="row">
                                     <div class="col">
-                                        <select class="form-control custom-select" id="cc-exp-month" required>
+                                        <select class="form-control custom-select" id="cc-exp-month"  required>
+                                            <option value = "" selected disabled hidden>Month</option>
                                             <option value="01">Jan</option>
                                             <option value="02">Feb</option>
                                             <option value="03">Mar</option>
@@ -115,19 +117,10 @@
                                         </div>
                                     </div>
                                     <div class="col">
+                                        <input placeholder="Year" class="form-control" id="cc-exp-year" type="text" 
+                                               onkeypress = "return numericOnlyValidation(this,event)" pattern=".{4}" title="Field must be 4 digits long"  maxlength="4" autocomplete="off"   required/>
 
-                                        <select class="form-control custom-select" id="cc-exp-year" required>
-                                            <option value="13">2013</option>
-                                            <option value="14">2014</option>
-                                            <option value="15">2015</option>
-                                            <option value="16">2016</option>
-                                            <option value="17">2017</option>
-                                            <option value="18">2018</option>
-                                            <option value="19">2019</option>
-                                            <option value="20">2020</option>
-                                            <option value="21">2021</option>
-                                            <option value="22">2022</option>
-                                        </select>
+                                       
                                          
                                         <div class="invalid-feedback">
                                             Year is required
@@ -138,7 +131,7 @@
 
                                     <div class="col">
                                         <input placeholder="CVC" class="form-control" id="cc-cvc" type="text" 
-       onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="4" autocomplete="off"   required/>
+                                            onkeypress = "return numericOnlyValidation(this,event)" pattern=".{3,4}" title="Field must be atleast 3 digits long" maxlength="4" autocomplete="off"   required/>
                                          
                                         <div class="invalid-feedback">
                                            CVC is required
@@ -149,7 +142,7 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col"> <input class=" btn   form-control   btn-brown" id="process-payment-btn" type="submit" value="Process Payment"/>
+                                <div class="col"> <input class=" btn   form-control   btn-brown" id="process-payment-btn-sec"  value="Process Payment" />
                                 </div>
                                  
                             </div>
@@ -173,32 +166,70 @@
     
 
 </div>
+    <!-- Button trigger modal -->
+    
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Check Out</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button  id ="process-payment-btn" type="button" data-dismiss="modal" class="btn btn-primary">Buy</button>
+                </div>
+            </div>
+        </div>
+    </div>
      
 </div>
 
 
 @section scripts
 {@Scripts.Render("~/bundles/jqueryval")
-@Scripts.Render("~/bundles/lib")
+    @Scripts.Render("~/bundles/lib")
     <script>
-        
 
+        function numericOnlyValidation(element, event) {
+            if (element.classList.contains('is-invalid'))
+                element.classList.remove('is-invalid');
+
+            var key = window.event ? event.keyCode : event.which;
+            if (event.keyCode === 8 || event.keyCode === 46) {
+                return true;
+            } else if (key < 48 || key > 57) {
+                return false;
+            } else {
+                return true;
+            }
+        }
 
         //card for shopping items
         function createShoppingCard(moviename, movieid, availability) {
-          var card=  $((document).createElement("div")).attr("id", "cart_" + movieid).addClass("card").css("min-width", "100%");
-          var cardbody = $((document).createElement("div")).addClass("card-body");
-          var firstrow = $((document).createElement("div")).addClass("row");
-          var innerfirstrow = $((document).createElement("div")).addClass("row");
-          var secondrow = $((document).createElement("div")).addClass("row justify-content-end");
+            var card = $((document).createElement("div")).attr("id", "cart_" + movieid).addClass("card")
+                .css("min-width", "100%");
+            var cardbody = $((document).createElement("div")).addClass("card-body");
+            var firstrow = $((document).createElement("div")).addClass("row");
+            var innerfirstrow = $((document).createElement("div")).addClass("row");
+            var secondrow = $((document).createElement("div")).addClass("row justify-content-end");
             var firstcol = $((document).createElement("div")).addClass("col-md-12 col-sm-12");
             var secondcol = $((document).createElement("div")).addClass("col-md-3 col-sm-12");
             var title = $((document).createElement("h4")).addClass("card-title").text(moviename);
             var innersecondrow = $((document).createElement("div")).addClass("row justify-content-end");
-            var innerfirstcol = $((document).createElement("div")).addClass("col-4 col-xs-3 col-md-4 col-xl-4 my-auto").css("text-align","center");
-            var innerseccol = $((document).createElement("div")).addClass("col-4 col-xs-3 col-md-4 col-xl-4 my-auto").css("text-align", "center");
-            var innerthirdcol = $((document).createElement("div")).addClass("col-4 col-xs-3 col-md-4 col-xl-4 my-auto").css("text-align", "center");
+            var innerfirstcol = $((document).createElement("div")).addClass("col-4 col-xs-3 col-md-4 col-xl-4 my-auto")
+                .css("text-align", "center");
+            var innerseccol = $((document).createElement("div")).addClass("col-4 col-xs-3 col-md-4 col-xl-4 my-auto")
+                .css("text-align", "center");
+            var innerthirdcol = $((document).createElement("div")).addClass("col-4 col-xs-3 col-md-4 col-xl-4 my-auto")
+                .css("text-align", "center");
             var iconclose = $((document).createElement("i")).addClass("ion-close-round").attr("id", "delete").click(
                 function() {
                     deleteItem(movieid);
@@ -213,7 +244,8 @@
             var bookmark = $(innerseccol).append(iconbookmark);
             var close = $(innerthirdcol).append(iconclose);
             var firstsection = $(firstrow).append($(innerfirstrow).append($(firstcol).append(title)));
-          var secondsection=  $(secondrow).append($(secondcol).append($(innersecondrow).append(info).append(bookmark).append(close)))
+            var secondsection = $(secondrow)
+                .append($(secondcol).append($(innersecondrow).append(info).append(bookmark).append(close)))
             var wholecard = $(card).append($(cardbody).append(firstsection).append(secondsection));
             return wholecard;
         }
@@ -239,9 +271,9 @@
             $(link).addClass("mb-2");
             var card = $($((document).createElement("div")).addClass("card  card_" + movieid))
                 .attr("data-id", name);
-               
-                //....and whatever else you need to do
-            
+
+            //....and whatever else you need to do
+
             $(card).css('max-width', '100rem');
             $(card).css("display", "block");
 
@@ -257,7 +289,7 @@
             $(cardBody).append(cardText);
             $(cardBody).append(linkcardBody);
             $(card).append(cardBody);
-           
+
             return card;
         }
 
@@ -268,7 +300,7 @@
                 method: "DELETE"
             }).done(function(success) {
 
-                $("#savedmoviessection .card_" + id).removeClass("card_"+id).addClass("temp").animateCss("flipOutY",
+                $("#savedmoviessection .card_" + id).removeClass("card_" + id).addClass("temp").animateCss("flipOutY",
                     function() {
                         $(".temp").parent().remove();
                     });
@@ -279,29 +311,32 @@
             });
         }
 
-       
+
         //create card for summary
-        function createsummaryCard(id , moviename , percost) {
+        function createsummaryCard(id, moviename, percost) {
             var row = $((document).createElement("div")).addClass("row summary_" + id);
             var col8 = $((document).createElement("div")).addClass("col-sm-8").text(moviename);
             var col4 = $((document).createElement("div")).addClass("col-sm-4").text(percost);
-         var summary=   $(row).append(col8).append(col4);
+            var summary = $(row).append(col8).append(col4);
             return summary;
         }
+
         //AJAX call to Delete item from shopping list
         function deleteItem(id) {
             $.ajax({
                 url: "/api/shoppingcarts/" + id,
                 method: "DELETE"
-            }).done(function (success) {
+            }).done(function(success) {
 
-                $("#cart_" + id).removeClass("card_" + id).addClass("card-success").animateCss("zoomOut", function () {
-               
-                   $("#cart_" + id).remove();
-                });
-                $(".summary_" + id).fadeOut(0, function () {
-                    $(this).remove();
-                });
+                $("#cart_" + id).removeClass("card_" + id).addClass("card-success").animateCss("zoomOut",
+                    function() {
+
+                        $("#cart_" + id).remove();
+                    });
+                $(".summary_" + id).fadeOut(0,
+                    function() {
+                        $(this).remove();
+                    });
                 updateSummary();
 
             }).fail(function(error) {
@@ -332,29 +367,27 @@
                 url: "/api/savedmovies/" + id,
                 method: "PUT",
                 contentType: "application/JSON"
-            }).done(function (success) {
-                   $.when(deleteItem(id)).done(function () {
-                        $.when(getsavedCard(id)).done(function() {
-                        
-                        
-                       
-                        });
-                  
-                   
+            }).done(function(success) {
+                $.when(deleteItem(id)).done(function() {
+                    $.when(getsavedCard(id)).done(function() {
+
 
                     });
-                
-                toastr.success(success);
-                
 
-                }).fail(function (error) {
-                $("#cart_"+id).addClass("card-error").animateCss("shake",
+
+                });
+
+                toastr.success(success);
+
+
+            }).fail(function(error) {
+                $("#cart_" + id).addClass("card-error").animateCss("shake",
                     function() {
                         $("#cart_" + id).removeClass("card-error");
                     }).hover(function() {
                     $(this).removeClass("animated bounce");
                     $(this).removeClass("card-error");
-                  //  $(this).animate({ borderColor: '#fff' }, 300, function() {});
+                    //  $(this).animate({ borderColor: '#fff' }, 300, function() {});
                 });
                 toastr.error(error.responseJSON);
             });
@@ -365,7 +398,7 @@
                 url: "/api/savedmovies/" + id,
                 method: "GET"
             }).done(function(success) {
-                
+
                 var savedmoviessection = $("#savedmoviessection");
                 var col = $((document).createElement("div"))
                     .addClass("col-xs-12 col-sm-4 col-md-4 col-lg-3");
@@ -382,9 +415,9 @@
                     $(span).text(message).addClass("badge-success");
 
                 }
-               
+
                 var newCard = $(createCard(success.name, url, span, success.movieId));
-                
+
                 $(savedmoviessection)
                     .append($(col).append(newCard));
                 $(".card").last().addClass("card-cartnotification");
@@ -402,19 +435,20 @@
         function getshoppingItems() {
             $.ajax({
                 url: "/api/mycart",
-                method:"GET"
+                method: "GET"
 
-            }).done(function (success) {
+            }).done(function(success) {
                 var cart = $("#cart");
                 var summary = $("#summary");
-                $.each(success,function(key, value) {
-                   
-                    cart.append(createShoppingCard(value.movie.name, value.movie.id, null));
-                    $(summary).append(createsummaryCard(value.movie.id,value.movie.name,value.movie.cost));
-                });
+                $.each(success,
+                    function(key, value) {
+
+                        cart.append(createShoppingCard(value.movie.name, value.movie.id, null));
+                        $(summary).append(createsummaryCard(value.movie.id, value.movie.name, value.movie.cost));
+                    });
                 console.log(success);
             }).fail(function(error) {
-                
+
             });
         }
 
@@ -481,21 +515,25 @@
         function getcartItem(id) {
             $.ajax({
                 url: "/api/shoppingcarts/" + id,
-                method:"GET"
+                method: "GET"
             }).done(function(success) {
-                
+
             }).fail(function(error) {
-                
+
             });
         }
+
         function simplifyResponseHandler(data) {
             var $paymentForm = $("#simplify-payment-form");
+            var $processpaymentbtnsec = $("#process-payment-btn-sec");
+            var $processpaymentbtn = $("#process-payment-btn");
             // Remove all previous errors
             $(".error").remove();
             // Check for errors
             if (data.error) {
                 // Show any validation errors
                 if (data.error.code == "validation") {
+                    $processpaymentbtnsec.removeAttr("disabled");
                     var fieldErrors = data.error.fieldErrors,
                         fieldErrorsLength = fieldErrors.length,
                         errorList = "";
@@ -506,18 +544,18 @@
                     var ccCvc = $("#cc-cvc");
                     for (var i = 0; i < fieldErrorsLength; i++) {
                         if (fieldErrors[i].code == "expYear.expired") {
-                           
+                            
                             expYear[0].classList.add("is-invalid");
-                           // expYear[0].setCustomValidity(fieldErrors[i].message);
-                       expYear.siblings(".invalid-feedback")[0].innerText= fieldErrors[i].message;
+                            // expYear[0].setCustomValidity(fieldErrors[i].message);
+                            expYear.siblings(".invalid-feedback")[0].innerText = fieldErrors[i].message;
                         }
                         if (fieldErrors[i].code == "creditCard.invalid") {
-                            
+
                             ccNumber[0].classList.add("is-invalid");
                             ccNumber.siblings(".invalid-feedback")[0].innerText = fieldErrors[i].message;
                         }
                         if (fieldErrors[i].code == "card.cvc.invalid") {
-                           
+
                             ccCvc[0].classList.add("is-invalid");
                             ccCvc.siblings(".invalid-feedback")[0].innerText = fieldErrors[i].message;
                             console.log(ccCvc);
@@ -532,99 +570,141 @@
                     $paymentForm.after(errorList);
                 }
                 // Re-enable the submit button
-                $("#process-payment-btn").removeAttr("disabled");
+                $processpaymentbtn.removeAttr("disabled");
             } else {
                 // The token contains id, last4, and card type
                 var token = data["id"];
                 // Insert the token into the form so it gets submitted to the server
                 $paymentForm.append("<input type='hidden' name='simplifyToken' value='" + token + "' />");
                 // Submit the form to the server
-                console.log(token);
-               // $paymentForm.get(0).submit();
+
+                var value = { "Amount": $("#totalcost")[0].innerText, "Token": token };
+                $.ajax({
+                    url: "/api/Payments",
+                    method: "POST",
+                    data: JSON.stringify(value),
+                    contentType: "application/JSON"
+
+
+                }).done(function(success) {
+                    $.ajax({
+                        url: "/api/buyitems",
+                        method: "PUT"
+
+                    }).done(function(success) {
+                        console.log("Success");
+                    }).fail(function(error) {
+
+                    });
+
+                }).fail(function(error) {
+                    console.log(error);
+                }).always(function(value) {
+                    // $("#process-payment-btn").removeAttr("disabled");
+                    $processpaymentbtnsec.removeAttr("disabled");
+                });
+                // $paymentForm.get(0).submit();
             }
         }
+
         function movetoCart(id) {
-             
+
             $.ajax({
-                url: "/api/shoppingcarts/"+id,
+                url: "/api/shoppingcarts/" + id,
                 method: "POST"
-            }).done(function (success) {
+            }).done(function(success) {
                 var cart = $("#cart");
                 var summary = $("#summary");
-                
-                $.when(deleteSavedItem(id)).done(function () {
-                 
-                        $.ajax({
-                            url: "/api/shoppingcarts/" + id,
-                            method: "GET"
-                        }).done(function (getsuccess) {
- 
-                            var newMovie = $(createShoppingCard(
-                                getsuccess.movie.name,
-                                getsuccess.movie.id,
-                                null));
-                            
-                            $(cart).append(newMovie);
-                            $(summary).append(createsummaryCard(getsuccess.movie.id, getsuccess.movie.name, getsuccess.movie.cost));
-                            
-                            updateSummary();
-                            
-                            toastr.success("Added to Cart");
-                        }).fail(function(geterror) {
 
-                        });
+                $.when(deleteSavedItem(id)).done(function() {
+
+                    $.ajax({
+                        url: "/api/shoppingcarts/" + id,
+                        method: "GET"
+                    }).done(function(getsuccess) {
+
+                        var newMovie = $(createShoppingCard(
+                            getsuccess.movie.name,
+                            getsuccess.movie.id,
+                            null));
+
+                        $(cart).append(newMovie);
+                        $(summary).append(createsummaryCard(getsuccess.movie.id,
+                            getsuccess.movie.name,
+                            getsuccess.movie.cost));
+
+                        updateSummary();
+
+                        toastr.success("Added to Cart");
+                    }).fail(function(geterror) {
+
+                    });
 
 
-                        $(cart).append();
-                     
-                     
-                  
+                    $(cart).append();
+
+
                 });
-                   
-                }).fail(function (error) {
-                $(".card_" + id).addClass("card-error").removeClass("card_"+id);
-                $(".card-error").animateCss("shake",function() {
-                    $(".card-error").removeClass("card-error").addClass("card_"+id);
-                });
+
+            }).fail(function(error) {
+                $(".card_" + id).addClass("card-error").removeClass("card_" + id);
+                $(".card-error").animateCss("shake",
+                    function() {
+                        $(".card-error").removeClass("card-error").addClass("card_" + id);
+                    });
                 toastr.error(error.responseJSON);
             });
-            
-        }
-        $(document).ready(
-            function () {
-                var $paymentForm = $("#simplify-payment-form");
-                $("#cc-exp-year").prop("selectedIndex", -1);
-                $("#cc-exp-month").prop("selectedIndex", -1);
 
-                $paymentForm.on("submit",
-                    function () {
-                        event.preventDefault();
-                        event.stopPropagation();
+        }
+
+        $(document).ready(
+            function() {
+                var ccexpyear = $("#cc-exp-year");
+                var ccexpmonth = $("#cc-exp-month");
+                var $paymentForm = $("#simplify-payment-form");
+                ccexpyear.prop("selectedIndex", -1);
+                ccexpmonth.prop("selectedIndex", -1);
+                var $paymentButton = $("#process-payment-btn");
+                var $paymentButtonsec = $("#process-payment-btn-sec");
+                $paymentButtonsec.on("click", function (event) {
+
+                    if ($paymentForm[0].checkValidity() === false) {
+
+                        $paymentForm[0].classList.add('was-validated');
+                    }
+                    else
+                        $("#exampleModalCenter").modal('toggle');
+                });
+                $paymentButton.on("click",
+                    function() {
+
+
                         if ($paymentForm[0].checkValidity() === false) {
-                          
+
                             $paymentForm[0].classList.add('was-validated');
-                        }
-                        else {
+                        } else {
 
                            
                             // Disable the submit button
-                            $("#process-payment-btn").attr("disabled", "disabled");
+                            //  $paymentButton.attr("disabled", "disabled");
+                            $paymentButtonsec.attr("disabled", "disabled");
                             // Generate a card token & handle the response
                             SimplifyCommerce.generateToken({
-                                key: "sbpb_ZDk3OGI3ZmMtZWQ4Yi00ZjZlLTg5NGQtNmM4NGU4MzAxMWQ3",
-                                card: {
-                                    number: $("#cc-number").val(),
-                                    cvc: $("#cc-cvc").val(),
-                                    expMonth: $("#cc-exp-month").val(),
-                                    expYear: $("#cc-exp-year").val()
-                                }
-                            },
+                                    key: "sbpb_ZDk3OGI3ZmMtZWQ4Yi00ZjZlLTg5NGQtNmM4NGU4MzAxMWQ3",
+                                    card: {
+                                        number: $("#cc-number").val(),
+                                        cvc: $("#cc-cvc").val(),
+                                        expMonth: ccexpmonth.val(),
+                                        expYear: ccexpyear.val().substr(ccexpyear.val().length - 2,
+                                            ccexpyear.val().length - 1)
+                                    }
+                                },
                                 simplifyResponseHandler);
                             // Prevent the form from submitting
-                            return false;
+
                         }
-                        
-                        
+
+
                     });
                 //notify of shopping card updated
                 //What you have should work, assuming that the value from the ViewBag is of a type which javascript can understand.
@@ -636,18 +716,14 @@
 
                 //add saved cards
                 getsavedCards();
-                    
-                        // selects jQuery object which has other things than form element, extract form element to get 
+
+                // selects jQuery object which has other things than form element, extract form element to get 
                 // checkValidity()  of raw HTMl element
-
-
-               
 
 
             });
 
 
-        
     </script>
 }
 

@@ -668,6 +668,7 @@
     <Compile Include="Models\MovieTrailers.cs" />
     <Compile Include="Models\MovieVideos.cs" />
     <Compile Include="Models\OnlineRentals.cs" />
+    <Compile Include="Models\PaymentData.cs" />
     <Compile Include="Models\ProductionCompanies.cs" />
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Models\RoleName.cs" />
@@ -728,6 +729,7 @@
     <Compile Include="SimplifyCommerce\Webhook.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\ChargeWithToken.cs" />
+    <Compile Include="Utils\EnumSuccessFail.cs" />
     <Compile Include="ViewModels\CustomerFormViewModel.cs" />
     <Compile Include="ViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="ViewModels\ExternalLoginListViewModel.cs" />

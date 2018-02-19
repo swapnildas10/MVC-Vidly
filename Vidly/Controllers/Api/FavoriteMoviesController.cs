@@ -44,7 +44,7 @@ namespace Vidly.Controllers.Api
         public IHttpActionResult GetFavoriteMovie(int id)
         {
             var uid = HttpContext.Current.User.Identity.GetUserId();
-            var favMovie = _context.FavoriteMovies.Include(m => m.Movie).Single(s => s.User == uid && s.Movie.Id == id);
+            var favMovie = _context.FavoriteMovies.Include(m => m.Movie).SingleOrDefault(s => s.User == uid && s.Movie.Id == id);
             if (favMovie == null)
                 return NotFound();
             FavoriteMoviesVIewModel FavoriteMovies = new FavoriteMoviesVIewModel

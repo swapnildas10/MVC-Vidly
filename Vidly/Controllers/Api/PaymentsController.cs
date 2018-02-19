@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using SimplifyCommerce.Payments;
+using Vidly.Models;
+using Vidly.Utils;
+
 namespace Vidly.Controllers.Api
 {
     public class PaymentsController : ApiController
@@ -24,12 +24,23 @@ namespace Vidly.Controllers.Api
         }
 
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody] PaymentData data)
         {
+            
+            ChargeWithToken charge = new ChargeWithToken((long)(Convert.ToDouble(data.Amount)*100), data.Token);
+            if (charge.PaymentResult() == EnumSuccessFail.SUCCESS)
+            {
+                return Ok();
+            }
+
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, "Payment Failed");
+            }
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id,  string value)
         {
         }
 
