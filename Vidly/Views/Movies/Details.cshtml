@@ -730,7 +730,7 @@
                     url: "/api/ShoppingCarts/"+id,
                     method: "POST",
                     contentType: "application/JSON"
-                }).success(function (success) {
+                }).done(function (success) {
                     $("#addtocart i").parent().parent().animateCss("jello");
                    // <a class="nav-l"><span class="badge badge-secondary">4</span></a>
                  // var link=  $((document).createElement("a")).addClass("nav-link");

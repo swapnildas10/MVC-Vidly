@@ -34,6 +34,12 @@ namespace Vidly.Controllers.Api
                 return Content(HttpStatusCode.Forbidden, "Already present in your cart");
             if (movies.NumberAvailable <=0)
                 return Content(HttpStatusCode.Forbidden,"Out of Stock");
+            var isrented = _context.OnlineRentals.Include(s=>s.Movie).Where(s=>s.User == uid);
+            if (isrented.Any(s => s.Movie.Id == id))
+            {
+                return Content(HttpStatusCode.Forbidden, "Already Rented");
+            }
+
             var movie = _context.Movies.Single(m => m.Id == id);
             ShoppingCart cart = new ShoppingCart
             {
@@ -108,6 +114,39 @@ namespace Vidly.Controllers.Api
             var item = _context.ShoppingCarts.Single(s => s.User == uid && s.Movie.Id == id);
            
             _context.ShoppingCarts.Remove(item);
+            _context.SaveChanges();
+            return Ok();
+        }
+        [System.Web.Http.HttpPut]
+        [System.Web.Http.Route("api/buyitems")]
+        public IHttpActionResult MoveItemfromCartToMyRental()
+        {
+            var uid = HttpContext.Current.User.Identity.GetUserId();
+            var items = _context.ShoppingCarts.Include(m=>m.Movie).Where(s => s.User == uid).ToList();
+            if(items.Count == 0)
+            {
+                return Content(HttpStatusCode.NotFound, "Your Cart is empty");
+            }
+
+            OnlineRentals onlineRental = null;
+            ShoppingCart cartItem = null;
+            foreach (var item in items) {
+                onlineRental = new OnlineRentals
+                {
+
+                    Movie = item.Movie,
+                    DateRented = DateTime.Now,
+                    User = uid
+
+                };
+                cartItem = new ShoppingCart
+                {
+                    Movie = item.Movie,
+                    User = uid
+                };
+                _context.OnlineRentals.Add(onlineRental);
+                // empty shopping cart here
+            }
             _context.SaveChanges();
             return Ok();
         }
