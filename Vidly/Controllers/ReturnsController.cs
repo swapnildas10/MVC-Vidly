@@ -11,6 +11,7 @@ namespace Vidly.Controllers
     {
         public ReturnsController()
         {
+            ApplicationDbContext _context;
         }
         // GET: Returns
         public ActionResult Returns()
