@@ -111,6 +111,23 @@ namespace Vidly.Controllers.Api
             }
             return Ok(onlineRentalVIewModel);
         }
+        [Route("api/returnitem/{id}")]
+        [HttpDelete]
+        
+        public IHttpActionResult DeleteRentalItem(int id)
+        {
+            var uid = HttpContext.Current.User.Identity.GetUserId();
+            var currentRental = _context.OnlineRentals.Include(m => m.Movie).SingleOrDefault(m => m.User == uid && m.DateReturned == null && m.Id == id);
+            if (currentRental == null)
+                return NotFound();
+            currentRental.Movie.Stock++;
+            _context.OnlineRentals.Remove(currentRental);
+
+            _context.SaveChanges();
+
+
+            return Ok();
+        }
     }
 
    
