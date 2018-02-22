@@ -544,7 +544,7 @@
                     var ccCvc = $("#cc-cvc");
                     for (var i = 0; i < fieldErrorsLength; i++) {
                         if (fieldErrors[i].code == "expYear.expired") {
-                            
+
                             expYear[0].classList.add("is-invalid");
                             // expYear[0].setCustomValidity(fieldErrors[i].message);
                             expYear.siblings(".invalid-feedback")[0].innerText = fieldErrors[i].message;
@@ -587,18 +587,24 @@
 
 
                 }).done(function(success) {
-                    $.ajax({
-                        url: "/api/buyitems",
-                        method: "PUT"
+                    $paymentForm[0].reset(function() {
 
-                    }).done(function(success) {
-                        console.log("Success");
-                    }).fail(function(error) {
+                       
 
                     });
+                    $("#cart").fadeOut(
+                        function() {
 
+                            $(this).empty();
+                        });
+                    $("#summary").fadeOut(0,
+                        function() {
+                            $(this).empty();
+                        });
+                    updateSummary();
                 }).fail(function(error) {
-                    console.log(error);
+
+
                 }).always(function(value) {
                     // $("#process-payment-btn").removeAttr("disabled");
                     $processpaymentbtnsec.removeAttr("disabled");
@@ -666,15 +672,15 @@
                 ccexpmonth.prop("selectedIndex", -1);
                 var $paymentButton = $("#process-payment-btn");
                 var $paymentButtonsec = $("#process-payment-btn-sec");
-                $paymentButtonsec.on("click", function (event) {
+                $paymentButtonsec.on("click",
+                    function(event) {
 
-                    if ($paymentForm[0].checkValidity() === false) {
+                        if ($paymentForm[0].checkValidity() === false) {
 
-                        $paymentForm[0].classList.add('was-validated');
-                    }
-                    else
-                        $("#exampleModalCenter").modal('toggle');
-                });
+                            $paymentForm[0].classList.add('was-validated');
+                        } else
+                            $("#exampleModalCenter").modal('toggle');
+                    });
                 $paymentButton.on("click",
                     function() {
 
@@ -684,7 +690,7 @@
                             $paymentForm[0].classList.add('was-validated');
                         } else {
 
-                           
+
                             // Disable the submit button
                             //  $paymentButton.attr("disabled", "disabled");
                             $paymentButtonsec.attr("disabled", "disabled");

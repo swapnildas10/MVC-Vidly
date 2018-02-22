@@ -20,12 +20,29 @@ namespace Vidly.Controllers.Api
         {
             _context = new ApplicationDbContext();
         }
+
+
+        [System.Web.Http.HttpDelete]        
+        public IHttpActionResult DeleteRentalItem(int id)
+        {
+            var uid = HttpContext.Current.User.Identity.GetUserId();
+            var currentRental = _context.OnlineRentals.Include(m => m.Movie).SingleOrDefault(m => m.User == uid  && m.Movie.Id == id);
+            if (currentRental == null)
+                return NotFound();
+            currentRental.Movie.Stock++;
+            _context.OnlineRentals.Remove(currentRental);
+
+            _context.SaveChanges();
+
+
+            return Ok();
+        }
         [HttpGet]
         [Route("api/mycurrentrentals")]
         public IHttpActionResult GetCurrentRentals()
         {
             var uid = HttpContext.Current.User.Identity.GetUserId();
-            var currentRentals = _context.OnlineRentals.Include(m=>m.Movie).Where(m => m.User == uid && m.DateReturned == null).ToList();
+            var currentRentals = _context.OnlineRentals.Include(m=>m.Movie).Where(m => m.User == uid).ToList();
             if (currentRentals.Count == 0)
                 return Content(HttpStatusCode.NoContent, "No Rentals");
             List<OnlineRentalVIewModel> onlineRentalVIewModel = new List<OnlineRentalVIewModel>();
@@ -111,23 +128,9 @@ namespace Vidly.Controllers.Api
             }
             return Ok(onlineRentalVIewModel);
         }
-        [Route("api/returnitem/{id}")]
-        [HttpDelete]
-        
-        public IHttpActionResult DeleteRentalItem(int id)
-        {
-            var uid = HttpContext.Current.User.Identity.GetUserId();
-            var currentRental = _context.OnlineRentals.Include(m => m.Movie).SingleOrDefault(m => m.User == uid && m.DateReturned == null && m.Id == id);
-            if (currentRental == null)
-                return NotFound();
-            currentRental.Movie.Stock++;
-            _context.OnlineRentals.Remove(currentRental);
 
-            _context.SaveChanges();
-
-
-            return Ok();
-        }
+       
+       
     }
 
    

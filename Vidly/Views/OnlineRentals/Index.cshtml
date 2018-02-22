@@ -55,10 +55,10 @@
                         </div>
                         <div class="row">
                             <div class="col-sm">
-                                <p id="dateRented"></p>
+                                <p></p>
                             </div>
                             <div class="col-sm">
-                                <p id="dateReturned"></p>
+                                <p></p>
                             </div>
                             <div class="col-sm">
                                 <p id="totalcostCalculation">
@@ -105,7 +105,10 @@
                         url: "/api/mycurrentrental/" + rentalDetailModal.attr("data"),
                         method: "GET"
                     }).done(function(success) {
-                        console.log(success);
+                        var output = moment(moment(), "YYYY-MM-DDTHH:mm:ss.SSS")
+                            .diff(moment(success.dateRented, "YYYY-MM-DDTHH:mm:ss.SSS"));
+                        var d = moment.duration(output);
+                        var days = Math.ceil(d.days()) + 1;
                         costperday.html(success.movie.cost);
                         ModalTitle.html(success.movie.name);
                         dateRented.html(moment(success.dateRented, "YYYY-MM-DDTHH:mm:ss.SSS").format("MMM-DD-YYYY") +
@@ -115,9 +118,7 @@
                             moment(success.dateReturned, "YYYY-MM-DDTHH:mm:ss.SSS").format("MMM-DD-YYYY") +
                             " " +
                             moment(success.dateReturned, "YYYY-MM-DDTHH:mm:ss.SSS").format("HH:mm"));
-                        totaldays.html(Math.ceil((moment.duration(moment(dateReturned, "YYYY-MM-DDTHH:mm:ss.SSS")
-                                .diff(moment(dateRented, "YYYY-MM-DDTHH:mm:ss.SSS")))).days()) +
-                            1);
+                        totaldays.html(days);
                     }).fail(function(error) {
 
                     });;
@@ -126,13 +127,15 @@
             returnbutton.on('click',
                 function(event) {
                     $.ajax({
-                        url: "/api/returnitem/" + rentalDetailModal.attr("data"),
+                        url: "/api/onlinerentals/" + rentalDetailModal.attr("data"),
                         method: "DELETE"
                     }).done(function(success) {
+                        $(".card_" + rentalDetailModal.attr("data")).parent().fadeOut(function() { this.empty(); });
                         rentalDetailModal.modal('hide');
-                        }).fail(function (error) {
 
-                        });
+                    }).fail(function(error) {
+
+                    });
                 });
 
         }
@@ -283,11 +286,11 @@
                 url: "/api/mycurrentrentals",
                 method: "GET"
             }).done(function(success) {
-
+                var currentrentalsection = $("#currentrentalsection");
                 $.each(success,
                     function(key, value) {
-                        // console.log(value);
-                        var currentrentalsection = $("#currentrentalsection");
+                        console.log(value);
+
                         var col = $((document).createElement("div"))
                             .addClass("col-xs-12 col-sm-4 col-md-4 col-lg-3");
                         var url = "/movies/details/" + value.movie.id;
@@ -315,6 +318,7 @@
                             method: "GET"
 
                         }).done(function(output) {
+
                             var column = $($((document).createElement("img"))).addClass("card-img-top img-responsive")
                                 .attr('data-name', value.name).attr("src",
                                     "https://image.tmdb.org/t/p/w342" + output.posterPath);
@@ -344,7 +348,9 @@
                     });
                 // toggleoutofstockIcons();
                 //  clock(id);
-            });
+                }).fail(function (error) { console.log(error); }
+         
+            );
 
 
             //collapse
