@@ -106,9 +106,13 @@
                         method: "GET"
                     }).done(function(success) {
                         var output = moment(moment(), "YYYY-MM-DDTHH:mm:ss.SSS")
-                            .diff(moment(success.dateRented, "YYYY-MM-DDTHH:mm:ss.SSS"));
-                        var d = moment.duration(output);
-                        var days = Math.ceil(d.days()) + 1;
+                            .diff(moment(success.dateRented, "YYYY-MM-DDTHH:mm:ss.SSS"),'days',true);
+                        
+                        
+                      
+                         
+                        var days = Math.ceil(output);
+                        console.log(days);
                         costperday.html(success.movie.cost);
                         ModalTitle.html(success.movie.name);
                         dateRented.html(moment(success.dateRented, "YYYY-MM-DDTHH:mm:ss.SSS").format("MMM-DD-YYYY") +
