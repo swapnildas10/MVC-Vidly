@@ -106,11 +106,9 @@
                         method: "GET"
                     }).done(function(success) {
                         var output = moment(moment(), "YYYY-MM-DDTHH:mm:ss.SSS")
-                            .diff(moment(success.dateRented, "YYYY-MM-DDTHH:mm:ss.SSS"),'days',true);
-                        
-                        
-                      
-                         
+                            .diff(moment(success.dateRented, "YYYY-MM-DDTHH:mm:ss.SSS"), 'days', true);
+
+
                         var days = Math.ceil(output);
                         console.log(days);
                         costperday.html(success.movie.cost);
@@ -153,11 +151,7 @@
 
         function createCard(name, linkid, imageurl, dateadded, movieid, cost) {
             var rentalDetailModal = $("#rentalDetailModal");
-            var rentalicon = $((document).createElement("i")).addClass("ion-ios-information");
-            var infoicon = $((document).createElement("i")).addClass("ion-heart");
-            var carticon = $((document).createElement("i")).addClass("ion-ios-undo").attr({
-                'id': 'ion-ios-undo_' + movieid
-            });
+          
             carticon.on('click',
                 event.currentTarget,
                 function(event) {
@@ -174,26 +168,7 @@
                 e.stopImmediatePropagation();
             });
 
-            var del = $($((document).createElement("a")).html(rentalicon)).addClass("card-link col rental_" + movieid)
-                .mouseenter(function(e) {
-
-                    e.stopImmediatePropagation();
-                    appendrentaldetail(movieid, dateadded, cost);
-                }).mouseleave(function(e) {
-
-                    e.stopImmediatePropagation();
-                    removerentaldetail(movieid, dateadded, cost);
-                });
-            var info = $($((document).createElement("a"))).addClass("card-link col").attr("id", "addtosave_" + movieid)
-                .html(infoicon).hover(function(e) {
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                }).click(function(e) {
-                    e.stopImmediatePropagation();
-                    //
-                    addtoSave(movieid);
-                    return false;
-                });
+            
             var cart = $($((document).createElement("a"))).addClass("card-link col")
                 .html(carticon).click(function() {
                     returnRentedMovie(movieid);
@@ -338,7 +313,8 @@
 
                             $(span).append(column);
                             $(".card_" + value.movie.id + " a").mouseenter(function() {
-                                appendPlay(value.movie.id);
+                                appendPlay(value.movie.id, value.movie.name);
+                                 
                             });
                             $(".card_" + id + " a").mouseleave(function() {
 
@@ -352,8 +328,7 @@
                     });
                 // toggleoutofstockIcons();
                 //  clock(id);
-                }).fail(function (error) { console.log(error); }
-         
+            }).fail(function(error) { console.log(error); }
             );
 
 
@@ -367,6 +342,7 @@
             //payment form
 
         };
+
 
         function clock(id, initialdate) {
             // Cache some selectors
@@ -522,17 +498,45 @@
             $(hclass).find("#detail_row_" + id).remove();
         }
 
-        function appendPlay(id) {
+        function appendPlay(id, movieName) {
             var hclass = $(".card_" + id + " .card-hover");
-            $(".card_" + id + " .card-hover").addClass("active row mx-auto my auto justify-content-center");
-
+            var rentalicon = $((document).createElement("i")).addClass("ion-ios-information");
+            var infoicon = $((document).createElement("i")).addClass("ion-heart");
+            var carticon = $((document).createElement("i")).addClass("ion-ios-undo").attr({
+                'id': 'ion-ios-undo_' + movieid
+            });
+            $(".card_" + id + " .card-hover").addClass("active  justify-content-center");
+             
             var icon = $((document).createElement("span")).addClass("ion-play mx-auto my-auto px-auto py-auto");
-            var row = $((document).createElement("div")).addClass("row  mx-auto my auto justify-content-center")
-                .attr("id", "row_" + id)
-                .append(icon);
-            $(hclass).append(row);
+            var nav = $((document).createElement("nav")).addClass("navbar navbar-expand-lg navbar-light bg-light").attr("id","nav_"+id);
+            var navitem = $((document).createElement("a")).addClass("navbar-brand").attr("href","#").text(movieName);
+            $(nav).append(navitem);
+            var row = $((document).createElement("div")).addClass("d-flex align-items-stretch flex-column")
+                .attr("id", "row_" + id).css("height", "100%")
+               .append(icon);
+           
+            $(hclass).append(nav).append(row);
 
+            var del = $($((document).createElement("a")).html(rentalicon)).addClass("card-link col rental_" + movieid)
+                .mouseenter(function (e) {
 
+                    e.stopImmediatePropagation();
+                    appendrentaldetail(movieid, dateadded, cost);
+                }).mouseleave(function (e) {
+
+                    e.stopImmediatePropagation();
+                    removerentaldetail(movieid, dateadded, cost);
+                });
+            var info = $($((document).createElement("a"))).addClass("card-link col").attr("id", "addtosave_" + movieid)
+                .html(infoicon).hover(function (e) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                }).click(function (e) {
+                    e.stopImmediatePropagation();
+                    //
+                    addtoSave(movieid);
+                    return false;
+                });
         }
 
         function returnRentedMovie(id) {}
@@ -543,7 +547,7 @@
             $(".card_" + id + " .card-hover").removeClass("active");
             $(hclass).find("#row_" + id).detach();
             //  $(hclass).find("span").remove();
-
+            $(hclass).find("#nav_" + id).detach();
         }
 
 
