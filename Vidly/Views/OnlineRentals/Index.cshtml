@@ -148,61 +148,156 @@
             $.ajax({
             });
         }
+        function appendPlay(id, movieName) {
+            var hclass = $("card_"+id+ ".card-hover .body_"+id);
+            var iconPlay = $((document).createElement("span")).addClass("ion-play mx-auto my-auto px-auto py-auto");
+            var playRow = $((document).createElement("div")).addClass("d-flex align-items-stretch flex-column")
+                .attr("id", "row_" + id).css({
+                    "top": 0,
+                    "bottom": 0,
+                    "position": "absolute",
+                    "left": 0,
+                    "right": 0
+                })
+                .append(iconPlay);
+            //  var rentalicon = $((document).createElement("i")).addClass("ion-ios-information");
+           
+            //var del = $($((document).createElement("a")).html(rentalicon)).addClass("card-link col rental_" + id)
+            //    .mouseenter(function (e) {
 
-        function createCard(name, linkid, imageurl, dateadded, movieid, cost) {
-            var rentalDetailModal = $("#rentalDetailModal");
-          
-            carticon.on('click',
-                event.currentTarget,
-                function(event) {
+            //        e.stopImmediatePropagation();
+            //        appendrentaldetail(id, dateadded, cost);
+            //    }).mouseleave(function (e) {
 
-                    rentalDetailModal.attr({ "data": movieid });
-                    rentalDetailModal.modal();
+            //        e.stopImmediatePropagation();
+            //        removerentaldetail(movieid, dateadded, cost);
+            //    });
+
+            
+            
+            $(hclass).append(playRow);
+            
+        }
+
+        function createCard(name, linkid, imageurl, dateadded, id, cost) {
+            var hearticon = $((document).createElement("i")).addClass("ion-heart");
+            var heart = $($((document).createElement("a"))).addClass("card-link col").attr("id", "addtosave_" + id)
+                .html(hearticon).hover(function (e) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                }).click(function (e) {
+                    e.stopImmediatePropagation();
+                    //
+                    addtoSave(id);
+                    return false;
                 });
+            var undoicon = $((document).createElement("i")).addClass("ion-ios-undo").attr({
+                'id': 'ion-ios-undo_' + id
+            });
+
+            var undo = $($((document).createElement("a"))).addClass("card-link col").attr("id", "ioniosundo_" + id)
+                .html(undoicon).hover(function (e) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                }).click(function (e) {
+                    e.stopImmediatePropagation();
+                    //
+                    addtoSave(id);
+                    return false;
+                });
+            undoicon.on('click',
+                event.currentTarget,
+                function (event) {
+
+                    rentalDetailModal.attr({ "data": id });
+                    rentalDetailModal.modal();
+                }).hover(function (e) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();;
+            var rentalDetailModal = $("#rentalDetailModal");
             var image = $($((document).createElement("img"))
                 .addClass("card-img-top img-responsive ")
                 .attr({ 'src': imageurl, 'alt': 'Photo' })).css('border-top-left-radius', '.50rem');
-
             var row = $((document).createElement("div")).addClass("row justify-content-center");
-            var link = $($((document).createElement("a")).attr('href', linkid)).text(name).hover(function(e) {
-                e.stopImmediatePropagation();
-            });
-
             
-            var cart = $($((document).createElement("a"))).addClass("card-link col")
-                .html(carticon).click(function() {
-                    returnRentedMovie(movieid);
-                }).hover(function(e) {
+            
+            //var cart = $($((document).createElement("a"))).addClass("card-link col")
+            //    .html(carticon).click(function() {
+            //        returnRentedMovie(movieid);
+            //    }).hover(function(e) {
 
-                    e.stopImmediatePropagation();
-                });;
+            //        e.stopImmediatePropagation();
+            //    });;
 
 
-            $(link).addClass("mb-2");
-            var card = $($((document).createElement("div")).addClass("card  card_" + movieid))
+             
+            var card = $($((document).createElement("div")).addClass("card  card_" + id))
                 .attr("data-id", name);
 
 
             $(card).css("display", "block");
 
 
-            var icons = $(row).append(info).append(cart).append(del);
+            //var icons = $(row).append(info).append(cart).append(del);
             var cardBody = $((document).createElement("div")).addClass("card-body");
             var hovereffect = $((document).createElement("div")).addClass("card-hover");
             var linkcard = $((document).createElement("a")).addClass("card-text");
-            var linkcardBody = $((document).createElement("div")).addClass("card-footer").append(icons);
+            var linkcardBody = $((document).createElement("div")).addClass("card-footer");//.append(icons);
             var cardTitle = $((document).createElement("h3")).addClass("card-header bg-transparent");
             var cardText = $((document).createElement("p")).addClass("card-text");
-            $(cardTitle).html(link);
-            $(cardText).html(dateadded);
-            $(cardBody).append(cardTitle);
+           // $(cardTitle).html(link);
+           // $(cardText).html(dateadded);
+            //$(cardBody).append(cardTitle);
             $(linkcard).append(image);
             $(linkcard).append(hovereffect);
             $(cardBody).append(linkcard);
 
-            $(cardBody).append(linkcardBody);
+           // $(cardBody).append(linkcardBody);
 
             $(card).append(cardBody);
+            $(card).on('mouseover', function (event) {
+                hovereffect.addClass("active  justify-content-center");
+                var cardHover = $((document).createElement("div")).addClass("card").attr("id", "card_hover_" + id)
+                    .css({
+                        "postion": "absolute",
+                        "top": 0,
+                        "bottom": 0
+                    });
+                var cardBody = $((document).createElement("div")).addClass("card-body").attr("id", "body_" + id).css({
+                    "height": "100%",
+                    "position": "absolute",
+                    "left": 0,
+                    "right": 0
+                });
+                var iconRow = $((document).createElement("div")).addClass("row").attr("id", "icons_" + id);
+                // var iconCol = $((document).createElement("div")).addClass("col");
+                $(iconRow).append(heart).append(undo);//.append(del);
+                var cardHeader = $((document).createElement("div")).addClass("card-header").attr("id", "nav_" + id).css({
+                    "position": "absolute",
+                    "top": 0,
+                    "left": 0,
+                    "right": 0
+                });
+                var footer = $((document).createElement("div")).addClass("card-footer").attr("id", "footer_" + id).css({
+                    "position": "absolute",
+                    "bottom": 0,
+                    "left": 0,
+                    "right": 0
+                });
+                $(footer).append(iconRow);
+                var navitem = $((document).createElement("a")).addClass("").attr("href", "#").text(name).css({
+
+                });
+                $(cardHeader).html(navitem);
+
+                $(cardBody).append(cardHeader).append(footer);
+                $(hovereffect).append(cardBody);
+            })
+           
+            
+           
+
+
 
             return card;
         }
@@ -318,7 +413,7 @@
                             });
                             $(".card_" + id + " a").mouseleave(function() {
 
-                                removePlay(value.movie.id);
+                                removePlay(value.movie.id, value.movie.name);
                             });
                             markedSave(value.movie.id);
                         }).fail(function(error) {
@@ -498,56 +593,19 @@
             $(hclass).find("#detail_row_" + id).remove();
         }
 
-        function appendPlay(id, movieName) {
-            var hclass = $(".card_" + id + " .card-hover");
-            var rentalicon = $((document).createElement("i")).addClass("ion-ios-information");
-            var infoicon = $((document).createElement("i")).addClass("ion-heart");
-            var carticon = $((document).createElement("i")).addClass("ion-ios-undo").attr({
-                'id': 'ion-ios-undo_' + movieid
-            });
-            $(".card_" + id + " .card-hover").addClass("active  justify-content-center");
-             
-            var icon = $((document).createElement("span")).addClass("ion-play mx-auto my-auto px-auto py-auto");
-            var nav = $((document).createElement("nav")).addClass("navbar navbar-expand-lg navbar-light bg-light").attr("id","nav_"+id);
-            var navitem = $((document).createElement("a")).addClass("navbar-brand").attr("href","#").text(movieName);
-            $(nav).append(navitem);
-            var row = $((document).createElement("div")).addClass("d-flex align-items-stretch flex-column")
-                .attr("id", "row_" + id).css("height", "100%")
-               .append(icon);
-           
-            $(hclass).append(nav).append(row);
-
-            var del = $($((document).createElement("a")).html(rentalicon)).addClass("card-link col rental_" + movieid)
-                .mouseenter(function (e) {
-
-                    e.stopImmediatePropagation();
-                    appendrentaldetail(movieid, dateadded, cost);
-                }).mouseleave(function (e) {
-
-                    e.stopImmediatePropagation();
-                    removerentaldetail(movieid, dateadded, cost);
-                });
-            var info = $($((document).createElement("a"))).addClass("card-link col").attr("id", "addtosave_" + movieid)
-                .html(infoicon).hover(function (e) {
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                }).click(function (e) {
-                    e.stopImmediatePropagation();
-                    //
-                    addtoSave(movieid);
-                    return false;
-                });
-        }
-
+       
         function returnRentedMovie(id) {}
 
-        function removePlay(id) {
+        function removePlay(id,name) {
 
             var hclass = $(".card_" + id + " .card-hover");
             $(".card_" + id + " .card-hover").removeClass("active");
             $(hclass).find("#row_" + id).detach();
             //  $(hclass).find("span").remove();
-            $(hclass).find("#nav_" + id).detach();
+            $(hclass).find("#nav_" + id).detach(); // 
+            $(hclass).find("#footer_" + id).detach();
+            $(hclass).find("#card_hover_" + id).detach();
+            $(hclass).find("#body_" + id).detach();
         }
 
 
