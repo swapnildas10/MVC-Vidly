@@ -135,7 +135,7 @@
             });
 
             function addtoFav(id) {
-                var bookmark = $("#addtofav_"+id);
+                var bookmark = $("#addtofav_" + id);
 
                 $.ajax({
                     url: "/api/FavoriteMovies/" + id,
@@ -152,22 +152,77 @@
 
 
             }
-            function removefromFav(id) {
-                var bookmarkicon = $("#addtofav_"+id+" i");
-                var bookmark = $("#addtofav_"+id);
+
+            function markedSave(id) {
+                var bookmarkicon = $("#ioniosbookmark_" + id + " i");
+                var bookmark = $("#ioniosbookmark_" + id);
                 $.ajax({
-                    url: "/api/FavoriteMovies/"+id,
+                    url: "/api/savedmovies/" + id,
+                    method: "GET"
+                }).done(function(success) {
+                    $(bookmark).off().click(function() {
+                        removefromSave(id);
+                    });
+                    $(bookmarkicon).css("color", "darkgreen");
+                }).fail(function(error) {
+
+                });
+            }
+
+            function addtoSave(id) {
+                var bookmark = $("#ioniosbookmark_" + id);
+
+                $.ajax({
+                    url: "/api/savedmovies/" + id,
+                    method: "PUT"
+                }).done(function(success) {
+                    $(bookmark).find("i").css("color", "darkgreen");
+                    toastr.success(success);
+                    $(bookmark).off().click(function() {
+                        removefromSave(id);
+                    });
+                }).fail(function(error) {
+                    toastr.error(error.responseJSON);
+                });
+
+
+            }
+
+            function removefromSave(id) {
+                var bookmarkicon = $("#ioniosbookmark_" + id + " i");
+                var bookmark = $("#ioniosbookmark_" + id);
+                $.ajax({
+                    url: "/api/savedmovies/" + id,
                     method: "DELETE"
                 }).done(function(success) {
                     toastr.success(success);
                     $(bookmarkicon).css("color", "");
-                    $(bookmark).off().click(function () {
+                    $(bookmark).off().click(function() {
+                        addtoSave(id);
+                    });
+                }).fail(function(error) {
+
+                });
+            }
+
+            function removefromFav(id) {
+                var bookmarkicon = $("#addtofav_" + id + " i");
+                var bookmark = $("#addtofav_" + id);
+                $.ajax({
+                    url: "/api/FavoriteMovies/" + id,
+                    method: "DELETE"
+                }).done(function(success) {
+                    toastr.success(success);
+                    $(bookmarkicon).css("color", "");
+                    $(bookmark).off().click(function() {
                         addtoFav(id);
                     });
                 }).fail(function(error) {
 
                 });
             }
+
+
             function createCard(imageurl, name, linkid, id) {
                 var card = $($((document).createElement("div")).addClass("card mb-2  card_" + id))
                     .attr({ "data-id": name }).css({
@@ -202,8 +257,10 @@
                     'id': 'ion-ios-bookmark_' + id
                 });
 
-                var bookmark = $($((document).createElement("a"))).addClass("card-link col").attr("id", "ioniosbookmark_" + id).click(function() {
+                var bookmark = $($((document).createElement("a"))).addClass("card-link col")
+                    .attr("id", "ioniosbookmark_" + id).click(function() {
 
+                        addtoSave(id);
                     })
                     .html(bookmarkicon).css({
                         "color": "white"
@@ -353,18 +410,23 @@
 
                 for (var i = 0; i < success; i++) {
 
-                    var list = $((document).createElement("li")).addClass("page-item");
+                    var list = $((document).createElement("li")).addClass("page-item")
+                        .attr({ "id": "page_" + (i + 1) });
                     var link = $((document).createElement("a")).addClass("page-link").text(i + 1);
                     $(link).attr('data-linkid', i + 1);
                     $(link).attr('href', '#mainbody');
                     var pos = $("#mainbody").offset().top;
 
                     $(link).on('click',
-                        function() {
+                        function(event) {
                             $('body, html').animate({ scrollTop: pos }, 1000);
                             var parameter = $(this).attr("data-linkid");
                             apicall(parameter);
-                            //   console.log(parameter);
+                            ($("#page_\d")).each(function(element) {
+                                if ($(this).hasClass("active"))
+                                    $(this).removeClass("active")
+                            });
+                            $(this).addClass("active");
                         });
                     $(list).append(link);
                     $(pagination).before(list);
