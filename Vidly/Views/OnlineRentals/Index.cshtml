@@ -148,20 +148,21 @@
             $.ajax({
             });
         }
+
         function appendPlay(id, movieName) {
-            var hclass = $("card_"+id+ ".card-hover .body_"+id);
+            var hclass = $("#body_" + id);
             var iconPlay = $((document).createElement("span")).addClass("ion-play mx-auto my-auto px-auto py-auto");
             var playRow = $((document).createElement("div")).addClass("d-flex align-items-stretch flex-column")
                 .attr("id", "row_" + id).css({
-                    "top": 0,
-                    "bottom": 0,
+                    "top": "30%",
+                    "bottom": "30%",
                     "position": "absolute",
                     "left": 0,
                     "right": 0
                 })
                 .append(iconPlay);
             //  var rentalicon = $((document).createElement("i")).addClass("ion-ios-information");
-           
+
             //var del = $($((document).createElement("a")).html(rentalicon)).addClass("card-link col rental_" + id)
             //    .mouseenter(function (e) {
 
@@ -173,54 +174,45 @@
             //        removerentaldetail(movieid, dateadded, cost);
             //    });
 
-            
-            
+
             $(hclass).append(playRow);
-            
+
         }
 
         function createCard(name, linkid, imageurl, dateadded, id, cost) {
+            var card = $($((document).createElement("div")).addClass("card  card_" + id))
+                .attr("data-id", name);
+            $(card).on("click", "#ioniosundo_" + id, function() {
+                var rentalDetailModal = $("#rentalDetailModal");
+                rentalDetailModal.attr({ "data": id });
+                rentalDetailModal.modal();
+            });
+            $(card).on("click", "#addtosave_" + id, function() {
+                addtoSave(id);
+            });
             var hearticon = $((document).createElement("i")).addClass("ion-heart");
             var heart = $($((document).createElement("a"))).addClass("card-link col").attr("id", "addtosave_" + id)
-                .html(hearticon).hover(function (e) {
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                }).click(function (e) {
-                    e.stopImmediatePropagation();
-                    //
-                    addtoSave(id);
-                    return false;
-                });
+                .html(hearticon);
             var undoicon = $((document).createElement("i")).addClass("ion-ios-undo").attr({
                 'id': 'ion-ios-undo_' + id
             });
 
             var undo = $($((document).createElement("a"))).addClass("card-link col").attr("id", "ioniosundo_" + id)
-                .html(undoicon).hover(function (e) {
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                }).click(function (e) {
-                    e.stopImmediatePropagation();
-                    //
-                    addtoSave(id);
-                    return false;
-                });
-            undoicon.on('click',
-                event.currentTarget,
-                function (event) {
+                .html(undoicon) //.click(function(e) {
+            //    e.stopImmediatePropagation();
+            //    console.log("click");
+            //    addtoSave(id);
+            //    return false;   
+            //});
 
-                    rentalDetailModal.attr({ "data": id });
-                    rentalDetailModal.modal();
-                }).hover(function (e) {
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();;
-            var rentalDetailModal = $("#rentalDetailModal");
+           
+
             var image = $($((document).createElement("img"))
                 .addClass("card-img-top img-responsive ")
                 .attr({ 'src': imageurl, 'alt': 'Photo' })).css('border-top-left-radius', '.50rem');
             var row = $((document).createElement("div")).addClass("row justify-content-center");
-            
-            
+
+
             //var cart = $($((document).createElement("a"))).addClass("card-link col")
             //    .html(carticon).click(function() {
             //        returnRentedMovie(movieid);
@@ -230,11 +222,6 @@
             //    });;
 
 
-             
-            var card = $($((document).createElement("div")).addClass("card  card_" + id))
-                .attr("data-id", name);
-
-
             $(card).css("display", "block");
 
 
@@ -242,61 +229,66 @@
             var cardBody = $((document).createElement("div")).addClass("card-body");
             var hovereffect = $((document).createElement("div")).addClass("card-hover");
             var linkcard = $((document).createElement("a")).addClass("card-text");
-            var linkcardBody = $((document).createElement("div")).addClass("card-footer");//.append(icons);
+            var linkcardBody = $((document).createElement("div")).addClass("card-footer"); //.append(icons);
             var cardTitle = $((document).createElement("h3")).addClass("card-header bg-transparent");
             var cardText = $((document).createElement("p")).addClass("card-text");
-           // $(cardTitle).html(link);
-           // $(cardText).html(dateadded);
+            // $(cardTitle).html(link);
+            // $(cardText).html(dateadded);
             //$(cardBody).append(cardTitle);
             $(linkcard).append(image);
             $(linkcard).append(hovereffect);
             $(cardBody).append(linkcard);
 
-           // $(cardBody).append(linkcardBody);
+            // $(cardBody).append(linkcardBody);
 
             $(card).append(cardBody);
-            $(card).on('mouseover', function (event) {
-                hovereffect.addClass("active  justify-content-center");
-                var cardHover = $((document).createElement("div")).addClass("card").attr("id", "card_hover_" + id)
-                    .css({
-                        "postion": "absolute",
-                        "top": 0,
-                        "bottom": 0
+            $(card).mouseenter(
+                function(event) {
+                    hovereffect.addClass("active  justify-content-center");
+                    
+                    var cardBody = $((document).createElement("div")).addClass("card-body").attr("id", "body_" + id)
+                        .css({
+                            "height": "100%",
+                            "position": "absolute",
+                            "left": 0,
+                            "right": 0
+                        });
+                    var iconRow = $((document).createElement("div")).addClass("row").attr("id", "icons_" + id);
+                    // var iconCol = $((document).createElement("div")).addClass("col");
+                    $(iconRow).append(heart).append(undo); //.append(del);
+                    var cardHeader = $((document).createElement("div")).addClass("card-header")
+                        .attr("id", "nav_" + id).css({
+                            "position": "absolute",
+                            "top": 0,
+                            "left": 0,
+                            "right": 0
+                        });
+                    var footer = $((document).createElement("div")).addClass("card-footer")
+                        .attr("id", "footer_" + id).css({
+                            "position": "absolute",
+                            "bottom": 0,
+                            "left": 0,
+                            "right": 0
+                        });
+                    $(footer).append(iconRow);
+                    var navitem = $((document).createElement("a")).addClass("").attr("href", "#").text(name).css({
                     });
-                var cardBody = $((document).createElement("div")).addClass("card-body").attr("id", "body_" + id).css({
-                    "height": "100%",
-                    "position": "absolute",
-                    "left": 0,
-                    "right": 0
-                });
-                var iconRow = $((document).createElement("div")).addClass("row").attr("id", "icons_" + id);
-                // var iconCol = $((document).createElement("div")).addClass("col");
-                $(iconRow).append(heart).append(undo);//.append(del);
-                var cardHeader = $((document).createElement("div")).addClass("card-header").attr("id", "nav_" + id).css({
-                    "position": "absolute",
-                    "top": 0,
-                    "left": 0,
-                    "right": 0
-                });
-                var footer = $((document).createElement("div")).addClass("card-footer").attr("id", "footer_" + id).css({
-                    "position": "absolute",
-                    "bottom": 0,
-                    "left": 0,
-                    "right": 0
-                });
-                $(footer).append(iconRow);
-                var navitem = $((document).createElement("a")).addClass("").attr("href", "#").text(name).css({
+                    $(cardHeader).html(navitem);
+
+                    $(cardBody).append(cardHeader).append(footer);
+                    //   $(cardHover).append(cardBody);
+                    $(hovereffect).append(cardBody);
+
+                }).on("mouseleave",
+                function() {
+                    $(hovereffect).find("#row_" + id).detach();
+                    //  $(hclass).find("span").remove();
+                    $(hovereffect).find("#nav_" + id).detach(); // 
+                    $(hovereffect).find("#footer_" + id).detach();
+                    $(hovereffect).find("#card_hover_" + id).detach();
+                    $(hovereffect).find("#body_" + id).remove();
 
                 });
-                $(cardHeader).html(navitem);
-
-                $(cardBody).append(cardHeader).append(footer);
-                $(hovereffect).append(cardBody);
-            })
-           
-            
-           
-
 
 
             return card;
@@ -407,11 +399,12 @@
                                     value.movie.cost)));
 
                             $(span).append(column);
-                            $(".card_" + value.movie.id + " a").mouseenter(function() {
+                            $(".card_" + value.movie.id).mouseenter(function(e) {
                                 appendPlay(value.movie.id, value.movie.name);
-                                 
+
+
                             });
-                            $(".card_" + id + " a").mouseleave(function() {
+                            $(".card_" + value.movie.id).mouseleave(function(e) {
 
                                 removePlay(value.movie.id, value.movie.name);
                             });
@@ -593,10 +586,10 @@
             $(hclass).find("#detail_row_" + id).remove();
         }
 
-       
+
         function returnRentedMovie(id) {}
 
-        function removePlay(id,name) {
+        function removePlay(id, name) {
 
             var hclass = $(".card_" + id + " .card-hover");
             $(".card_" + id + " .card-hover").removeClass("active");
