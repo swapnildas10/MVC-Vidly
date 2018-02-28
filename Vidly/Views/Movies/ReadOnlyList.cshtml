@@ -34,15 +34,15 @@
 <hr />
 <div class="row" style="text-align: right">
     <div aria-label="Page navigation example" class="col-xs-12 col-sm-12 col-lg-4">
-        <ul class="pagination">
-            <li class="page-item">
+        <ul id="pagination" class="pagination">
+            <li class="page-item" id="pagination_previous">
                 <a class="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                 </a>
             </li>
 
-            <li class="page-item" id="pagination">
+            <li class="page-item" id="pagination_next">
                 <a class="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Next</span>
@@ -406,8 +406,43 @@
                 method: "GET"
             }).done(function(success) {
                 console.log(success);
-                var pagination = $("#pagination");
+                var pagination = $("#pagination_next");
+                var paginationMain = $("#pagination");
+                var paginationPrev = $("#pagination_previous");
+                $(pagination).click(function () {
+                    $(paginationPrev).removeClass("disabled");
+                    if ($(this).siblings().hasClass("active"))
+                        var id = +($($(this).siblings(".active"))[0].id.split("_")[1])+1;
+                    apicall(id);
+                    console.log(id);
+                    $($(this).siblings(".active")).removeClass("active");
+                    $(this).siblings("#page_" + id).addClass("active");
+                    if (id == success) {
+                      
+                        $(this).addClass("disabled");
+                    }
+                       
+                    else
+                        $(this).removeClass("disabled");
+                });
 
+                $(paginationPrev).click(function () {
+                    if ($(this).siblings().hasClass("active"))
+                        $(pagination).removeClass("disabled");
+                        var id = +($($(this).siblings(".active"))[0].id.split("_")[1])-1;
+                    apicall(id);
+                    //console.log(id);
+                    $($(this).siblings(".active")).removeClass("active");
+                    $(this).siblings("#page_" + id).addClass("active");
+                    if (id <= 1)
+                    {
+                        $(this).addClass("disabled");
+                       
+                    }
+                        
+                    else
+                        $(this).removeClass("disabled");
+                });
                 for (var i = 0; i < success; i++) {
 
                     var list = $((document).createElement("li")).addClass("page-item")
@@ -416,18 +451,29 @@
                     $(link).attr('data-linkid', i + 1);
                     $(link).attr('href', '#mainbody');
                     var pos = $("#mainbody").offset().top;
-
+                    if (i == 0) {
+                        $(list).addClass("active");
+                        $(paginationPrev).addClass("disabled");
+                    }
+                    
                     $(link).on('click',
                         function(event) {
                             $('body, html').animate({ scrollTop: pos }, 1000);
                             var parameter = $(this).attr("data-linkid");
                             apicall(parameter);
-                            ($("#page_\d")).each(function(element) {
-                                if ($(this).hasClass("active"))
-                                    $(this).removeClass("active")
-                            });
-                            $(this).addClass("active");
-                        });
+                            $($(paginationMain).find(".active")).removeClass("active");
+                            $("#page_" + parameter).addClass("active");
+                            if (parameter <= 1) {
+                                $(paginationPrev).addClass("disabled");
+                            }
+                            else
+                                $(paginationPrev).removeClass("disabled");
+                            if (parameter != success)
+                                $(pagination).removeClass("disabled");
+                            else
+                                $(pagination).addClass("disabled");
+                });
+          
                     $(list).append(link);
                     $(pagination).before(list);
                 }
