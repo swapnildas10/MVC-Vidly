@@ -52,3 +52,15 @@
     transition: opacity 0.3s, color 0.3s;
      
 }
+
+#submitsearch {
+    position: absolute;
+    left: -15px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+#parentinputwrapper input {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
