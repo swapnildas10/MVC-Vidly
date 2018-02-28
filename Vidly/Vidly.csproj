@@ -918,6 +918,7 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\ionicons.min.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\movieslist.css" />
     <Content Include="Content\onlinerentals.css" />
