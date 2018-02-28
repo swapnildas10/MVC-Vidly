@@ -13,7 +13,7 @@ namespace Vidly.Controllers
 {
     public class ShoppingCartsController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         public ShoppingCartsController()
         {
             _context = new ApplicationDbContext();

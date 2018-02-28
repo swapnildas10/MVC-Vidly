@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
 using Vidly.Dtos;
@@ -11,11 +9,11 @@ using System.Data.Entity;
 
 namespace Vidly.Controllers.Api
 {
-    
+
     public class CustomersController : ApiController
 
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         //ctor
         public CustomersController()
         {

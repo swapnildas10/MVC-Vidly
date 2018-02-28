@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
@@ -15,7 +14,7 @@ namespace Vidly.Controllers.Api
 {
     public class OnlineRentalsController : ApiController
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         public OnlineRentalsController()
         {
             _context = new ApplicationDbContext();

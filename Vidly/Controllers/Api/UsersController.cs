@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Web.Http;
 using Vidly.Models;
 
@@ -10,7 +6,7 @@ namespace Vidly.Controllers.Api
 {
     public class UsersController : ApiController
     {
-        ApplicationDbContext _context;
+        readonly ApplicationDbContext _context;
         public UsersController()
         {
             _context = new ApplicationDbContext();

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
 using Vidly.Dtos;
 using Vidly.Models;
 using System.Data.Entity;
-using System.Web;
 using System.Web.Http.Cors;
 using System.Web.Routing;
 using Vidly.Controllers.Api.Filter;
@@ -18,7 +15,7 @@ namespace Vidly.Controllers.Api
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class MoviesController : ApiController
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public MoviesController()
         {

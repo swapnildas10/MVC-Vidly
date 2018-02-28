@@ -13,7 +13,7 @@ namespace Vidly.Controllers.Api
 {
     public class PaymentsController : ApiController
     {
-        private ApplicationDbContext _context = null;
+        private readonly ApplicationDbContext _context = null;
         public PaymentsController()
         {
             _context = new ApplicationDbContext();
