@@ -561,7 +561,7 @@ a.button {
  #cardgroup[class~='card-text'] {
      
  }
-
+ 
 .rented-date, .rented-cost, .rented-time, .rented-percost, .rented-days {
     position: absolute;
     z-index: 1;

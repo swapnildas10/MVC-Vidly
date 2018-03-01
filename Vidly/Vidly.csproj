@@ -918,12 +918,17 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\ionicons.min.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\movieslist.css" />
     <Content Include="Content\onlinerentals.css" />
+    <Content Include="Content\tempusdominus-bootstrap-4.min.css" />
+    <Content Include="fonts\ionicons.svg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\datetimepicker.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -1022,6 +1027,9 @@
     <Content Include="Content\bootstrap\bootstrap.scss" />
     <Content Include="Content\bootstrap\bootstrap-reboot.scss" />
     <Content Include="Content\bootstrap\bootstrap-grid.scss" />
+    <Content Include="fonts\ionicons.eot" />
+    <Content Include="fonts\ionicons.ttf" />
+    <Content Include="fonts\ionicons.woff" />
     <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1255,7 +1263,6 @@
   <ItemGroup>
     <Folder Include="App_Data\img\" />
     <Folder Include="Content\image\" />
-    <Folder Include="fonts\" />
     <Folder Include="font\" />
     <Folder Include="img\" />
     <Folder Include="Views\MovieDetails\" />

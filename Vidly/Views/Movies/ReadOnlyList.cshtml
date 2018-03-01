@@ -1,45 +1,50 @@
 ﻿@model IEnumerable<Vidly.Models.Movie>
 
 @{
-    ViewBag.Title = "Movies";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+                /**/
+
+                ViewBag.Title = "Movies";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <link rel="stylesheet" href="~/Content/movieslist.css" type="text/css" />
 }
 
-
 <div class="row"><h2>Movies</h2></div>
-<br/>
-<div  class="row mx-auto my-auto mr-auto ">
-    <div id="parentinputwrapper" style="position: relative;" class=" col-lg-4 col-xs-12 col-sm-4">
-        <input type="search" class="form-control" placeholder="Search Movies" id="searchinput" />       
-    </div >
-    <div class=" col-lg-2 col-xs-12 col-sm-4">
-               <button id="submitsearch" type="submit" class="btn btn-cyan">Search</button>   
+<br />
+<div class="row mx-auto my-auto mr-auto ">
+    <div id="parentinputwrapper"   class="col-lg-4 col-md-9 col-xl-5  col-sm-8 col-xs-8 col-10">
+        <input type="search" class="form-control" placeholder="Search Movies" id="searchinput" />
+      
+    </div>
+    <div class=" col-lg-2 col-xl-1 col-md-3 col-sm-4  col-xs-4 col-2">
+        <button id="submitsearch" type="submit" class="btn btn-cyan"><i class="ion-search"></i></button>
 
     </div>
-             
-            
-        
-    
+
+
+
+
 </div>
 <hr />
 <div class="row">
     <div class=" card-group mx-auto my-auto mr-auto " id="cardgroup">
-    
+
     </div>
 </div>
 <hr />
 <div class="row" style="text-align: right">
     <div aria-label="Page navigation example" class="col-xs-12 col-sm-12 col-lg-4">
-        <ul class="pagination">
-            <li class="page-item" >
+        <ul id="pagination" class="pagination">
+            <li class="page-item" id="pagination_previous">
                 <a class="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                 </a>
             </li>
-           
-            <li class="page-item" id="pagination">
-                <a class="page-link" href="#" aria-label="Next" >
+
+            <li class="page-item" id="pagination_next">
+                <a class="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Next</span>
                 </a>
@@ -48,152 +53,428 @@
     </div>
 
 </div>
- 
- 
+
+
 
 
 
 @section scripts
 {@Scripts.Render("~/Bundles/jqueryval")
     <script>
-         
-        $(document).ready(function () {
+
+        $(document).ready(function() {
             var searchIconInput = $("#searchinput");
-            $("#parentinputwrapper").on("click","#closeicon", function () {
-                
-                $(searchIconInput).val('');
-                $("#closeicon").fadeOut();
-            });
-            
-            $(searchIconInput).on("keyup", function () {
-                
-                if (($(searchIconInput).val().length > 0) && ($("#closeicon").length===0) ) {
-                    var closeIcon = $((document).createElement("span")).addClass("ion-backspace").attr('id','closeicon');
-                    $(closeIcon).insertAfter((searchIconInput));
+            $("#parentinputwrapper").on("click",
+                "#closeicon",
+                function() {
 
-                }  
-                if (($(searchIconInput).val().length === 0) && ($("#closeicon").length > 0)) {
+                    $(searchIconInput).val('');
                     $("#closeicon").fadeOut();
-                }
-                if (($(searchIconInput).val().length > 0) && ($("#closeicon").length > 0)) {
-                    $("#closeicon").fadeIn();
+                });
 
-                }  
-            });
-            
-            
+            $(searchIconInput).on("keyup",
+                function() {
+
+                    if (($(searchIconInput).val().length > 0) && ($("#closeicon").length === 0)) {
+                        var closeIcon = $((document).createElement("span")).addClass("ion-backspace")
+                            .attr('id', 'closeicon');
+                        $(closeIcon).insertAfter((searchIconInput));
+
+                    }
+                    if (($(searchIconInput).val().length === 0) && ($("#closeicon").length > 0)) {
+                        $("#closeicon").fadeOut();
+                    }
+                    if (($(searchIconInput).val().length > 0) && ($("#closeicon").length > 0)) {
+                        $("#closeicon").fadeIn();
+
+                    }
+                });
+
+
             apicall(1);
-            $("#submitsearch").click(function (event) {
+            $("#submitsearch").click(function(event) {
                 $("#cardgroup").empty();
                 var cards = $("#cardgroup");
-               
+
                 var searchinput = $("#searchinput");
-                
+
                 if ($(searchinput).val().length === 0) {
                     apicall(1);
                 } else {
-                     $.ajax({
+                    $.ajax({
                         url: "api/movies/allmovies?query=" + $(searchinput).val().toLowerCase(),
-                        method:"GET"
-                    }).done(function (success) {
+                        method: "GET"
+                    }).done(function(success) {
                         $(cards).empty();
-                        $.each(success,function(key, value) {
+                        $.each(success,
+                            function(key, value) {
+                                $.ajax({
+                                    url: "api/moviedetails/details/" + value.movieDb,
+                                    method: "GET"
+
+                                }).done(function(output) {
+                                    var column =
+                                        $($((document).createElement("div"))
+                                            .addClass("col-xs-12 col-md-6 col-sm-6 col-lg-4 col-xl-3 mb-2 moviecard")
+                                            .css('text-align', 'center')).attr('data-name', value.name);
+                                    $(cards).append(column);
+                                    $(column).append(createCard(
+                                        "https://image.tmdb.org/t/p/original" + output.posterPath,
+                                        value.name,
+                                        "/movies/details/" + value.id,
+                                        value.id));
+                                }).fail(function(error) {
+                                    console.log(error);
+                                });
+                            });
+                    }).fail(function(error) {
+
+                    });
+                }
+
+
+            });
+
+            function addtoFav(id) {
+                var bookmark = $("#addtofav_" + id);
+
+                $.ajax({
+                    url: "/api/FavoriteMovies/" + id,
+                    method: "PUT"
+                }).done(function(success) {
+                    $(bookmark).find("i").css("color", "darkred");
+                    toastr.success(success);
+                    $(bookmark).off().click(function() {
+                        removefromFav(id);
+                    });
+                }).fail(function(error) {
+                    toastr.error(error.responseJSON);
+                });
+
+
+            }
+
+            function markedSave(id) {
+                var bookmarkicon = $("#ioniosbookmark_" + id + " i");
+                var bookmark = $("#ioniosbookmark_" + id);
+                $.ajax({
+                    url: "/api/savedmovies/" + id,
+                    method: "GET"
+                }).done(function(success) {
+                    $(bookmark).off().click(function() {
+                        removefromSave(id);
+                    });
+                    $(bookmarkicon).css("color", "darkgreen");
+                }).fail(function(error) {
+
+                });
+            }
+
+            function addtoSave(id) {
+                var bookmark = $("#ioniosbookmark_" + id);
+
+                $.ajax({
+                    url: "/api/savedmovies/" + id,
+                    method: "PUT"
+                }).done(function(success) {
+                    $(bookmark).find("i").css("color", "darkgreen");
+                    toastr.success(success);
+                    $(bookmark).off().click(function() {
+                        removefromSave(id);
+                    });
+                }).fail(function(error) {
+                    toastr.error(error.responseJSON);
+                });
+
+
+            }
+
+            function removefromSave(id) {
+                var bookmarkicon = $("#ioniosbookmark_" + id + " i");
+                var bookmark = $("#ioniosbookmark_" + id);
+                $.ajax({
+                    url: "/api/savedmovies/" + id,
+                    method: "DELETE"
+                }).done(function(success) {
+                    toastr.success(success);
+                    $(bookmarkicon).css("color", "");
+                    $(bookmark).off().click(function() {
+                        addtoSave(id);
+                    });
+                }).fail(function(error) {
+
+                });
+            }
+
+            function removefromFav(id) {
+                var bookmarkicon = $("#addtofav_" + id + " i");
+                var bookmark = $("#addtofav_" + id);
+                $.ajax({
+                    url: "/api/FavoriteMovies/" + id,
+                    method: "DELETE"
+                }).done(function(success) {
+                    toastr.success(success);
+                    $(bookmarkicon).css("color", "");
+                    $(bookmark).off().click(function() {
+                        addtoFav(id);
+                    });
+                }).fail(function(error) {
+
+                });
+            }
+
+
+            function createCard(imageurl, name, linkid, id) {
+                var card = $($((document).createElement("div")).addClass("card mb-2  card_" + id))
+                    .attr({ "data-id": name }).css({
+                        "max-width": "100rem",
+                        "margin": 0
+                    });
+
+                $(card).on("click",
+                    "#ioniosundo_" + id,
+                    function() {
+                        var rentalDetailModal = $("#rentalDetailModal");
+                        rentalDetailModal.attr({ "data": id });
+                        rentalDetailModal.modal();
+                    });
+                //$(card).on("click",
+                //    "#addtofav_" + id,
+                //    function() {
+                //        addtoFav(id);
+                //    });
+                var hearticon = $((document).createElement("i")).addClass("ion-heart");
+                var heart = $($((document).createElement("a"))).addClass("card-link col")
+                    .attr({
+                        "id": "addtofav_" + id
+
+                    }).click(function() {
+                        addtoFav(id);
+
+                    }).html(hearticon).css({
+                        "color": "white"
+                    });
+                var bookmarkicon = $((document).createElement("i")).addClass("ion-bookmark").attr({
+                    'id': 'ion-ios-bookmark_' + id
+                });
+
+                var bookmark = $($((document).createElement("a"))).addClass("card-link col")
+                    .attr("id", "ioniosbookmark_" + id).click(function() {
+
+                        addtoSave(id);
+                    })
+                    .html(bookmarkicon).css({
+                        "color": "white"
+                    }); //.click(function(e) {
+                //    e.stopImmediatePropagation();
+                //    console.log("click");
+                //    addtoSave(id);
+                //    return false;
+                //});
+
+
+                var image = $($((document).createElement("img"))
+                    .addClass("card-img-top img-responsive")
+                    .attr({ 'src': imageurl, 'alt': 'Photo' })).css('border-top-left-radius', '.50rem');
+                var row = $((document).createElement("div")).addClass("row justify-content-center");
+
+
+                //var cart = $($((document).createElement("a"))).addClass("card-link col")
+                //    .html(carticon).click(function() {
+                //        returnRentedMovie(movieid);
+                //    }).hover(function(e) {
+
+                //        e.stopImmediatePropagation();
+                //    });;
+
+
+                $(card).css("display", "block");
+
+
+                //var icons = $(row).append(info).append(cart).append(del);
+                var cardBody = $((document).createElement("div")).addClass("card-body").css({
+                    "padding": 0
+                });
+                var hovereffect = $((document).createElement("div")).addClass("card-hover");
+                var linkcard = $((document).createElement("a")).addClass("card-text");
+                var linkcardBody = $((document).createElement("div")).addClass("card-footer"); //.append(icons);
+                var cardTitle = $((document).createElement("h3")).addClass("card-header bg-transparent");
+                var cardText = $((document).createElement("p")).addClass("card-text");
+                // $(cardTitle).html(link);
+                // $(cardText).html(dateadded);
+                //$(cardBody).append(cardTitle);
+                $(linkcard).append(image);
+                $(linkcard).append(hovereffect);
+                $(cardBody).append(linkcard);
+
+                // $(cardBody).append(linkcardBody);
+
+                $(card).append(cardBody);
+                $(card).mouseenter(
+                    function(event) {
+                        hovereffect.addClass("active  justify-content-center");
+
+                        var cardBody = $((document).createElement("div")).addClass("card-body").attr("id", "body_" + id)
+                            .css({
+                                "height": "100%",
+                                "position": "absolute",
+                                "left": 0,
+                                "right": 0,
+                                "padding": 0
+
+                            });
+                        var iconRow = $((document).createElement("div")).addClass("row").attr("id", "icons_" + id);
+                        // var iconCol = $((document).createElement("div")).addClass("col");
+                        $(iconRow).append(heart).append(bookmark); //.append(del);
+                        var cardHeader = $((document).createElement("div")).addClass("card-header")
+                            .attr("id", "nav_" + id).css({
+                                "position": "absolute",
+                                "top": 0,
+                                "left": 0,
+                                "right": 0
+                            });
+                        var footer = $((document).createElement("div")).addClass("card-footer")
+                            .attr("id", "footer_" + id).css({
+                                "position": "absolute",
+                                "bottom": 0,
+                                "left": 0,
+                                "right": 0
+                            });
+                        $(footer).append(iconRow);
+                        var navitem = $((document).createElement("h4")).addClass("card-title")
+                            .html($((document).createElement("a")).text(name).attr({
+                                "href": linkid
+                            }).css({
+                                "color": "white"
+                            }));
+                        $(cardHeader).html(navitem);
+
+                        $(cardBody).append(cardHeader).append(footer);
+                        //   $(cardHover).append(cardBody);
+                        $(hovereffect).append(cardBody);
+
+                    }).on("mouseleave",
+                    function() {
+                        $(hovereffect).find("#row_" + id).detach();
+                        //  $(hclass).find("span").remove();
+                        $(hovereffect).find("#nav_" + id).detach(); //
+                        $(hovereffect).find("#footer_" + id).detach();
+                        $(hovereffect).find("#card_hover_" + id).detach();
+                        $(hovereffect).find("#body_" + id).remove();
+                        $(hovereffect).removeClass("active");
+                    });
+
+
+                return card;
+            }
+
+            var cards = $("#cardgroup");
+
+            function apicall(page) {
+                $.ajax({
+                    url: "api/movies?page=" + page,
+                    method: "GET"
+                }).done(function(success) {
+                    $(cards).empty();
+                    $.each(success,
+                        function(key, value) {
                             $.ajax({
                                 url: "api/moviedetails/details/" + value.movieDb,
                                 method: "GET"
 
-                            }).done(function (output) {
-                                var column = $($((document).createElement("div")).addClass("col-xs-12 col-md-6 col-sm-6 col-lg-4 col-xl-3 mb-2 moviecard").css('text-align','center')).attr('data-name',value.name);
+                            }).done(function(output) {
+                                var column =
+                                    $($((document).createElement("div"))
+                                        .addClass("col-xs-12 col-md-6 col-sm-6 col-lg-4 col-xl-3 mb-2 moviecard")
+                                        .css('text-align', 'center')).attr('data-name', value.name);
                                 $(cards).append(column);
-                                $(column).append(createCard("https://image.tmdb.org/t/p/original"+output.posterPath, value.name, "/movies/details/" + value.id  ));
+                                $(column).append(createCard("https://image.tmdb.org/t/p/w342" + output.posterPath,
+                                    value.name,
+                                    "/movies/details/" + value.id,
+                                    value.id));
                             }).fail(function(error) {
                                 console.log(error);
                             });
                         });
-                    }).fail(function(error) {
-                    
-                    });
-                }
-                 
-                 
-            });
-          
 
 
-            function createCard(imagesrc, name, linkid) {
-                var link = $($((document).createElement("a")).attr('href', linkid)) ;
-                $(link).addClass("mb-2");       
-                var card = $($((document).createElement("div")).addClass("card")).attr("data-id", name);
-              
-                $(card).css('max-width','100rem');
-                $(card).css('margin', '0');  
-                $(card).css('border-radius','.50rem');
-                var image = $($((document).createElement("img"))
-                    .addClass("card-img img-responsive")
-                    .attr({ 'src': imagesrc, 'alt': 'Photo' })).css('border-top-left-radius','.50rem');
-                var cardBlock = $((document).createElement("div")).addClass("card-block");
-                var cardImgOverlay = $((document).createElement("div")).addClass("card-img-overlay text-white");
-
-                var cardTitle = $((document).createElement("h3")).addClass("card-title mt-2");
-                var cardText = $((document).createElement("p")).addClass("card-link");
-                $(cardTitle).text(name);
-                $(cardText).html(linkid);
-                $(cardBlock).append(cardTitle);
-                $(cardImgOverlay).append(cardBlock);
-                $(card).append(image).append(cardImgOverlay);
-                $(link).html(card);
-                return link;
-            }
-
-            var cards = $("#cardgroup");
-            
-            function apicall(page) {
-                $.ajax({
-                    url: "api/movies?page="+page,
-                    method:"GET"
-                }).done(function (success) {
-                    $(cards).empty();
-                    $.each(success,function(key, value) {
-                        $.ajax({
-                            url: "api/moviedetails/details/" + value.movieDb,
-                            method: "GET"
-
-                        }).done(function (output) {
-                            var column = $($((document).createElement("div")).addClass("col-xs-12 col-md-6 col-sm-6 col-lg-4 col-xl-3 mb-2 moviecard").css('text-align','center')).attr('data-name',value.name);
-                            $(cards).append(column);
-                            $(column).append(createCard("https://image.tmdb.org/t/p/w342"+output.posterPath, value.name, "/movies/details/" + value.id  ));
-                        }).fail(function(error) {
-                            console.log(error);
-                        });
-                    });
-                 
-                
-               
                 });
             };
-           
-            
+
+
             $.ajax({
                 url: "api/movies/pages",
                 method: "GET"
             }).done(function(success) {
-                      console.log(success);
-                var pagination = $("#pagination");
-                  
+                console.log(success);
+                var pagination = $("#pagination_next");
+                var paginationMain = $("#pagination");
+                var paginationPrev = $("#pagination_previous");
+                $(pagination).click(function () {
+                    $(paginationPrev).removeClass("disabled");
+                    if ($(this).siblings().hasClass("active"))
+                        var id = +($($(this).siblings(".active"))[0].id.split("_")[1])+1;
+                    apicall(id);
+                    console.log(id);
+                    $($(this).siblings(".active")).removeClass("active");
+                    $(this).siblings("#page_" + id).addClass("active");
+                    if (id == success) {
+                      
+                        $(this).addClass("disabled");
+                    }
+                       
+                    else
+                        $(this).removeClass("disabled");
+                });
+
+                $(paginationPrev).click(function () {
+                    if ($(this).siblings().hasClass("active"))
+                        $(pagination).removeClass("disabled");
+                        var id = +($($(this).siblings(".active"))[0].id.split("_")[1])-1;
+                    apicall(id);
+                    //console.log(id);
+                    $($(this).siblings(".active")).removeClass("active");
+                    $(this).siblings("#page_" + id).addClass("active");
+                    if (id <= 1)
+                    {
+                        $(this).addClass("disabled");
+                       
+                    }
+                        
+                    else
+                        $(this).removeClass("disabled");
+                });
                 for (var i = 0; i < success; i++) {
-                     
-                    var list =     $((document).createElement("li")).addClass("page-item");
+
+                    var list = $((document).createElement("li")).addClass("page-item")
+                        .attr({ "id": "page_" + (i + 1) });
                     var link = $((document).createElement("a")).addClass("page-link").text(i + 1);
-                    $(link).attr('data-linkid', i+1);
+                    $(link).attr('data-linkid', i + 1);
                     $(link).attr('href', '#mainbody');
                     var pos = $("#mainbody").offset().top;
-
-                    $(link).on('click', function () {
-                        $('body, html').animate({ scrollTop: pos },1000);
-                        var parameter = $(this).attr("data-linkid");
-                        apicall(parameter);
-                        //   console.log(parameter);
-                    });
+                    if (i == 0) {
+                        $(list).addClass("active");
+                        $(paginationPrev).addClass("disabled");
+                    }
+                    
+                    $(link).on('click',
+                        function(event) {
+                            $('body, html').animate({ scrollTop: pos }, 1000);
+                            var parameter = $(this).attr("data-linkid");
+                            apicall(parameter);
+                            $($(paginationMain).find(".active")).removeClass("active");
+                            $("#page_" + parameter).addClass("active");
+                            if (parameter <= 1) {
+                                $(paginationPrev).addClass("disabled");
+                            }
+                            else
+                                $(paginationPrev).removeClass("disabled");
+                            if (parameter != success)
+                                $(pagination).removeClass("disabled");
+                            else
+                                $(pagination).addClass("disabled");
+                });
+          
                     $(list).append(link);
                     $(pagination).before(list);
                 }
@@ -202,3 +483,5 @@
     </script>
 
 }
+
+

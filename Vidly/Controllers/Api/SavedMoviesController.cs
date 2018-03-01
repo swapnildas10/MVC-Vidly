@@ -14,7 +14,7 @@ namespace Vidly.Controllers.Api
 {
     public class SavedMoviesController : ApiController
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public SavedMoviesController()
         {
